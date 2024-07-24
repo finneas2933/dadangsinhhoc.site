@@ -1,13 +1,13 @@
-package com.example.user_management;
+package com.example.dangdangsinhhoc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserManagementApplication {
+public class DaDangSinhHocApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserManagementApplication.class, args);
+        SpringApplication.run(DaDangSinhHocApplication.class, args);
     }
 
 }
