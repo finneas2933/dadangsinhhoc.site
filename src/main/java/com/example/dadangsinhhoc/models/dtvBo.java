@@ -1,4 +1,4 @@
-package com.example.dangdangsinhhoc.models;
+package com.example.dadangsinhhoc.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class dtv_bo {
+public class dtvBo {
     @Id
     private long id;
 

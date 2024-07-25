@@ -1,7 +1,7 @@
-package com.example.dangdangsinhhoc.services;
+package com.example.dadangsinhhoc.services;
 
-import com.example.dangdangsinhhoc.models.dtv_bo;
-import com.example.dangdangsinhhoc.repositories.dtvBoRepository;
+import com.example.dadangsinhhoc.models.dtvBo;
+import com.example.dadangsinhhoc.repositories.dtvBoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ public class dtvBoService {
     @Autowired
     private dtvBoRepository dtvBoRepository;
 
-    public List<dtv_bo> getAllBo() {
+    public List<dtvBo> getAllBo() {
         return dtvBoRepository.findAll();
     }
 }

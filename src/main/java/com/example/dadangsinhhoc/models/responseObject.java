@@ -1,4 +1,4 @@
-package com.example.dangdangsinhhoc.models;
+package com.example.dadangsinhhoc.models;
 
 public class responseObject {
     private String status;
