@@ -24,6 +24,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                     .paths(PathSelectors.regex("/.*"))
                     .build().apiInfo(apiInfo());;
             System.out.println("Swagger UI in: http://localhost:8080/swagger-ui/index.html#/");
+            System.out.println("Phpmyadmin in: http://localhost/phpmyadmin/index.php?route=/database/structure&db=dongthucvat   ");
 
             return docket;
         } catch (Exception e) {
