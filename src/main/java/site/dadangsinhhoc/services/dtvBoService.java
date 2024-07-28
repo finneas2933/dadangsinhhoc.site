@@ -34,10 +34,6 @@ public class dtvBoService {
 
     public boModel saveBo(boModel boModel) throws BadResourceException, ResourceAlreadyExistsException {
         if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
-            if(existById(boModel.getId()) && boModel.getId() != null) {
-                throw new ResourceAlreadyExistsException(
-                        "Contact with id: " + boModel.getId() + " already exists");
-            }
             return dtvBoRepository.save(boModel);
         }
         else {
