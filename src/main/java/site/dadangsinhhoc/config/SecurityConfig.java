@@ -37,15 +37,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(
-                request ->
-                        request.requestMatchers(HttpMethod.GET).hasAnyRole("USER", "ADMIN")
+        request ->
+                request.requestMatchers(HttpMethod.GET).hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                         .requestMatchers("/swagger-ui/**", "/login").permitAll()
-                        .anyRequest().permitAll())
-                .formLogin(Customizer.withDefaults());
-
+                        .anyRequest().authenticated())
+            .formLogin(
+                    form -> form
+                    .loginPage("/login")
+                    .permitAll());
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
