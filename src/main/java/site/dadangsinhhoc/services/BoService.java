@@ -3,8 +3,8 @@ package site.dadangsinhhoc.services;
 import site.dadangsinhhoc.exception.BadResourceException;
 import site.dadangsinhhoc.exception.ResourceAlreadyExistsException;
 import site.dadangsinhhoc.exception.ResourceNotFoundException;
-import site.dadangsinhhoc.models.boModel;
-import site.dadangsinhhoc.repositories.dtvBoRepository;
+import site.dadangsinhhoc.models.BoModel;
+import site.dadangsinhhoc.repositories.BoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,29 +12,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class dtvBoService {
+public class BoService {
     @Autowired
-    private dtvBoRepository dtvBoRepository;
+    private BoRepository BoRepository;
 
     public boolean existById(long id) {
-        return dtvBoRepository.existsById(id);
+        return BoRepository.existsById(id);
     }
 
-    public Optional<boModel> findById(long id) {
-        return dtvBoRepository.findById(id);
+    public Optional<BoModel> findById(long id) {
+        return BoRepository.findById(id);
     }
 
-    public List<boModel> getAllBo() {
-        return dtvBoRepository.findAll();
+    public List<BoModel> getAllBo() {
+        return BoRepository.findAll();
     }
 
     public long countAllBo() {
-        return dtvBoRepository.count();
+        return BoRepository.count();
     }
 
-    public boModel saveBo(boModel boModel) throws BadResourceException, ResourceAlreadyExistsException {
+    public BoModel saveBo(BoModel boModel) throws BadResourceException, ResourceAlreadyExistsException {
         if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
-            return dtvBoRepository.save(boModel);
+            return BoRepository.save(boModel);
         }
         else {
             BadResourceException exc = new BadResourceException("Failed to save contact!");
@@ -43,12 +43,12 @@ public class dtvBoService {
         }
     }
 
-    public void updateBo(boModel boModel) throws BadResourceException, ResourceNotFoundException {
+    public void updateBo(BoModel boModel) throws BadResourceException, ResourceNotFoundException {
         if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
-            if (!dtvBoRepository.existsById(boModel.getId())) {
+            if (!BoRepository.existsById(boModel.getId())) {
                 throw new ResourceNotFoundException("Cannot find Contact with id: " + boModel.getId());
             }
-            dtvBoRepository.save(boModel);
+            BoRepository.save(boModel);
         }
         else {
             BadResourceException exc = new BadResourceException("Failed to save contact!");
@@ -58,11 +58,11 @@ public class dtvBoService {
     }
 
     public void deleteByIdBo(Long id) throws ResourceNotFoundException {
-        if (!dtvBoRepository.existsById(id)) {
+        if (!BoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Cannot find contact with id: " + id);
         }
         else {
-            dtvBoRepository.deleteById(id);
+            BoRepository.deleteById(id);
         }
     }
 

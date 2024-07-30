@@ -3,9 +3,9 @@ package site.dadangsinhhoc.controller;
 import site.dadangsinhhoc.exception.BadResourceException;
 import site.dadangsinhhoc.exception.ResourceAlreadyExistsException;
 import site.dadangsinhhoc.exception.ResourceNotFoundException;
-import site.dadangsinhhoc.models.boModel;
-import site.dadangsinhhoc.models.responseObject;
-import site.dadangsinhhoc.repositories.dtvBoRepository;
+import site.dadangsinhhoc.models.BoModel;
+import site.dadangsinhhoc.models.ResponseObject;
+import site.dadangsinhhoc.repositories.BoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,72 +15,72 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class dtvBoController {
+public class BoController {
     @Autowired
-    private dtvBoRepository dtvBoRepository;
+    private BoRepository BoRepository;
     @Autowired
-    private site.dadangsinhhoc.services.dtvBoService dtvBoService;
+    private site.dadangsinhhoc.services.BoService BoService;
 
     @GetMapping("/getAllBo")
-    public responseObject getAllBo() {
+    public ResponseObject getAllBo() {
         try {
-            List<boModel> boModel = dtvBoService.getAllBo();
-            return new responseObject("200", "Query All DTV Bo", boModel);
+            List<BoModel> BoModel = BoService.getAllBo();
+            return new ResponseObject("200", "Query All DTV Bo", BoModel);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new responseObject("500", "Internal Server Error", null)).getBody();
+                    .body(new ResponseObject("500", "Internal Server Error", null)).getBody();
         }
     }
 
     @GetMapping("/getBoById/{id}")
-    public ResponseEntity<responseObject> getBoById(@PathVariable long id) {
+    public ResponseEntity<ResponseObject> getBoById(@PathVariable long id) {
         try {
-            Optional<boModel> dtvBo = dtvBoService.findById(id);
-            return ResponseEntity.ok(new responseObject("200", "Query DTV Bo by ID", dtvBo));
+            Optional<BoModel> dtvBo = BoService.findById(id);
+            return ResponseEntity.ok(new ResponseObject("200", "Query DTV Bo by ID", dtvBo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new responseObject("500", "Internal Server Error", null));
+                    .body(new ResponseObject("500", "Internal Server Error", null));
         }
     }
 
     @GetMapping("/countAllBo")
-    public ResponseEntity<responseObject> countAllBo() {
+    public ResponseEntity<ResponseObject> countAllBo() {
         try {
-            long count = dtvBoService.countAllBo();
-            return ResponseEntity.ok(new responseObject("200", "Count All DTV Bo", count));
+            long count = BoService.countAllBo();
+            return ResponseEntity.ok(new ResponseObject("200", "Count All DTV Bo", count));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new responseObject("500", "Internal Server Error", null));
+                    .body(new ResponseObject("500", "Internal Server Error", null));
         }
     }
 
     @PostMapping("/addNewBo")
-    public ResponseEntity<responseObject> addNewBo(@RequestBody boModel boModel) {
+    public ResponseEntity<ResponseObject> addNewBo(@RequestBody BoModel BoModel) {
         try {
-            boModel savedBo = dtvBoService.saveBo(boModel);
-            return new ResponseEntity<>(new responseObject("200", "Successfully added", savedBo), HttpStatus.CREATED);
+            BoModel savedBo = BoService.saveBo(BoModel);
+            return new ResponseEntity<>(new ResponseObject("200", "Successfully added", savedBo), HttpStatus.CREATED);
         } catch (BadResourceException | ResourceAlreadyExistsException e) {
-            return new ResponseEntity<>(new responseObject("400", e.getMessage(), null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseObject("400", e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<responseObject> updateBo(@RequestBody boModel boModel) {
+    public ResponseEntity<ResponseObject> updateBo(@RequestBody BoModel BoModel) {
         try {
-            dtvBoService.updateBo(boModel);
-            return new ResponseEntity<>(new responseObject("200", "Successfully updated", boModel), HttpStatus.OK);
+            BoService.updateBo(BoModel);
+            return new ResponseEntity<>(new ResponseObject("200", "Successfully updated", BoModel), HttpStatus.OK);
         } catch (BadResourceException | ResourceNotFoundException e) {
-            return new ResponseEntity<>(new responseObject("400", e.getMessage(), null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseObject("400", e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<responseObject> deleteBo(@PathVariable Long id) {
+    public ResponseEntity<ResponseObject> deleteBo(@PathVariable Long id) {
         try {
-            dtvBoService.deleteByIdBo(id);
-            return new ResponseEntity<>(new responseObject("200", "Successfully deleted", null), HttpStatus.OK);
+            BoService.deleteByIdBo(id);
+            return new ResponseEntity<>(new ResponseObject("200", "Successfully deleted", null), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(new responseObject("404", e.getMessage(), null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseObject("404", e.getMessage(), null), HttpStatus.NOT_FOUND);
         }
     }
 
