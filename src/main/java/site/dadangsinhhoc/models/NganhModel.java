@@ -14,8 +14,8 @@ public class NganhModel {
 
     private String name;
     private String name_latinh;
-    private int loai;
-    private int status;
+    private Integer loai;
+    private Integer status;
     private LocalDateTime created_at;
     private String created_by;
     private LocalDateTime updated_at;
