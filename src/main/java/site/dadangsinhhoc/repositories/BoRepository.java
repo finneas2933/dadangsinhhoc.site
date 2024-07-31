@@ -5,5 +5,5 @@ import site.dadangsinhhoc.models.BoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface BoRepository extends JpaRepository <BoModel, Long> {
+public interface BoRepository extends JpaRepository<BoModel, Long> {
 }

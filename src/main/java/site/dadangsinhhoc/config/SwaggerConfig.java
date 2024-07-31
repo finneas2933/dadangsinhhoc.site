@@ -11,10 +11,14 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Configuration
 @EnableWebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
 
+    private static final Logger logger = LoggerFactory.getLogger(SwaggerConfig.class);
     @Bean
     public Docket api() {
         try {
@@ -22,14 +26,14 @@ public class SwaggerConfig implements WebMvcConfigurer {
                     .select()
                     .apis(RequestHandlerSelectors.basePackage("com.example.dadangsinhhoc"))
                     .paths(PathSelectors.regex("/.*"))
-                    .build().apiInfo(apiInfo());;
-            System.out.println("Swagger UI in: http://localhost:8080/swagger-ui/index.html#/");
-            System.out.println("Phpmyadmin in: http://localhost/phpmyadmin/index.php?route=/database/structure&db=dongthucvat   ");
+                    .build().apiInfo(apiInfo());
+            logger.info("Swagger UI in: http://localhost:8080/swagger-ui/index.html#/");
+            logger.info("Phpmyadmin in: http://localhost/phpmyadmin/index.php?route=/database/structure&db=dongthucvat   ");
 
             return docket;
         } catch (Exception e) {
-            System.err.println("Failt when init Swagger: " + e.getMessage());
-            throw e;
+            logger.error("Failed to initialize Swagger: {}", e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

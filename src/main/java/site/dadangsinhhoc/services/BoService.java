@@ -1,9 +1,8 @@
 package site.dadangsinhhoc.services;
 
-import site.dadangsinhhoc.exception.BadResourceException;
-import site.dadangsinhhoc.exception.ResourceAlreadyExistsException;
-import site.dadangsinhhoc.exception.ResourceNotFoundException;
+import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.BoModel;
+import site.dadangsinhhoc.models.ResponseObject;
 import site.dadangsinhhoc.repositories.BoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,56 +12,63 @@ import java.util.Optional;
 
 @Service
 public class BoService {
+    private final BoRepository boRepository;
+
     @Autowired
-    private BoRepository BoRepository;
+    public BoService(BoRepository boRepository) {
+        this.boRepository = boRepository;
+    }
 
     public boolean existById(long id) {
-        return BoRepository.existsById(id);
+        return boRepository.existsById(id);
     }
 
-    public Optional<BoModel> findById(long id) {
-        return BoRepository.findById(id);
-    }
-
-    public List<BoModel> getAllBo() {
-        return BoRepository.findAll();
-    }
-
-    public long countAllBo() {
-        return BoRepository.count();
-    }
-
-    public BoModel saveBo(BoModel boModel) throws BadResourceException, ResourceAlreadyExistsException {
-        if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
-            return BoRepository.save(boModel);
-        }
-        else {
-            BadResourceException exc = new BadResourceException("Failed to save contact!");
-            exc.addErrorMessage("Id for `dtv_bo` is null or empty");
-            throw exc;
+    public ResponseObject findById(long id) {
+        Optional<BoModel> dtvBo = boRepository.findById(id);
+        if (dtvBo.isPresent()) {
+            return ResponseObject.success(dtvBo.get());
+        } else {
+            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());
         }
     }
 
-    public void updateBo(BoModel boModel) throws BadResourceException, ResourceNotFoundException {
-        if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
-            if (!BoRepository.existsById(boModel.getId())) {
-                throw new ResourceNotFoundException("Cannot find Contact with id: " + boModel.getId());
-            }
-            BoRepository.save(boModel);
-        }
-        else {
-            BadResourceException exc = new BadResourceException("Failed to save contact!");
-            exc.addErrorMessage("Id for `dtv_bo` is null or empty");
-            throw exc;
-        }
+    public ResponseObject getAllBo() {
+        List<BoModel> boModels = boRepository.findAll();
+        return ResponseObject.success(boModels);
     }
 
-    public void deleteByIdBo(Long id) throws ResourceNotFoundException {
-        if (!BoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Cannot find contact with id: " + id);
+    public ResponseObject countAllBo() {
+        long quantity = boRepository.count();
+        return ResponseObject.success(quantity);
+    }
+
+    public ResponseObject saveBo(BoModel boModel) {
+        if (boModel.getName() == null || boModel.getName().isEmpty()) {
+            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
         }
-        else {
-            BoRepository.deleteById(id);
+        if (boRepository.existsById(boModel.getId())) {
+            return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
+        }
+        BoModel savedBo = boRepository.save(boModel);
+        return ResponseObject.success(savedBo);
+    }
+
+    public ResponseObject updateBo(BoModel boModel) {
+        if (boModel.getName() == null || boModel.getName().isEmpty()) {
+            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_BO` is null or empty");
+        }
+        if (!boRepository.existsById(boModel.getId())) {
+            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find BO with id: " + boModel.getId());
+        }
+        return ResponseObject.success(boRepository.save(boModel));
+    }
+
+    public ResponseObject deleteByIdBo(Long id) {
+        if (!boRepository.existsById(id)) {
+            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());
+        } else {
+            boRepository.deleteById(id);
+            return ResponseObject.success("Successfully delete record " + id, null);
         }
     }
 

@@ -4,11 +4,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import site.dadangsinhhoc.models.UserModel;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUser implements UserDetails {
-    private UserModel user;
+public class CustomUser implements UserDetails, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private final transient UserModel user;
 
     public CustomUser(UserModel user) {
         super();
@@ -31,12 +36,7 @@ public class CustomUser implements UserDetails {
         return user.getUserName();
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
+/*    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
@@ -50,4 +50,11 @@ public class CustomUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+ */
 }
