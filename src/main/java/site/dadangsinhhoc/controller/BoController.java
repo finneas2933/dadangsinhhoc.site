@@ -25,7 +25,7 @@ public class BoController {
     public ResponseObject getAllBo() {
         try {
             List<BoModel> BoModel = BoService.getAllBo();
-            return new ResponseObject("200", "Query All DTV Bo", BoModel);
+            return new ResponseObject("200", "Query All Bo", BoModel);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("500", "Internal Server Error", null)).getBody();
@@ -36,7 +36,10 @@ public class BoController {
     public ResponseEntity<ResponseObject> getBoById(@PathVariable long id) {
         try {
             Optional<BoModel> dtvBo = BoService.findById(id);
-            return ResponseEntity.ok(new ResponseObject("200", "Query DTV Bo by ID", dtvBo));
+            return ResponseEntity.ok(new ResponseObject("200", "Query Bo by ID", dtvBo));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("404", e.getMessage(), null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("500", "Internal Server Error", null));
@@ -47,7 +50,7 @@ public class BoController {
     public ResponseEntity<ResponseObject> countAllBo() {
         try {
             long count = BoService.countAllBo();
-            return ResponseEntity.ok(new ResponseObject("200", "Count All DTV Bo", count));
+            return ResponseEntity.ok(new ResponseObject("200", "Count All Bo", count));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("500", "Internal Server Error", null));
@@ -64,7 +67,7 @@ public class BoController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateBo")
     public ResponseEntity<ResponseObject> updateBo(@RequestBody BoModel BoModel) {
         try {
             BoService.updateBo(BoModel);
@@ -74,7 +77,7 @@ public class BoController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteBo/{id}")
     public ResponseEntity<ResponseObject> deleteBo(@PathVariable Long id) {
         try {
             BoService.deleteByIdBo(id);

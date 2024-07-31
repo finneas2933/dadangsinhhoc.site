@@ -20,8 +20,13 @@ public class BoService {
         return BoRepository.existsById(id);
     }
 
-    public Optional<BoModel> findById(long id) {
-        return BoRepository.findById(id);
+    public Optional<BoModel> findById(long id) throws ResourceNotFoundException {
+        Optional<BoModel> bo = BoRepository.findById(id);
+        if (bo.isPresent()) {
+            return bo;
+        } else {
+            throw new ResourceNotFoundException("Cannot find bo with id: " + id);
+        }
     }
 
     public List<BoModel> getAllBo() {
@@ -33,35 +38,35 @@ public class BoService {
     }
 
     public BoModel saveBo(BoModel boModel) throws BadResourceException, ResourceAlreadyExistsException {
-        if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
+        if (boModel.getName() != null && !boModel.getName().isEmpty()) {
+            if (BoRepository.existsById(boModel.getId())) {
+                throw new ResourceAlreadyExistsException("Bo with id: " + boModel.getId() + " already exist.");
+            }
             return BoRepository.save(boModel);
-        }
-        else {
-            BadResourceException exc = new BadResourceException("Failed to save contact!");
-            exc.addErrorMessage("Id for `dtv_bo` is null or empty");
+        } else {
+            BadResourceException exc = new BadResourceException("Failed to save bo!");
+            exc.addErrorMessage("Name for `bo` is null or empty");
             throw exc;
         }
     }
 
     public void updateBo(BoModel boModel) throws BadResourceException, ResourceNotFoundException {
-        if(boModel.getName()!=null && !boModel.getName().isEmpty()) {
+        if (boModel.getName() != null && !boModel.getName().isEmpty()) {
             if (!BoRepository.existsById(boModel.getId())) {
-                throw new ResourceNotFoundException("Cannot find Contact with id: " + boModel.getId());
+                throw new ResourceNotFoundException("Cannot find bo with id: " + boModel.getId());
             }
             BoRepository.save(boModel);
-        }
-        else {
-            BadResourceException exc = new BadResourceException("Failed to save contact!");
-            exc.addErrorMessage("Id for `dtv_bo` is null or empty");
+        } else {
+            BadResourceException exc = new BadResourceException("Failed to update bo!");
+            exc.addErrorMessage("Name for `bo` is null or empty");
             throw exc;
         }
     }
 
     public void deleteByIdBo(Long id) throws ResourceNotFoundException {
         if (!BoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Cannot find contact with id: " + id);
-        }
-        else {
+            throw new ResourceNotFoundException("Cannot find bo with id: " + id);
+        } else {
             BoRepository.deleteById(id);
         }
     }
