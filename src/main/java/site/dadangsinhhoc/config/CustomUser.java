@@ -5,15 +5,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import site.dadangsinhhoc.models.UserModel;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUser implements UserDetails, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    private final transient UserModel user;
+public class CustomUser implements UserDetails {
+    private final UserModel user;
 
     public CustomUser(UserModel user) {
         super();

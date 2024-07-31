@@ -35,12 +35,12 @@ public class BoController {
         return boService.saveBo(BoModel);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateBo")
     public ResponseObject updateBo(@RequestBody BoModel boModel) {
         return boService.updateBo(boModel);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteBo/{id}")
     public ResponseObject deleteBo(@PathVariable Long id) {
         return boService.deleteByIdBo(id);
     }
