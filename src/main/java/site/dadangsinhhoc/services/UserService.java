@@ -1,43 +1,31 @@
 package site.dadangsinhhoc.services;
 
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.SignedJWT;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import site.dadangsinhhoc.dto.request.ValidateRequest;
-import site.dadangsinhhoc.dto.response.ValidateTokenResponse;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.dto.request.AuthenticateRequest;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jwt.JWTClaimsSet;
-
-import java.text.ParseException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.Optional;
-import java.util.StringJoiner;
 
 @Service
 @Slf4j
 public class UserService {
 
+    private final TokenService tokenService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(TokenService tokenService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -111,32 +99,32 @@ public class UserService {
             return ResponseObject.success("User created successfully", savedUserModel);
         } catch (Exception e) {
             // Log the exception
-            e.printStackTrace();
+            log.info("An error occurred while creating the user: {}", e.getMessage());
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while creating the user: " + e.getMessage());
         }
     }
 
-//    public ResponseObject authenticate(String username, String password) {
-//        UserModel findUser = userRepository.findByUserName(username);
-//        boolean matches = passwordEncoder.matches(password, findUser.getPassword());
-//        if (!matches) throw new BadCredentialsException("Bad credentials");
-//        else {
-//            var token = generateToken(findUser);
-//
-//            AuthenticateRequest authenticateRequest = AuthenticateRequest.builder()
-//                    .token(token)
-//                    .authenticated(true)
-//                    .build();
-//
-//            return ResponseObject.success(authenticateRequest);
-//        }
-//    }
+    public ResponseObject authenticate(String username, String password) {
+        UserModel findUser = userRepository.findByUserName(username);
+        boolean matches = passwordEncoder.matches(password, findUser.getPassword());
+        if (!matches) throw new BadCredentialsException("Bad credentials");
+        else {
+            var token = tokenService.generateToken(findUser);
+
+            AuthenticateRequest authenticateRequest = AuthenticateRequest.builder()
+                    .token(token)
+                    .authenticated(true)
+                    .build();
+
+            return ResponseObject.success(authenticateRequest);
+        }
+    }
 
 //    public ResponseObject validateTokenResponse(ValidateRequest request)
 //            throws JOSEException, ParseException {
 //        var token = request.getToken();
 //
-//        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+//        JWSVerifier verifier = new MACVerifier(signerKey.getBytes());
 //
 //        SignedJWT signedJWT = SignedJWT.parse(token);
 //

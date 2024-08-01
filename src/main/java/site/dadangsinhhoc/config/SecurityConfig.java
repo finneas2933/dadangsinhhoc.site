@@ -2,6 +2,7 @@ package site.dadangsinhhoc.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import site.dadangsinhhoc.repositories.UserRepository;
 import site.dadangsinhhoc.services.TokenService;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -28,15 +30,19 @@ import javax.crypto.spec.SecretKeySpec;
 @Slf4j
 public class SecurityConfig {
 
+    @Value("${jwt.signerKey}")
+    private String signerKey;
     private final TokenService tokenService;
     private final JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public SecurityConfig(TokenService tokenService, JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler) {
+    public SecurityConfig(TokenService tokenService, JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler, UserRepository userRepository) {
         this.tokenService = tokenService;
         this.jwtAuthenticationSuccessHandler = jwtAuthenticationSuccessHandler;
+        this.userRepository = userRepository;
     }
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -45,7 +51,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService getDetailsService() {
-        return new CustomUserDetailService();
+        return new CustomUserDetailService(userRepository);
     }
 
     @Bean
@@ -104,7 +110,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        String signerKey = "ns+ws3LkpKndKUWE5Ddian7J4Ro81pNUJtMan33lfMfnuQHxiIjqF9B6Q5jddzH1";
         SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
         log.warn("Decoding secret key");
         return NimbusJwtDecoder

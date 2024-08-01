@@ -7,7 +7,9 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import site.dadangsinhhoc.exception.TokenGenerationException;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
 
@@ -22,7 +24,8 @@ import java.util.StringJoiner;
 public class JwtTokenService implements TokenService {
 
     private final UserRepository userRepository;
-    private final String SIGNER_KEY = "ns+ws3LkpKndKUWE5Ddian7J4Ro81pNUJtMan33lfMfnuQHxiIjqF9B6Q5jddzH1";
+    @Value("${jwt.signerKey}")
+    private String signerKey;
 
     @Autowired
     public JwtTokenService(UserRepository userRepository) {
@@ -31,7 +34,7 @@ public class JwtTokenService implements TokenService {
 
     @Override
     public UserModel validateAndGetUserFromToken(String token) throws JOSEException, ParseException {
-        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+        JWSVerifier verifier = new MACVerifier(signerKey.getBytes());
         SignedJWT signedJWT = SignedJWT.parse(token);
 
         if (signedJWT.verify(verifier)) {
@@ -64,12 +67,12 @@ public class JwtTokenService implements TokenService {
         JWSObject jwsObject = new JWSObject(header, payload);
 
         try {
-            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
+            jwsObject.sign(new MACSigner(signerKey.getBytes()));
             log.info("Token signed successfully");
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Error occurred while signing the token", e);
-            throw new RuntimeException(e);
+            throw new TokenGenerationException("Failed to generate or sign the token", e);
         }
     }
 

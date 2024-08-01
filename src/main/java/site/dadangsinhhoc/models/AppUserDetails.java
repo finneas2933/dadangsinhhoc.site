@@ -1,17 +1,16 @@
-package site.dadangsinhhoc.config;
+package site.dadangsinhhoc.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import site.dadangsinhhoc.models.UserModel;
 
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUser implements UserDetails {
+public class AppUserDetails implements UserDetails {
     private final UserModel user;
 
-    public CustomUser(UserModel user) {
+    public AppUserDetails(UserModel user) {
         super();
         this.user = user;
     }

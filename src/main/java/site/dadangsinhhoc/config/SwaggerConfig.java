@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import site.dadangsinhhoc.exception.SwaggerInitializationException;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -24,7 +25,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
         try {
             Docket docket = new Docket(DocumentationType.SWAGGER_2)
                     .select()
-                    .apis(RequestHandlerSelectors.basePackage("com.example.dadangsinhhoc"))
+                    .apis(RequestHandlerSelectors.basePackage("site.dadangsinhhoc"))
                     .paths(PathSelectors.regex("/.*"))
                     .build().apiInfo(apiInfo());
             logger.info("Start project with: http://localhost:8080/login");
@@ -33,8 +34,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
             return docket;
         } catch (Exception e) {
-            logger.error("Failed to initialize Swagger: {}", e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
+            throw new SwaggerInitializationException("Failed to initialize Swagger documentation", e);
         }
     }
 

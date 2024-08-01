@@ -16,13 +16,11 @@ import java.text.ParseException;
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenService jwtTokenService;
 
 
     @Autowired
-    public UserController(UserService userService, JwtTokenService jwtTokenService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.jwtTokenService = jwtTokenService;
     }
 
     @GetMapping("/findUserById/{id}")
@@ -45,10 +43,10 @@ public class UserController {
         return userService.createNewUser(user);
     }
 
-//    @PostMapping("/authenticate/{username}/{password}")
-//    public ResponseObject authenticate(@PathVariable String username, @PathVariable String password) {
-//        return userService.authenticate(username, password);
-//    }
+    @PostMapping("/authenticate/{username}/{password}")
+    public ResponseObject authenticate(@PathVariable String username, @PathVariable String password) {
+        return userService.authenticate(username, password);
+    }
 
 //    @PostMapping("/validateToken")
 //    public ResponseObject authenticate(@RequestBody ValidateRequest request)
