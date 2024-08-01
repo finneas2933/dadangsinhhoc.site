@@ -1,12 +1,14 @@
-package site.dadangsinhhoc.models;
+package site.dadangsinhhoc.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 @AllArgsConstructor
+@Builder
 public class ResponseObject {
     private final Integer code;
     private final String message;
