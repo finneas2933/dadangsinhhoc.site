@@ -30,7 +30,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                     .build().apiInfo(apiInfo());
             logger.info("Start project with: http://localhost:8080/login");
             logger.info("Swagger UI in: http://localhost:8080/swagger-ui/index.html#/");
-            logger.info("Phpmyadmin in: http://localhost/phpmyadmin/index.php?route=/database/structure&db=dongthucvat   ");
+//            logger.info("Phpmyadmin in: http://localhost/phpmyadmin/index.php?route=/database/structure&db=dongthucvat   ");
 
             return docket;
         } catch (Exception e) {

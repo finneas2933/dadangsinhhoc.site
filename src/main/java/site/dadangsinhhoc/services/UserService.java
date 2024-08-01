@@ -7,7 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.exception.ErrorCode;
-import site.dadangsinhhoc.dto.request.AuthenticateRequest;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
@@ -104,21 +103,6 @@ public class UserService {
         }
     }
 
-    public ResponseObject authenticate(String username, String password) {
-        UserModel findUser = userRepository.findByUserName(username);
-        boolean matches = passwordEncoder.matches(password, findUser.getPassword());
-        if (!matches) throw new BadCredentialsException("Bad credentials");
-        else {
-            var token = tokenService.generateToken(findUser);
-
-            AuthenticateRequest authenticateRequest = AuthenticateRequest.builder()
-                    .token(token)
-                    .authenticated(true)
-                    .build();
-
-            return ResponseObject.success(authenticateRequest);
-        }
-    }
 
 //    public ResponseObject validateTokenResponse(ValidateRequest request)
 //            throws JOSEException, ParseException {
