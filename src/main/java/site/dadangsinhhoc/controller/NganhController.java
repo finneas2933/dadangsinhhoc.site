@@ -3,7 +3,7 @@ package site.dadangsinhhoc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.models.NganhModel;
-import site.dadangsinhhoc.models.ResponseObject;
+import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.services.NganhService;
 
 @RestController

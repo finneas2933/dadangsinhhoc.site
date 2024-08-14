@@ -2,7 +2,7 @@ package site.dadangsinhhoc.services;
 
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.NganhModel;
-import site.dadangsinhhoc.models.ResponseObject;
+import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.repositories.NganhRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
