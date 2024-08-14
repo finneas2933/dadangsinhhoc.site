@@ -1,14 +1,13 @@
 package site.dadangsinhhoc.services;
 
-import site.dadangsinhhoc.exception.ErrorCode;
-import site.dadangsinhhoc.models.BoModel;
-import site.dadangsinhhoc.models.ResponseObject;
-import site.dadangsinhhoc.repositories.BoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import site.dadangsinhhoc.dto.response.ResponseObject;
+import site.dadangsinhhoc.exception.ErrorCode;
+import site.dadangsinhhoc.models.BoModel;
+import site.dadangsinhhoc.repositories.BoRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BoService {
@@ -24,12 +23,9 @@ public class BoService {
     }
 
     public ResponseObject findById(long id) {
-        Optional<BoModel> dtvBo = boRepository.findById(id);
-        if (dtvBo.isPresent()) {
-            return ResponseObject.success(dtvBo.get());
-        } else {
-            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());
-        }
+        return boRepository.findById(id)
+                .map(ResponseObject::success)
+                .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
     }
 
     public ResponseObject getAllBo() {
