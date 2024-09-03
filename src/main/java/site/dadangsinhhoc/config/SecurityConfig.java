@@ -70,7 +70,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/users/validateToken", "/api/users/authenticate/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/login").permitAll()
-                        .requestMatchers(HttpMethod.GET).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")

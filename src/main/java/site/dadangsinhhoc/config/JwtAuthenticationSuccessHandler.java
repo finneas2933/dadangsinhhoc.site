@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @Component
 @Slf4j
-// Token được tạo ra sau khi đăng nhập thành công
+// Token được tạo ra sau khi đăng nhập                                                                                          thành công
 public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;

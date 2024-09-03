@@ -7,20 +7,20 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "bo")
+@Table(name = "dtvBo")
 public class BoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String nameLatinh;
+    private String name_Latinh;
     private Integer loai;
-    private Integer idLop;
+    private Integer id_dtv_Lop;
     private Integer status;
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
+    private LocalDateTime created_at;
+    private String created_by;
+    private LocalDateTime updated_at;
+    private String updated_by;
 
 }
