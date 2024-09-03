@@ -948,6 +948,7 @@ INSERT INTO `loai` (`id`, `name`, `nameLatinh`, `loai`, `idHo`, `mucDoBaoTonIUCN
 (451, 'Cù đèn biên thùy', 'Croton limitincola Croiz', 0, 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (452, 'Vạng trứng', 'Endospermum chinense Benth.', 0, 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (453, 'Cỏ sữa lông', 'Euphorbia hirta L.', 0, 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+
 INSERT INTO `loai` (`id`, `name`, `nameLatinh`, `loai`, `idHo`, `mucDoBaoTonIUCN`, `mucDoBaoTonSDVN`, `mucDoBaoTonNDCP`, `mucDoBaoTonND64CP`, `status`, `createdAt`, `createdBy`, `updatedAt`, `updatedBy`) VALUES
 (454, 'Cỏ sữa an', 'E. indica Lamk.', 0, 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (455, 'Cỏ sữa tròn', 'E. orbiculata Miq.', 0, 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),

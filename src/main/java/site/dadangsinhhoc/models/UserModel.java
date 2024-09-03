@@ -39,5 +39,5 @@ public class UserModel {
     private Boolean status;
     private String secretKey;
     private String role;
-
 }
+
