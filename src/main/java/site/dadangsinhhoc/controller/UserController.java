@@ -23,9 +23,9 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @GetMapping("/findUserByUserName/{userName}")
-    public ResponseObject findUserByUserName(@PathVariable String userName) {
-        return userService.findByUserName(userName);
+    @GetMapping("/findUserByEmail/{email}")
+    public ResponseObject findUserByEmail(@PathVariable String email) {
+        return userService.findByEmail(email);
     }
 
     @GetMapping("/checkUserExists/{identifier}")

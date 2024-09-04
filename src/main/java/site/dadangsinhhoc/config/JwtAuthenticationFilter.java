@@ -16,6 +16,7 @@ import site.dadangsinhhoc.services.TokenService;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -42,10 +43,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserModel user = tokenService.validateAndGetUserFromToken(jwt);
                 
                 if (user != null) {
+                    List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            user.getUserName(), null, Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
+                            user.getEmail(), null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    log.info("User authenticated successfully: {}", user.getUserName());
+                    log.info("User authenticated successfully: {} with role: {}", user.getEmail(), user.getRole());
                 }
 
             } catch (Exception e) {

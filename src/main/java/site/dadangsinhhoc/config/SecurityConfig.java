@@ -93,7 +93,7 @@ public class SecurityConfig {
         );
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-        log.info("Security filter chain configured successfully");
+        log.info("Security filter chain configured successfully!");
         return httpSecurity.build();
     }
 

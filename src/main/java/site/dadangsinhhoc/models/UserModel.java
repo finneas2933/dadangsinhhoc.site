@@ -22,22 +22,17 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String city;
-    private String district;
-    private String userName;
+    private String name;
     private String password;
     private String email;
     private String phone;
-    private String avatar;
     private String gender;
     private LocalDate dob;
     private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime lastSigninedTime;
-    private Boolean isAdmin;
     private Boolean status;
-    private String secretKey;
     private String role;
 
 }

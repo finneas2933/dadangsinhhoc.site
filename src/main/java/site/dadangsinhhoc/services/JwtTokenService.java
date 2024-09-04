@@ -38,29 +38,30 @@ public class JwtTokenService implements TokenService {
         SignedJWT signedJWT = SignedJWT.parse(token);
 
         if (signedJWT.verify(verifier)) {
-            String username = signedJWT.getJWTClaimsSet().getSubject();
-            return userRepository.findByUserName(username);
+            String email = signedJWT.getJWTClaimsSet().getSubject();
+            return userRepository.findByEmail(email);
         }
         return null;
     }
 
     @Override
     public String generateToken(UserModel userModel) {
-        log.info("Starting token generation for user: {}", userModel.getUserName());
+        log.info("Starting token generation for user: {}", userModel.getEmail());
 
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-        log.debug("JWT header created");
+        log.debug("JWT header created: "+header);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(userModel.getUserName())
+                .subject(userModel.getEmail())
                 .issuer("dadangsinhhoc.site")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("scope", buildScope(userModel))
+                .claim("role", userModel.getRole())
                 .build();
-        log.debug("JWT claims set built");
+        log.debug("JWT claims set built: "+jwtClaimsSet);
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
@@ -68,7 +69,7 @@ public class JwtTokenService implements TokenService {
 
         try {
             jwsObject.sign(new MACSigner(signerKey.getBytes()));
-            log.info("Token signed successfully");
+            log.info("Token signed successfully: " + jwsObject.serialize());
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Error occurred while signing the token", e);

@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Configuration
-@EnableWebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(SwaggerConfig.class);

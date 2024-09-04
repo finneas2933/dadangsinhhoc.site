@@ -36,14 +36,13 @@ public class UserService {
         return ResponseObject.success(user);
     }
 
-    public ResponseObject findByUserName(String username) {
-        UserModel user = userRepository.findByUserName(username);
+    public ResponseObject findByEmail(String email) {
+        UserModel user = userRepository.findByEmail(email);
         return ResponseObject.success(user);
     }
 
     public ResponseObject checkUserExists(String identifier) {
-        boolean exists = userRepository.existsByUserName(identifier) ||
-                userRepository.existsByEmail(identifier) ||
+        boolean exists = userRepository.existsByEmail(identifier) ||
                 userRepository.existsByPhone(identifier);
 
         if (exists) {
@@ -55,9 +54,6 @@ public class UserService {
 
     public ResponseObject createNewUser(UserModel user) {
         try {
-            if (userRepository.existsByUserName(user.getUserName())) {
-                return ResponseObject.error(ErrorCode.CONFLICT.getCode(), "Username already exists");
-            }
             if (userRepository.existsByEmail(user.getEmail())) {
                 return ResponseObject.error(ErrorCode.CONFLICT.getCode(), "Email already exists");
             }
@@ -75,22 +71,17 @@ public class UserService {
             }
 
             UserModel savedUser = UserModel.builder()
-                    .userName(user.getUserName())
-                    .phone(user.getPhone())
+                    .name(user.getName())
                     .email(user.getEmail())
                     .password(passwordEncoder.encode(user.getPassword()))
-                    .city(user.getCity())
-                    .district(user.getDistrict())
-                    .avatar(user.getAvatar())
+                    .phone(user.getPhone())
                     .gender(user.getGender())
                     .dob(user.getDob())
                     .address(user.getAddress())
                     .createdAt(now)
                     .updatedAt(now)
                     .lastSigninedTime(user.getLastSigninedTime())
-                    .isAdmin(user.getIsAdmin())
                     .status(user.getStatus())
-                    .secretKey(user.getSecretKey())
                     .role(user.getRole())
                     .build();
             UserModel savedUserModel = userRepository.save(savedUser);

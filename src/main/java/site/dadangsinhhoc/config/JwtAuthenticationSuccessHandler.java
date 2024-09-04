@@ -31,9 +31,9 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
         log.info("Authentication successful for user: {}", authentication.getName());
-        String username = authentication.getName();
-        UserModel user = userRepository.findByUserName(username);
-        log.info("Generating token for user: {}", username);
+        String email = authentication.getName();
+        UserModel user = userRepository.findByEmail(email);
+        log.info("Generating token for user: {}", email);
 
         String token = tokenService.generateToken(user);
         log.info("Token generated successfully");
