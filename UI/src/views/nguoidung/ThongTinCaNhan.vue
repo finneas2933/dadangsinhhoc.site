@@ -57,10 +57,11 @@ import { cilPencil } from '@coreui/icons'
                     </CTableBody>
                 </CTable>
                 <div class="d-flex justify-content-left mb-3">
-                    <CButton variant="outline" shape="rounded-0" color="success" class="me-2">
+                    <CButton variant="outline" shape="rounded-0" color="success" class="me-2"  @click="chuyenDenTrangChinhSua">
                         <CIcon class="me-2" :icon="cilPencil" />Chỉnh sửa
                     </CButton>
-                    <CButton variant="outline" shape="rounded-0" color="info">Đổi mật khẩu</CButton>
+                    <CButton variant="outline" shape="rounded-0" color="info" @click="chuyenDenTrangDoiMatKhau">Đổi mật
+                        khẩu</CButton>
                 </div>
             </CCardBody>
         </CCard>
@@ -88,6 +89,12 @@ export default {
                 console.error('Lỗi khi tải danh sách người dùng:', error);
                 // Xử lý lỗi (ví dụ: hiển thị thông báo lỗi)
             }
+        },
+        chuyenDenTrangChinhSua() {
+            this.$router.push({ name: 'Cập nhật thông tin cá nhân' });
+        },
+        chuyenDenTrangDoiMatKhau() {
+            this.$router.push({ name: 'Đổi mật khẩu' });
         }
     }
 };
