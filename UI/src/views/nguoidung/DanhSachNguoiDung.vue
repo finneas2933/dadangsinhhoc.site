@@ -99,23 +99,6 @@ fetchUsers();
                 </a>
               </CTableDataCell>
             </CTableRow>
-            <CTableRow v-for="user in users" :key="user.id">
-              <CTableHeaderCell scope="row">{{ user.id == 1}}</CTableHeaderCell>
-              <CTableDataCell>Name</CTableDataCell>
-              <CTableDataCell>Email</CTableDataCell>
-              <CTableDataCell>Phone</CTableDataCell>
-              <CTableDataCell>createdAt</CTableDataCell>
-              <CTableDataCell>lastSigninedTime</CTableDataCell>
-              <CTableDataCell>
-                <!-- <router-link :to="{ name: 'Chỉnh sửa người dùng', params: { id: user.id } }" class="me-2"> -->
-                <router-link :to="{ name: 'Chỉnh sửa người dùng' }" class="me-2">
-                  <CIcon class="text-info" :icon="cilPencil" />
-                </router-link>
-                <a href="javascript:void(0)" @click="openDeleteModal(1)">
-                  <CIcon class="text-danger" :icon="cilTrash" />
-                </a>
-              </CTableDataCell>
-            </CTableRow>
           </CTableBody>
         </CTable>
       </CCardBody>
