@@ -60,7 +60,7 @@ import { CIcon } from '@coreui/icons-vue'
                         @click="chuyenDenTrangChinhSua">
                         <CIcon class="me-2" :icon="cilPencil" />Chỉnh sửa
                     </CButton>
-                    <CButton variant="outline" shape="rounded-0" color="info" @click="chuyenDenTrangDoiMatKhau">
+                    <CButton variant="outline" shape="rounded-0" color="danger" @click="openDeleteModal">
                         <CIcon class="me-2" :icon="cilTrash" />Xóa
                     </CButton>
                 </div>
