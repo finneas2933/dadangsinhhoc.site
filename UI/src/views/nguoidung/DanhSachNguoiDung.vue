@@ -1,10 +1,56 @@
 <script setup>
+import { ref } from 'vue'
 import { CIcon } from '@coreui/icons-vue'
-import { cilSearch } from '@coreui/icons'  // Import icon cil-search
-import { cilPlus } from '@coreui/icons'  // Import icon cil-Plus
-import { cilTrash } from '@coreui/icons'
-import { cilPencil } from '@coreui/icons'
+import { cilSearch, cilPlus, cilTrash, cilPencil } from '@coreui/icons'
+import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CButton } from '@coreui/vue'
 
+// Các trạng thái để điều khiển modal
+const isModalVisible = ref(false);
+const selectedUserId = ref(null); // Lưu trữ ID của người dùng được chọn để xóa
+
+const openDeleteModal = (userId) => {
+  selectedUserId.value = userId;
+  isModalVisible.value = true;
+}
+
+const closeModal = () => {
+  isModalVisible.value = false;
+  selectedUserId.value = null;
+}
+
+// Dữ liệu người dùng giả lập
+const users = ref([
+  { id: 2, name: 'Trần Thị B', email: 'thib@gmail.com', phone: '0987654321', createdAt: '2024-02-01', lastSigninedTime: '2024-08-02' },
+  { id: 1, name: 'Nguyễn Văn A', email: 'vana@gmail.com', phone: '0123456789', createdAt: '2024-01-01', lastSigninedTime: '2024-08-01' },
+]);
+
+const deleteUser = () => {
+  // Gọi API để xóa người dùng với selectedUserId.value
+  users.value = users.value.filter(user => user.id !== selectedUserId.value);
+  console.log("Xóa người dùng với ID:", selectedUserId.value);
+  // Sau khi xóa thành công, ẩn modal
+  closeModal();
+}
+
+const goToDetails = (userId) => {
+  // Điều hướng đến trang chi tiết của người dùng
+  this.$router.push({ name: 'Chi tiết người dùng', params: { id: userId } });
+}
+
+// Fetch danh sách người dùng khi component được mount
+//const users = ref([]);
+
+const fetchUsers = async () => {
+  try {
+    const response = await fetch('/api/users'); // Thay '/api/users' bằng endpoint API thực tế của bạn
+    const data = await response.json();
+    users.value = data;
+  } catch (error) {
+    console.error('Lỗi khi tải danh sách người dùng:', error);
+  }
+}
+
+fetchUsers();
 </script>
 
 <template>
@@ -36,51 +82,36 @@ import { cilPencil } from '@coreui/icons'
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            <CTableRow>
-              <CTableHeaderCell scope="row">1</CTableHeaderCell>
-              <CTableDataCell>Mark</CTableDataCell>
-              <CTableDataCell>Otto</CTableDataCell>
-              <CTableDataCell>@mdo</CTableDataCell>
-              <CTableDataCell>Mark</CTableDataCell>
-              <CTableDataCell>Otto</CTableDataCell>
-              <CTableDataCell>
-                <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân' }">
+            <CTableRow v-for="user in users" :key="user.id" @click="goToDetails(user.id)" style="cursor: pointer;">
+              <CTableHeaderCell scope="row">{{ user.id }}</CTableHeaderCell>
+              <CTableDataCell>{{ user.name }}</CTableDataCell>
+              <CTableDataCell>{{ user.email }}</CTableDataCell>
+              <CTableDataCell>{{ user.phone }}</CTableDataCell>
+              <CTableDataCell>{{ user.createdAt }}</CTableDataCell>
+              <CTableDataCell>{{ user.lastSigninedTime }}</CTableDataCell>
+              <CTableDataCell @click.stop>
+                <!-- <router-link :to="{ name: 'Chỉnh sửa người dùng', params: { id: user.id } }" class="me-2"> -->
+                <router-link :to="{ name: 'Chỉnh sửa người dùng' }" class="me-2">
                   <CIcon class="text-info" :icon="cilPencil" />
                 </router-link>
-                <a href="">
+                <a href="javascript:void(0)" @click="openDeleteModal(user.id)">
                   <CIcon class="text-danger" :icon="cilTrash" />
                 </a>
               </CTableDataCell>
             </CTableRow>
-            <CTableRow>
-              <CTableHeaderCell scope="row">2</CTableHeaderCell>
-              <CTableDataCell>Jacob</CTableDataCell>
-              <CTableDataCell>Thornton</CTableDataCell>
-              <CTableDataCell>@fat</CTableDataCell>
-              <CTableDataCell>Jacob</CTableDataCell>
-              <CTableDataCell>Thornton</CTableDataCell>
+            <CTableRow v-for="user in users" :key="user.id">
+              <CTableHeaderCell scope="row">{{ user.id == 1}}</CTableHeaderCell>
+              <CTableDataCell>Name</CTableDataCell>
+              <CTableDataCell>Email</CTableDataCell>
+              <CTableDataCell>Phone</CTableDataCell>
+              <CTableDataCell>createdAt</CTableDataCell>
+              <CTableDataCell>lastSigninedTime</CTableDataCell>
               <CTableDataCell>
-                <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân' }">
+                <!-- <router-link :to="{ name: 'Chỉnh sửa người dùng', params: { id: user.id } }" class="me-2"> -->
+                <router-link :to="{ name: 'Chỉnh sửa người dùng' }" class="me-2">
                   <CIcon class="text-info" :icon="cilPencil" />
                 </router-link>
-                <a href="">
-                  <CIcon class="text-danger" :icon="cilTrash" />
-                </a>
-              </CTableDataCell>
-            </CTableRow>
-            <CTableRow>
-              <CTableHeaderCell scope="row">3</CTableHeaderCell>
-              <CTableDataCell>Larry the Bird</CTableDataCell>
-              <CTableDataCell></CTableDataCell>
-              <CTableDataCell>@twitter</CTableDataCell>
-              <CTableDataCell>Larry the Bird</CTableDataCell>
-              <CTableDataCell></CTableDataCell>
-              <CTableDataCell>
-                <!-- <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân', params: { id: user.id } }"> -->
-                <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân' }">
-                  <CIcon class="text-info" :icon="cilPencil" />
-                </router-link>
-                <a href="">
+                <a href="javascript:void(0)" @click="openDeleteModal(1)">
                   <CIcon class="text-danger" :icon="cilTrash" />
                 </a>
               </CTableDataCell>
@@ -90,6 +121,18 @@ import { cilPencil } from '@coreui/icons'
       </CCardBody>
     </CCard>
   </CCol>
+
+  <!-- Modal xác nhận xóa -->
+  <CModal :visible="isModalVisible" @close="closeModal">
+    <CModalHeader>
+      <CModalTitle>Xác nhận xóa</CModalTitle>
+    </CModalHeader>
+    <CModalBody>Bạn có chắc chắn muốn xóa người dùng này không?</CModalBody>
+    <CModalFooter>
+      <CButton color="secondary" @click="closeModal">Hủy</CButton>
+      <CButton color="danger" @click="deleteUser">Xóa</CButton>
+    </CModalFooter>
+  </CModal>
 </template>
 
 <script>

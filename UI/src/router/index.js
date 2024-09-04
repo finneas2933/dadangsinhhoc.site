@@ -54,6 +54,11 @@ const routes = [
             component: () => import('@/views/nguoidung/DanhSachNguoiDung.vue'),
           },
           {
+            path: '/nguoi-dung/chi-tiet',
+            name: 'Chi tiết người dùng',
+            component: () => import('@/views/nguoidung/ChiTietNguoiDung.vue'),
+          },
+          {
             path: '/nguoi-dung/them-moi',
             name: 'Thêm mới người dùng',
             component: () => import('@/views/nguoidung/ThemMoiNguoiDung.vue'),

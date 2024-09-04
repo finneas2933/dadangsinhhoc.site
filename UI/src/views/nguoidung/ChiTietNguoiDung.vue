@@ -1,6 +1,6 @@
 <script setup>
 import { CIcon } from '@coreui/icons-vue'
-import { cilPencil } from '@coreui/icons'
+import { cilTrash, cilPencil } from '@coreui/icons'
 
 </script>
 
@@ -57,44 +57,35 @@ import { cilPencil } from '@coreui/icons'
                     </CTableBody>
                 </CTable>
                 <div class="d-flex justify-content-left mb-3">
-                    <CButton variant="outline" shape="rounded-0" color="success" class="me-2"  @click="chuyenDenTrangChinhSua">
+                    <CButton variant="outline" shape="rounded-0" color="success" class="me-2"
+                        @click="chuyenDenTrangChinhSua">
                         <CIcon class="me-2" :icon="cilPencil" />Chỉnh sửa
                     </CButton>
-                    <CButton variant="outline" shape="rounded-0" color="info" @click="chuyenDenTrangDoiMatKhau">Đổi mật
-                        khẩu</CButton>
+                    <CButton variant="outline" shape="rounded-0" color="info" @click="chuyenDenTrangDoiMatKhau">
+                        <CIcon class="me-2" :icon="cilTrash" />Xóa
+                    </CButton>
                 </div>
             </CCardBody>
         </CCard>
     </CCol>
+
+    <CModal :visible="showModal" @close="closeModal">
+        <CModalHeader>
+            <CModalTitle>Xác nhận xóa</CModalTitle>
+        </CModalHeader>
+        <CModalBody>Bạn có chắc chắn muốn xóa người dùng này không?</CModalBody>
+        <CModalFooter>
+            <CButton color="secondary" @click="closeModal">Hủy</CButton>
+            <CButton color="danger" @click="deleteUser">Xóa</CButton>
+        </CModalFooter>
+    </CModal>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            users: [] // Dữ liệu người dùng sẽ được tải từ API
-        };
-    },
-    mounted() {
-        // Gọi API để lấy danh sách người dùng và gán vào biến users
-        this.fetchUsers();
-    },
     methods: {
-        async fetchUsers() {
-            try {
-                const response = await fetch('/api/users'); // Thay '/api/users' bằng endpoint API thực tế của bạn
-                const data = await response.json();
-                this.users = data;
-            } catch (error) {
-                console.error('Lỗi khi tải danh sách người dùng:', error);
-                // Xử lý lỗi (ví dụ: hiển thị thông báo lỗi)
-            }
-        },
         chuyenDenTrangChinhSua() {
-            this.$router.push({ name: 'Cập nhật thông tin cá nhân' });
-        },
-        chuyenDenTrangDoiMatKhau() {
-            this.$router.push({ name: 'Đổi mật khẩu' });
+            this.$router.push({ name: 'Chỉnh sửa người dùng' });
         }
     }
 };
