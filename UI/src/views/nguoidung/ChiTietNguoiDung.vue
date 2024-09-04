@@ -1,6 +1,5 @@
 <script setup>
 import { CIcon } from '@coreui/icons-vue'
-import { cilTrash, cilPencil } from '@coreui/icons'
 
 </script>
 
@@ -82,11 +81,59 @@ import { cilTrash, cilPencil } from '@coreui/icons'
 </template>
 
 <script>
+import { cilPencil, cilTrash } from '@coreui/icons';
+import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CButton } from '@coreui/vue';
+
 export default {
-    methods: {
-        chuyenDenTrangChinhSua() {
-            this.$router.push({ name: 'Chỉnh sửa người dùng' });
+  data() {
+    return {
+      users: [], 
+      showModal: false,
+      userIdToDelete: null,
+      cilPencil,
+      cilTrash
+    };
+  },
+  mounted() {
+    this.fetchUsers();
+  },
+  methods: {
+    chuyenDenTrangChinhSua() {
+      // Lấy ID người dùng từ đâu đó (ví dụ: từ URL hoặc Vuex store)
+    //   const userId = ...; // Thay thế ... bằng cách lấy ID người dùng
+    //   this.$router.push({ name: 'Chỉnh sửa người dùng', params: { id: userId } });
+    },
+    openDeleteModal() {
+      // Lấy ID người dùng từ đâu đó (ví dụ: từ URL hoặc Vuex store)
+    //   const userId = ...; // Thay thế ... bằng cách lấy ID người dùng
+    //   this.userIdToDelete = userId;
+    //   this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+      this.userIdToDelete = null;
+    },
+    async deleteUser() {
+      try {
+        const response = await fetch(`/api/users/${this.userIdToDelete}`, { 
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          // Xóa thành công, chuyển hướng về danh sách người dùng
+          this.$router.push({ name: 'Danh sách người dùng' });
+        } else {
+          const errorData = await response.json();
+          console.error('Lỗi khi xóa người dùng:', errorData.message || 'Đã có lỗi xảy ra');
+          // Hiển thị thông báo lỗi cho người dùng
         }
+      } catch (error) {
+        console.error('Lỗi khi xóa người dùng:', error);
+        // Hiển thị thông báo lỗi cho người dùng
+      } finally {
+        this.closeModal();
+      }
     }
+  }
 };
 </script>
