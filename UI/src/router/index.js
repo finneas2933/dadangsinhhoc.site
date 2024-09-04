@@ -59,6 +59,12 @@ const routes = [
             component: () => import('@/views/nguoidung/ThemMoiNguoiDung.vue'),
           },
           {
+            // path: '/nguoi-dung/chinh-sua/:id',
+            path: '/nguoi-dung/chinh-sua',
+            name: 'Chỉnh sửa người dùng',
+            component: () => import('@/views/nguoidung/ChinhSuaNguoiDung.vue'),
+          },
+          {
             path: '/nguoi-dung/thong-tin-ca-nhan',
             name: 'Thông tin cá nhân',
             component: () => import('@/views/nguoidung/ThongTinCaNhan.vue'),

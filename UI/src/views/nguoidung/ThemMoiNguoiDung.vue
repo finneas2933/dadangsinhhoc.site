@@ -30,7 +30,7 @@
 
             <!-- Nhập lại mật khẩu -->
             <div class="mb-3">
-              <CFormLabel for="nhapLaiMatKhau">Họ tên:</CFormLabel>
+              <CFormLabel for="nhapLaiMatKhau">Nhập lại mật khẩu:</CFormLabel>
               <CFormInput id="nhapLaiMatKhau" v-model="nhapLaiMatKhau" type="password" required />
             </div>
 

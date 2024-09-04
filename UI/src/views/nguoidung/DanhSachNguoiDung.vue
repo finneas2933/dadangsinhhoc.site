@@ -44,9 +44,9 @@ import { cilPencil } from '@coreui/icons'
               <CTableDataCell>Mark</CTableDataCell>
               <CTableDataCell>Otto</CTableDataCell>
               <CTableDataCell>
-                <a class="me-2" href="">
+                <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân' }">
                   <CIcon class="text-info" :icon="cilPencil" />
-                </a>
+                </router-link>
                 <a href="">
                   <CIcon class="text-danger" :icon="cilTrash" />
                 </a>
@@ -60,9 +60,9 @@ import { cilPencil } from '@coreui/icons'
               <CTableDataCell>Jacob</CTableDataCell>
               <CTableDataCell>Thornton</CTableDataCell>
               <CTableDataCell>
-                <a class="me-2" href="">
+                <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân' }">
                   <CIcon class="text-info" :icon="cilPencil" />
-                </a>
+                </router-link>
                 <a href="">
                   <CIcon class="text-danger" :icon="cilTrash" />
                 </a>
@@ -76,9 +76,10 @@ import { cilPencil } from '@coreui/icons'
               <CTableDataCell>Larry the Bird</CTableDataCell>
               <CTableDataCell></CTableDataCell>
               <CTableDataCell>
-                <a class="me-2" href="">
+                <!-- <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân', params: { id: user.id } }"> -->
+                <router-link :to="{ name: 'Chỉnh sửa thông tin cá nhân' }">
                   <CIcon class="text-info" :icon="cilPencil" />
-                </a>
+                </router-link>
                 <a href="">
                   <CIcon class="text-danger" :icon="cilTrash" />
                 </a>
