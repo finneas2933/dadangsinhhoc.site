@@ -493,19 +493,20 @@ const router = createRouter({
   },
 })
 
-// // Navigation Guard: Bảo vệ các route cần đăng nhập
-// router.beforeEach((to, from, next) => {
-//   const isAuthenticated = localStorage.getItem('authToken')  // Ví dụ kiểm tra token
+// Navigation Guard: Bảo vệ các route cần đăng nhập
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('token')  // Kiểm tra token đã lưu
 
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     if (!isAuthenticated) {
-//       next({ name: 'Login' })  // Chuyển hướng đến trang Login nếu chưa đăng nhập
-//     } else {
-//       next()  // Tiếp tục đến trang yêu cầu nếu đã đăng nhập
-//     }
-//   } else {
-//     next()  // Không yêu cầu đăng nhập, tiếp tục
-//   }
-// })
+  if (to.matched.some(record => record.name !== 'Login')) {  // Kiểm tra các trang khác ngoài Login
+    if (!isAuthenticated) {
+      next({ name: 'Login' })  // Chuyển hướng đến trang Login nếu chưa đăng nhập
+    } else {
+      next()  // Tiếp tục đến trang yêu cầu nếu đã đăng nhập
+    }
+  } else {
+    next()  // Không yêu cầu đăng nhập, tiếp tục
+  }
+})
+
 
 export default router

@@ -13,22 +13,14 @@
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput
-                      v-model="email"
-                      placeholder="Email"
-                      autocomplete="Email"
-                    />
+                    <CFormInput v-model="email" placeholder="Email" autocomplete="email" />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput
-                      v-model="password"
-                      type="password"
-                      placeholder="Password"
-                      autocomplete="current-password"
-                    />
+                    <CFormInput v-model="password" type="password" placeholder="Password"
+                      autocomplete="current-password" />
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
@@ -82,13 +74,17 @@ export default {
           email: this.email,
           password: this.password
         });
-        if (response.data.status === 'OK') {
+        if (response.data.code === 200) {
           // Lưu token vào localStorage
           localStorage.setItem('token', response.data.data);
           // Chuyển hướng đến trang chính
           console.error('Done');
 
-          this.$router.push({name: 'Dashboard'});
+          this.$router.push({ name: 'Dashboard' }).then(() => {
+            console.log("Successfully redirected to Dashboard");
+          }).catch((err) => {
+            console.error("Failed to redirect:", err);
+          });
         } else {
           alert(response.data.message);
         }
