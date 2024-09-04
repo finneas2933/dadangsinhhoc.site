@@ -59,7 +59,7 @@ fetchUsers();
       <CCardHeader class="d-flex justify-content-between align-items-center">
         <CButton variant="outline" shape="rounded-0" color="success">
           <CIcon class="me-2" :icon="cilPlus" />Thêm mới
-        </CButton> 
+        </CButton>
         <CInputGroup class="w-50">
           <CFormInput aria-label="Tìm kiếm" aria-describedby="btnGroupAddon" />
           <CInputGroupText id="basic-addon2">
@@ -119,27 +119,42 @@ fetchUsers();
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      users: [] // Dữ liệu người dùng sẽ được tải từ API
-    };
-  },
-  mounted() {
-    // Gọi API để lấy danh sách người dùng và gán vào biến users
-    this.fetchUsers();
+      email: '',
+      password: '',
+    }
   },
   methods: {
-    async fetchUsers() {
+    async login() {
       try {
-        const response = await fetch('/api/users'); // Thay '/api/users' bằng endpoint API thực tế của bạn
-        const data = await response.json();
-        this.users = data;
+        const response = await axios.post('http://localhost:8080/api/users/login', {
+          email: this.email,
+          password: this.password
+        });
+        if (response.data.code === 200) {
+          // Lưu token vào localStorage
+          localStorage.setItem('token', response.data.data);
+          // Chuyển hướng đến trang chính
+          console.error('Done');
+
+          this.$router.push({ name: 'Dashboard' }).then(() => {
+            console.log("Successfully redirected to Dashboard");
+          }).catch((err) => {
+            console.error("Failed to redirect:", err);
+          });
+        } else {
+          alert(response.data.message);
+        }
       } catch (error) {
-        console.error('Lỗi khi tải danh sách người dùng:', error);
-        // Xử lý lỗi (ví dụ: hiển thị thông báo lỗi)
+        console.error('Lỗi đăng nhập:', error);
+        alert('Đã xảy ra lỗi trong quá trình đăng nhập');
       }
     }
   }
-};
+}
 </script>
+
