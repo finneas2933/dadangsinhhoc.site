@@ -38,10 +38,8 @@ public class UserController {
         return userService.createNewUser(user);
     }
 
-
-//    @PostMapping("/validateToken")
-//    public ResponseObject authenticate(@RequestBody ValidateRequest request)
-//            throws ParseException, JOSEException {
-//        return jwtTokenService.validateTokenResponse(request);
-//    }
+    @PostMapping("/login")
+    public ResponseObject login(@RequestBody UserModel loginRequest) {
+        return userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+    }
 }

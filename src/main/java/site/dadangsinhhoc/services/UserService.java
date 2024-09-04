@@ -12,6 +12,7 @@ import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -94,6 +95,17 @@ public class UserService {
         }
     }
 
+    public ResponseObject login(String email, String password) {
+        UserModel user = userRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "User not found");
+        }
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return ResponseObject.error(ErrorCode.UNAUTHORIZED.getCode(), "Invalid password");
+        }
+        String token = tokenService.generateToken(user);
+        return ResponseObject.success("Login successful", Map.of("token", token, "user", user));
+    }
 
 //    public ResponseObject validateTokenResponse(ValidateRequest request)
 //            throws JOSEException, ParseException {

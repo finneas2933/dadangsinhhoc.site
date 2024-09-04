@@ -59,7 +59,6 @@ public class JwtTokenService implements TokenService {
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("scope", buildScope(userModel))
-                .claim("role", userModel.getRole())
                 .build();
         log.debug("JWT claims set built: "+jwtClaimsSet);
 
