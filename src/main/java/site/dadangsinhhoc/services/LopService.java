@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LopModel;
+import site.dadangsinhhoc.models.NganhModel;
 import site.dadangsinhhoc.repositories.LopRepository;
 
 import java.util.List;
@@ -49,14 +50,24 @@ public class LopService {
         return ResponseObject.success(savedLop);
     }
 
-    public ResponseObject updateLop(LopModel lopModel) {
+    public ResponseObject updateLop(Long id, LopModel lopModel) {
         if (lopModel.getName() == null || lopModel.getName().isEmpty()) {
             return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Lop` is null or empty");
         }
         if (!lopRepository.existsById(lopModel.getId())) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Lop with id: " + lopModel.getId());
         }
-        return ResponseObject.success(lopRepository.save(lopModel));
+        return lopRepository.findById(id)
+                .map(existingNganh -> {
+                    existingNganh.setName(lopModel.getName());
+                    existingNganh.setNameLatinh(lopModel.getNameLatinh());
+                    existingNganh.setLoai(lopModel.getLoai());
+                    existingNganh.setStatus(lopModel.getStatus());
+                    existingNganh.setUpdatedAt(lopModel.getUpdatedAt());
+                    existingNganh.setUpdatedBy(lopModel.getUpdatedBy());
+                    return ResponseObject.success(lopRepository.save(existingNganh));
+                })
+                .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Lop with id: " + id));
     }
 
     public ResponseObject deleteByIdLop(Long id) {

@@ -3,48 +3,48 @@ package site.dadangsinhhoc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
-import site.dadangsinhhoc.models.NganhModel;
-import site.dadangsinhhoc.services.NganhService;
+import site.dadangsinhhoc.models.LopModel;
+import site.dadangsinhhoc.services.LopService;
 
 @RestController
 @RequestMapping("/api/lop")
 public class LopController {
-    private final NganhService lopService;
+    private final LopService lopService;
 
     @Autowired
-    public LopController(NganhService lopService) {
+    public LopController(LopService lopService) {
         this.lopService = lopService;
     }
 
-    @GetMapping("/getAllNganh")
-    public ResponseObject getAllNganh() {
-        return lopService.getAllNganh();
+    @GetMapping("/getAllLop")
+    public ResponseObject getAllLop() {
+        return lopService.getAllLop();
     }
 
-    @GetMapping("/getNganhById/{id}")
-    public ResponseObject getNganhById(@PathVariable Long id) {
-        return lopService.findById(id);
+    @GetMapping("/getLopById/{id}")
+    public ResponseObject getLopById(@PathVariable Long id) {
+        return lopService.findLopById(id);
     }
 
-    @GetMapping("/countAllNganh")
-    public ResponseObject countAllNganh() {
-        return lopService.countAllNganh();
+    @GetMapping("/countAllLop")
+    public ResponseObject countAllLop() {
+        return lopService.countAllLop();
     }
 
-    @PostMapping("/addNewNganh")
-    public ResponseObject addNewNganh(@RequestBody NganhModel NganhModel) {
-        return lopService.saveNganh(NganhModel);
+    @PostMapping("/addNewLop")
+    public ResponseObject addNewLop(@RequestBody LopModel LopModel) {
+        return lopService.saveLop(LopModel);
     }
 
-    @PutMapping("/updateNganh/{id}")
-    public ResponseObject updateNganh(@PathVariable Long id, @RequestBody NganhModel lopModel) {
+    @PutMapping("/updateLop/{id}")
+    public ResponseObject updateLop(@PathVariable Long id, @RequestBody LopModel lopModel) {
         lopModel.setId(id);
-        return lopService.updateNganh(id, lopModel);
+        return lopService.updateLop(id, lopModel);
     }
 
-    @DeleteMapping("/deleteNganh/{id}")
-    public ResponseObject deleteNganh(@PathVariable Long id) {
-        return lopService.deleteByIdNganh(id);
+    @DeleteMapping("/deleteLop/{id}")
+    public ResponseObject deleteLop(@PathVariable Long id) {
+        return lopService.deleteByIdLop(id);
     }
 
 }
