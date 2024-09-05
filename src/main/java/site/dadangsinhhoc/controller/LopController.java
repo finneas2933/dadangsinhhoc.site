@@ -7,44 +7,44 @@ import site.dadangsinhhoc.models.NganhModel;
 import site.dadangsinhhoc.services.NganhService;
 
 @RestController
-@RequestMapping("/api/nganh")
-public class NganhController {
-    private final NganhService nganhService;
+@RequestMapping("/api/lop")
+public class LopController {
+    private final NganhService lopService;
 
     @Autowired
-    public NganhController(NganhService nganhService) {
-        this.nganhService = nganhService;
+    public LopController(NganhService lopService) {
+        this.lopService = lopService;
     }
 
     @GetMapping("/getAllNganh")
     public ResponseObject getAllNganh() {
-        return nganhService.getAllNganh();
+        return lopService.getAllNganh();
     }
 
     @GetMapping("/getNganhById/{id}")
     public ResponseObject getNganhById(@PathVariable Long id) {
-        return nganhService.findById(id);
+        return lopService.findById(id);
     }
 
     @GetMapping("/countAllNganh")
     public ResponseObject countAllNganh() {
-        return nganhService.countAllNganh();
+        return lopService.countAllNganh();
     }
 
     @PostMapping("/addNewNganh")
     public ResponseObject addNewNganh(@RequestBody NganhModel NganhModel) {
-        return nganhService.saveNganh(NganhModel);
+        return lopService.saveNganh(NganhModel);
     }
 
     @PutMapping("/updateNganh/{id}")
-    public ResponseObject updateNganh(@PathVariable Long id, @RequestBody NganhModel nganhModel) {
-        nganhModel.setId(id);
-        return nganhService.updateNganh(id, nganhModel);
+    public ResponseObject updateNganh(@PathVariable Long id, @RequestBody NganhModel lopModel) {
+        lopModel.setId(id);
+        return lopService.updateNganh(id, lopModel);
     }
 
     @DeleteMapping("/deleteNganh/{id}")
     public ResponseObject deleteNganh(@PathVariable Long id) {
-        return nganhService.deleteByIdNganh(id);
+        return lopService.deleteByIdNganh(id);
     }
 
 }

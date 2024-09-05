@@ -7,6 +7,9 @@ import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.NganhModel;
 import site.dadangsinhhoc.repositories.NganhRepository;
 
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,15 +25,20 @@ public class NganhService {
         return nganhRepository.existsById(id);
     }
 
-    public ResponseObject findNganhById(Long id) {
+    public ResponseObject findById(Long id) {
         return nganhRepository.findById(id)
                 .map(ResponseObject::success)
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
     }
 
     public ResponseObject getAllNganh() {
-        List<NganhModel> nganhModels = nganhRepository.findAll();
-        return ResponseObject.success(nganhModels);
+        try {
+            List<NganhModel> nganhModels = nganhRepository.findAll();
+            return ResponseObject.success(nganhModels);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Nganh");
+        }
     }
 
     public ResponseObject countAllNganh() {
@@ -38,25 +46,35 @@ public class NganhService {
         return ResponseObject.success(quantity);
     }
 
-    public ResponseObject saveNganh(NganhModel nganhModels) {
-        if (nganhModels.getName() == null || nganhModels.getName().isEmpty()) {
+    public ResponseObject saveNganh(NganhModel nganhModel) {
+        if (nganhModel.getName() == null || nganhModel.getName().isEmpty()) {
             return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
         }
-        if (nganhRepository.existsById(nganhModels.getId())) {
+        if (nganhRepository.existsById(nganhModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
-        NganhModel savedNganh = nganhRepository.save(nganhModels);
+        NganhModel savedNganh = nganhRepository.save(nganhModel);
         return ResponseObject.success(savedNganh);
     }
 
-    public ResponseObject updateNganh(NganhModel nganhModel) {
+    public ResponseObject updateNganh(Long id, NganhModel nganhModel) {
         if (nganhModel.getName() == null || nganhModel.getName().isEmpty()) {
             return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Nganh` is null or empty");
         }
         if (!nganhRepository.existsById(nganhModel.getId())) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Nganh with id: " + nganhModel.getId());
         }
-        return ResponseObject.success(nganhRepository.save(nganhModel));
+        return nganhRepository.findById(id)
+                .map(existingNganh -> {
+                    existingNganh.setName(nganhModel.getName());
+                    existingNganh.setNameLatinh(nganhModel.getNameLatinh());
+                    existingNganh.setLoai(nganhModel.getLoai());
+                    existingNganh.setStatus(nganhModel.getStatus());
+                    existingNganh.setUpdatedAt(nganhModel.getUpdatedAt());
+                    existingNganh.setUpdatedBy(nganhModel.getUpdatedBy());
+                    return ResponseObject.success(nganhRepository.save(existingNganh));
+                })
+                .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Nganh with id: " + id));
     }
 
     public ResponseObject deleteByIdNganh(Long id) {

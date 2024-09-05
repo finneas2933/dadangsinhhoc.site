@@ -27,12 +27,12 @@ public class BannerModel {
     private LocalDateTime createdAt;
 
     @Column(name = "createdBy")
-    private Integer createdBy;
+    private String createdBy;
 
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
     @Column(name = "updatedBy")
-    private Integer updatedBy;
+    private String updatedBy;
 
 }
