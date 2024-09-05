@@ -26,4 +26,10 @@ public class IntroduceController {
         return introduceService.countAllIntroduce();
     }
 
+    @PutMapping("/updateIntroduce/{id}")
+    public ResponseObject updateIntroduce(@PathVariable Long id, @RequestBody IntroduceModel introduceModel) {
+        introduceModel.setId(id);
+        return introduceService.updateIntroduce(id, introduceModel);
+    }
+
 }
