@@ -71,22 +71,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         log.info("Configuring security filter chain");
-
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenService);
+
+// TODO: Main
+//        httpSecurity.cors(Customizer.withDefaults())
+//                        .authorizeHttpRequests(requests -> requests
+//                        .requestMatchers(HttpMethod.POST, "/api/users/validateToken", "/api/users/authenticate/**").permitAll()
+//                        .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
+//                        .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll()
+//                        .requestMatchers(HttpMethod.GET).permitAll()
+//                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+//                        .anyRequest().authenticated())
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+//                        .successHandler(jwtAuthenticationSuccessHandler)
+//                        .permitAll());
+
+// TODO: Test
         httpSecurity.cors(Customizer.withDefaults())
-                        .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.POST, "/api/users/validateToken", "/api/users/authenticate/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
-                        .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll()
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.GET).permitAll()
-                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .successHandler(jwtAuthenticationSuccessHandler)
-                        .permitAll());
+                        .requestMatchers(HttpMethod.DELETE).permitAll()
+                        .requestMatchers(HttpMethod.POST).permitAll()
+                        .requestMatchers(HttpMethod.PUT).permitAll()
+                        .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
+                        .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll());
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt

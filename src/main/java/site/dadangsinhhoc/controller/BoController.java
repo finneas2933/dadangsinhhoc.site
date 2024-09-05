@@ -7,6 +7,7 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.services.BoService;
 
 @RestController
+@RequestMapping("/api/bo")
 public class BoController {
     private final BoService boService;
 
@@ -35,12 +36,12 @@ public class BoController {
         return boService.saveBo(BoModel);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateBo")
     public ResponseObject updateBo(@RequestBody BoModel boModel) {
         return boService.updateBo(boModel);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteBo/{id}")
     public ResponseObject deleteBo(@PathVariable Long id) {
         return boService.deleteByIdBo(id);
     }
