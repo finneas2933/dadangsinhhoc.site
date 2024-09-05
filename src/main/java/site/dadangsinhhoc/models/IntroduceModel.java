@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class IntroduceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -25,12 +25,12 @@ public class IntroduceModel {
     private LocalDateTime createdAt;
 
     @Column(name = "createdBy")
-    private Integer createdBy;
+    private String createdBy;
 
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
     @Column(name = "updatedBy")
-    private Integer updatedBy;
+    private String updatedBy;
 
 }

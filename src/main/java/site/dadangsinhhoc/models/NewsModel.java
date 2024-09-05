@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class NewsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class BannerModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "image", nullable = false)
     private String image;
@@ -27,12 +27,12 @@ public class BannerModel {
     private LocalDateTime createdAt;
 
     @Column(name = "createdBy")
-    private Integer createdBy;
+    private String createdBy;
 
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
     @Column(name = "updatedBy")
-    private Integer updatedBy;
+    private String updatedBy;
 
 }

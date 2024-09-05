@@ -72,7 +72,7 @@ public class UserService {
             if (user.getRole() == null) {
                 user.setRole("ROLE_USER");
             }
-
+            user.setId(null);
             UserModel savedUser = UserModel.builder()
                     .name(user.getName())
                     .email(user.getEmail())

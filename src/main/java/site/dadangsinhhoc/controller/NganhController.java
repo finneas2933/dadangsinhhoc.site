@@ -23,7 +23,7 @@ public class NganhController {
 
     @GetMapping("/getNganhById/{id}")
     public ResponseObject getNganhById(@PathVariable Long id) {
-        return nganhService.findNganhById(id);
+        return nganhService.findById(id);
     }
 
     @GetMapping("/countAllNganh")
@@ -32,13 +32,14 @@ public class NganhController {
     }
 
     @PostMapping("/addNewNganh")
-    public ResponseObject addNewNganh(@RequestBody NganhModel nganhModel) {
-        return nganhService.saveNganh(nganhModel);
+    public ResponseObject addNewNganh(@RequestBody NganhModel NganhModel) {
+        return nganhService.saveNganh(NganhModel);
     }
 
-    @PutMapping("/updateNganh")
-    public ResponseObject updateNganh(@RequestBody NganhModel nganhModel) {
-        return nganhService.updateNganh(nganhModel);
+    @PutMapping("/updateNganh/{id}")
+    public ResponseObject updateNganh(@PathVariable Long id, @RequestBody NganhModel nganhModel) {
+        nganhModel.setId(id);
+        return nganhService.updateNganh(id, nganhModel);
     }
 
     @DeleteMapping("/deleteNganh/{id}")
