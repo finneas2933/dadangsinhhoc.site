@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class IntroduceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
