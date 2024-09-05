@@ -57,15 +57,18 @@ fetchUsers();
   <CCol :xs="12">
     <CCard class="mb-4">
       <CCardHeader class="d-flex justify-content-between align-items-center">
-        <CButton variant="outline" shape="rounded-0" color="success">
-          <CIcon class="me-2" :icon="cilPlus" />Thêm mới
-        </CButton>
+        <router-link :to="{ name: 'Thêm mới người dùng' }">
+          <CButton variant="outline" shape="rounded-0" color="success">
+            <CIcon class="me-2" :icon="cilPlus" />Thêm mới
+          </CButton>
+        </router-link>
         <CInputGroup class="w-50">
           <CFormInput aria-label="Tìm kiếm" aria-describedby="btnGroupAddon" />
           <CInputGroupText id="basic-addon2">
             <CIcon :icon="cilSearch" />
           </CInputGroupText>
-          <CButton type="button" color="secondary" variant="outline" id="button-addon2" aria-describedby="btnGroupAddon">Tìm kiếm</CButton>
+          <CButton type="button" color="secondary" variant="outline" id="button-addon2"
+            aria-describedby="btnGroupAddon">Tìm kiếm</CButton>
         </CInputGroup>
       </CCardHeader>
       <CCardBody>
@@ -157,4 +160,3 @@ export default {
   }
 }
 </script>
-
