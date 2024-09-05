@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class BannerModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "image", nullable = false)
     private String image;
