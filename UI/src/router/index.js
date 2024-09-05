@@ -21,7 +21,7 @@ const routes = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/Dashboard.vue'),
+        component: () => import('@/views/dashboard/Dashboard1.vue'),
       },
       {
         path: '/theme',
@@ -151,6 +151,11 @@ const routes = [
             name: 'Thêm mới tin tức',
             component: () => import('@/views/tintuc/ThemMoiTinTuc.vue'),
           },
+          {
+            path: '/tin-tuc/chinh-sua',
+            name: 'Chỉnh sửa tin tức',
+            component: () => import('@/views/tintuc/ChinhSuaTinTuc.vue'),
+          },
         ],
       },
       {
@@ -174,19 +179,9 @@ const routes = [
             component: () => import('@/views/dongthucvat/nganh/DanhSachNganh.vue'),
           },
           {
-            path: '/dong-vat/nganh/them-moi',
-            name: 'Thêm mới ngành động vật',
-            component: () => import('@/views/dongthucvat/nganh/ThemMoiNganh.vue'),
-          },
-          {
             path: '/dong-vat/lop',
             name: 'Lớp động vật',
             component: () => import('@/views/dongthucvat/lop/DanhSachLop.vue'),
-          },
-          {
-            path: '/dong-vat/lop/them-moi',
-            name: 'Thêm mới lớp động vật',
-            component: () => import('@/views/dongthucvat/lop/ThemMoiLop.vue'),
           },
           {
             path: '/dong-vat/bo',
@@ -194,19 +189,9 @@ const routes = [
             component: () => import('@/views/dongthucvat/bo/DanhSachBo.vue'),
           },
           {
-            path: '/dong-vat/bo/them-moi',
-            name: 'Thêm mới bộ động vật',
-            component: () => import('@/views/dongthucvat/bo/ThemMoiBo.vue'),
-          },
-          {
             path: '/dong-vat/ho',
             name: 'Họ động vật',
             component: () => import('@/views/dongthucvat/ho/DanhSachHo.vue'),
-          },
-          {
-            path: '/dong-vat/ho/them-moi',
-            name: 'Thêm mới họ động vật',
-            component: () => import('@/views/dongthucvat/ho/ThemMoiHo.vue'),
           },
           {
             path: '/dong-vat/loai',
@@ -242,19 +227,9 @@ const routes = [
             component: () => import('@/views/dongthucvat/nganh/DanhSachNganh.vue'),
           },
           {
-            path: '/thuc-vat/nganh/them-moi',
-            name: 'Thêm mới ngành thực vật',
-            component: () => import('@/views/dongthucvat/nganh/ThemMoiNganh.vue'),
-          },
-          {
             path: '/thuc-vat/lop',
             name: 'Lớp thực vật',
             component: () => import('@/views/dongthucvat/lop/DanhSachLop.vue'),
-          },
-          {
-            path: '/thuc-vat/lop/them-moi',
-            name: 'Thêm mới lớp thực vật',
-            component: () => import('@/views/dongthucvat/lop/ThemMoiLop.vue'),
           },
           {
             path: '/thuc-vat/bo',
@@ -262,19 +237,9 @@ const routes = [
             component: () => import('@/views/dongthucvat/bo/DanhSachBo.vue'),
           },
           {
-            path: '/thuc-vat/bo/them-moi',
-            name: 'Thêm mới bộ thực vật',
-            component: () => import('@/views/dongthucvat/bo/ThemMoiBo.vue'),
-          },
-          {
             path: '/thuc-vat/ho',
             name: 'Họ thực vật',
             component: () => import('@/views/dongthucvat/ho/DanhSachHo.vue'),
-          },
-          {
-            path: '/thuc-vat/ho/them-moi',
-            name: 'Thêm mới họ thực vật',
-            component: () => import('@/views/dongthucvat/ho/ThemMoiHo.vue'),
           },
           {
             path: '/thuc-vat/loai',

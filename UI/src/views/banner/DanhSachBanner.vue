@@ -1,79 +1,92 @@
 <script setup>
+import { ref } from 'vue'
 import { CIcon } from '@coreui/icons-vue'
 import { cilSearch } from '@coreui/icons'  // Import icon cil-search
 import { cilPlus } from '@coreui/icons'  // Import icon cil-Plus
 import { cilTrash } from '@coreui/icons'
-import { cilPencil } from '@coreui/icons'
 
+// trạng thái để điều khiển modal
+const isDeleteModalVisible = ref(false);
+const selectedBannerId = ref(null);
+
+const openDeleteModal = (bannerId) => {
+  selectedBannerId.value = bannerId;
+  isDeleteModalVisible.value = true;
+}
+
+const closeDeleteModal = () => {
+  isDeleteModalVisible.value = false;
+  selectedBannerId.value = null;
+}
+
+const deleteBanner = () => {
+  banners.value = banners.value.filter(banner => banner.id !== selectedBannerId.value);
+  console.log("Xóa với ID:", selectedBannerId.value);
+  closeDeleteModal();
+}
+
+// dữ liệu giả lập
+const banners = ref([
+  
+]);
+
+// Hàm tạo đường dẫn hình ảnh
+const imagePath = (relativePath) => {
+  return `/images/${relativePath}`;
+};
+
+// Fetch danh sách khi component được mount
+const fetchbanners = async () => {
+  try {
+    const response = await fetch('/api/ho');
+    const data = await response.json();
+    banners.value = data;
+  } catch (error) {
+    console.error('Lỗi khi tải danh sách:', error);
+  }
+}
+
+fetchbanners();
 </script>
 
 <template>
   <CCol :xs="12">
     <CCard class="mb-4">
       <CCardHeader class="d-flex justify-content-between align-items-center">
-        <CButton variant="outline" shape="rounded-0" color="success">
-          <CIcon class="me-2" :icon="cilPlus" />Thêm mới
-        </CButton> 
+        <router-link :to="{ name: 'Thêm mới banner' }">
+          <CButton variant="outline" shape="rounded-0" color="success">
+            <CIcon class="me-2" :icon="cilPlus" />Thêm mới
+          </CButton>
+        </router-link>
         <CInputGroup class="w-50">
           <CFormInput aria-label="Tìm kiếm" aria-describedby="btnGroupAddon" />
           <CInputGroupText id="basic-addon2">
             <CIcon :icon="cilSearch" />
           </CInputGroupText>
-          <CButton type="button" color="secondary" variant="outline" id="button-addon2" aria-describedby="btnGroupAddon">Tìm kiếm</CButton>
+          <CButton type="button" color="secondary" variant="outline" id="button-addon2"
+            aria-describedby="btnGroupAddon">Tìm kiếm</CButton>
         </CInputGroup>
       </CCardHeader>
       <CCardBody>
         <CTable hover bordered striped>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell scope="col">#</CTableHeaderCell>
+              <CTableHeaderCell scope="col">STT</CTableHeaderCell>
               <CTableHeaderCell scope="col">Ảnh</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Ngày cập nhật</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Ngày tạo</CTableHeaderCell>
               <CTableHeaderCell scope="col"></CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            <CTableRow>
-              <CTableHeaderCell scope="row">1</CTableHeaderCell>
+            <CTableRow v-for="(banner, index) in banners" :key="banner.id">
+              <CTableHeaderCell scope="row">{{ index + 1 }}</CTableHeaderCell>
               <CTableDataCell>
-                <img style="height: 40px;width:60px;" src="http://ddshnamgiangmuongte.vnuforest.com/banner/917cc4ed-6695-403d-bbb4-11be1b32b7e9.JPG" alt="..." class="img-thumbnail">
+                <img v-if="banner.imagePath" :src="imagePath(banner.imagePath)" alt=" " class="img-thumbnail"
+                  style="height: 40px; width: 60px;">
               </CTableDataCell>
-              <CTableDataCell>Otto</CTableDataCell>
+              <CTableDataCell>{{ ho.createdAt }}</CTableDataCell>
               <CTableDataCell>
-                <a class="me-2" href="">
-                  <CIcon class="text-info" :icon="cilPencil" />
-                </a>
-                <a href="">
-                  <CIcon class="text-danger" :icon="cilTrash" />
-                </a>
-              </CTableDataCell>
-            </CTableRow>
-            <CTableRow>
-              <CTableHeaderCell scope="row">2</CTableHeaderCell>
-              <CTableDataCell>
-                <img style="height: 40px;width:60px;" src="" alt="..." class="img-thumbnail">
-              </CTableDataCell>
-              <CTableDataCell>Thornton</CTableDataCell>
-              <CTableDataCell>
-                <a class="me-2" href="">
-                  <CIcon class="text-info" :icon="cilPencil" />
-                </a>
-                <a href="">
-                  <CIcon class="text-danger" :icon="cilTrash" />
-                </a>
-              </CTableDataCell>
-            </CTableRow>
-            <CTableRow>
-              <CTableHeaderCell scope="row">3</CTableHeaderCell>
-              <CTableDataCell>
-                <img style="height: 40px;width:60px;" src="" alt="..." class="img-thumbnail">
-              </CTableDataCell>
-              <CTableDataCell></CTableDataCell>
-              <CTableDataCell>
-                <a class="me-2" href="">
-                  <CIcon class="text-info" :icon="cilPencil" />
-                </a>
-                <a href="">
+                <a href="javascript:void(0)" @click="openDeleteModal(banner.id)">
                   <CIcon class="text-danger" :icon="cilTrash" />
                 </a>
               </CTableDataCell>
@@ -83,6 +96,18 @@ import { cilPencil } from '@coreui/icons'
       </CCardBody>
     </CCard>
   </CCol>
+
+  <!-- Modal Xóa -->
+  <CModal :visible="isDeleteModalVisible" @close="closeDeleteModal">
+    <CModalHeader>
+      <CModalTitle>Xác nhận xóa</CModalTitle>
+    </CModalHeader>
+    <CModalBody>Bạn có chắc chắn muốn xóa không?</CModalBody>
+    <CModalFooter>
+      <CButton color="secondary" @click="closeDeleteModal">Hủy</CButton>
+      <CButton color="danger" @click="deleteBanner">Xóa</CButton>
+    </CModalFooter>
+  </CModal>
 </template>
 
 <script>
@@ -106,7 +131,11 @@ export default {
         console.error('Lỗi khi tải danh sách banner:', error);
         // Xử lý lỗi (ví dụ: hiển thị thông báo lỗi)
       }
-    }
+    },
+    imagePath(relativePath) {
+      // Giả sử bạn lưu trữ hình ảnh trong thư mục 'public/images'
+      return `/images/${relativePath}`;
+    },
   }
 };
 </script>
