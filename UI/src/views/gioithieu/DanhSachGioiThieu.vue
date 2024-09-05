@@ -1,8 +1,5 @@
 <script setup>
 import { CIcon } from '@coreui/icons-vue'
-import { cilSearch } from '@coreui/icons'  // Import icon cil-search
-import { cilPlus } from '@coreui/icons'  // Import icon cil-Plus
-import { cilTrash } from '@coreui/icons'
 import { cilPencil } from '@coreui/icons'
 
 </script>
