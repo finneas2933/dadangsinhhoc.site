@@ -100,7 +100,7 @@ fetchloais();
     <CCol :xs="12">
         <CCard class="mb-4">
             <CCardHeader class="d-flex justify-content-between align-items-center">
-                <router-link :to="{ name: 'Thêm mới loài' }">
+                <router-link :to="{ name: 'Thêm mới loài động vật' }">
                     <CButton variant="outline" shape="rounded-0" color="success">
                         <CIcon class="me-2" :icon="cilPlus" />Thêm mới
                     </CButton>
@@ -137,7 +137,7 @@ fetchloais();
                             <CTableDataCell>{{ loai.rPH }}</CTableDataCell>
                             <CTableDataCell @click.stop>
                                 <!-- <router-link :to="{ name: 'Chỉnh sửa loài', params: { id: loai.id } }" class="me-2"> -->
-                                <router-link :to="{ name: 'Chỉnh sửa loài' }" class="me-2">
+                                <router-link :to="{ name: 'Chỉnh sửa loài động vật' }" class="me-2">
                                     <CIcon class="text-info" :icon="cilPencil" />
                                 </router-link>
                                 <a href="javascript:void(0)" @click="openDeleteModal(loai.id)">
