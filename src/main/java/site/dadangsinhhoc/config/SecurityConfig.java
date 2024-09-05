@@ -73,7 +73,7 @@ public class SecurityConfig {
         log.info("Configuring security filter chain");
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenService);
 
-        // Main
+// TODO: Main
 //        httpSecurity.cors(Customizer.withDefaults())
 //                        .authorizeHttpRequests(requests -> requests
 //                        .requestMatchers(HttpMethod.POST, "/api/users/validateToken", "/api/users/authenticate/**").permitAll()
@@ -89,7 +89,7 @@ public class SecurityConfig {
 //                        .successHandler(jwtAuthenticationSuccessHandler)
 //                        .permitAll());
 
-        // Test
+// TODO: Test
         httpSecurity.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.GET).permitAll()
@@ -98,6 +98,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT).permitAll()
                         .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
                         .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll());
+
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt
                         .decoder(jwtDecoder())

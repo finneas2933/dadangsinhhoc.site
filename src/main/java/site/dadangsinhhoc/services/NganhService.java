@@ -18,11 +18,11 @@ public class NganhService {
         this.nganhRepository = nganhRepository;
     }
 
-    public boolean existById(Integer id) {
+    public boolean existById(Long id) {
         return nganhRepository.existsById(id);
     }
 
-    public ResponseObject findNganhById(Integer id) {
+    public ResponseObject findNganhById(Long id) {
         return nganhRepository.findById(id)
                 .map(ResponseObject::success)
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
@@ -59,7 +59,7 @@ public class NganhService {
         return ResponseObject.success(nganhRepository.save(nganhModel));
     }
 
-    public ResponseObject deleteByIdNganh(Integer id) {
+    public ResponseObject deleteByIdNganh(Long id) {
         if (!nganhRepository.existsById(id)) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());
         } else {

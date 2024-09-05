@@ -6,5 +6,5 @@ import site.dadangsinhhoc.models.BoModel;
 import site.dadangsinhhoc.models.NganhModel;
 
 @Repository
-public interface NganhRepository extends JpaRepository<NganhModel, Integer> {
+public interface NganhRepository extends JpaRepository<NganhModel, Long> {
 }

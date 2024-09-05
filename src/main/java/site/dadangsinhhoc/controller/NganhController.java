@@ -22,7 +22,7 @@ public class NganhController {
     }
 
     @GetMapping("/getNganhById/{id}")
-    public ResponseObject getNganhById(@PathVariable Integer id) {
+    public ResponseObject getNganhById(@PathVariable Long id) {
         return nganhService.findNganhById(id);
     }
 
@@ -42,7 +42,7 @@ public class NganhController {
     }
 
     @DeleteMapping("/deleteNganh/{id}")
-    public ResponseObject deleteNganh(@PathVariable Integer id) {
+    public ResponseObject deleteNganh(@PathVariable Long id) {
         return nganhService.deleteByIdNganh(id);
     }
 
