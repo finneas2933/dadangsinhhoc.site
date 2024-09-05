@@ -4,7 +4,7 @@
       <CCard>
         <CCardBody>
           <CForm @submit.prevent="themBanner">
-            <!-- Số điện thoại -->
+            <!-- Ảnh -->
             <div class="mb-3">
               <CFormLabel for="image">Ảnh:</CFormLabel>
               <CFormInput id="image" v-model="banner.image" type="file" required />

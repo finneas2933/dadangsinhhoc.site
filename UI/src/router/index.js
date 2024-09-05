@@ -193,6 +193,17 @@ const routes = [
             name: 'Loài động vật',
             component: () => import('@/views/dongthucvat/loai/DanhSachLoai.vue'),
           },
+          {
+            path: '/dong-vat/loai/them-moi',
+            name: 'Thêm mới loài',
+            component: () => import('@/views/dongthucvat/loai/ThemMoiLoai.vue'),
+          },
+          {
+            // path: '/dong-vat/loai/chinh-sua/:id', // :id là tham số động để nhận ID loài
+            path: '/dong-vat/loai/chinh-sua',
+            name: 'Chỉnh sửa loài',
+            component: () => import('@/views/dongthucvat/loai/ChinhSuaLoai.vue'),
+          },
         ],
       },
       {

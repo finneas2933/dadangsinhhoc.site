@@ -18,7 +18,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-alignment": "^43.0.0",
     "@ckeditor/ckeditor5-build-classic": "^43.0.0",
+    "@ckeditor/ckeditor5-font": "^43.0.0",
+    "@ckeditor/ckeditor5-highlight": "^43.0.0",
+    "@ckeditor/ckeditor5-indent": "^43.0.0",
     "@ckeditor/ckeditor5-vue": "^7.0.0",
     "@ckeditor/ckeditor5-vue2": "^3.0.1",
     "@coreui/chartjs": "^4.0.0",
