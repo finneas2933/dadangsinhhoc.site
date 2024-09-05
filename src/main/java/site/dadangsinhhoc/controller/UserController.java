@@ -78,9 +78,10 @@ public class UserController {
         ResponseObject response = userService.countUsersByRole();
         return ResponseEntity.status(response.code()).body(response);
     }
-@GetMapping("/getUsersByRole/{role}")
-public ResponseEntity<ResponseObject> getUsersByRole(@PathVariable String role) {
-    ResponseObject response = userService.getUsersByRole(role);
-    return ResponseEntity.status(response.code()).body(response);
-}
+
+    @GetMapping("/getUsersByRole/{role}")
+    public ResponseEntity<ResponseObject> getUsersByRole(@PathVariable String role) {
+        ResponseObject response = userService.getUsersByRole(role);
+        return ResponseEntity.status(response.code()).body(response);
+    }
 }

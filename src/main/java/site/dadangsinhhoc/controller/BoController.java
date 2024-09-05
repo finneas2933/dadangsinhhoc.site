@@ -7,6 +7,7 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.services.BoService;
 
 @RestController
+@RequestMapping("/api/bo")
 public class BoController {
     private final BoService boService;
 
