@@ -174,9 +174,19 @@ const routes = [
             component: () => import('@/views/dongthucvat/nganh/DanhSachNganh.vue'),
           },
           {
+            path: '/dong-vat/nganh/them-moi',
+            name: 'Thêm mới ngành động vật',
+            component: () => import('@/views/dongthucvat/nganh/ThemMoiNganh.vue'),
+          },
+          {
             path: '/dong-vat/lop',
             name: 'Lớp động vật',
             component: () => import('@/views/dongthucvat/lop/DanhSachLop.vue'),
+          },
+          {
+            path: '/dong-vat/lop/them-moi',
+            name: 'Thêm mới lớp động vật',
+            component: () => import('@/views/dongthucvat/lop/ThemMoiLop.vue'),
           },
           {
             path: '/dong-vat/bo',
@@ -184,9 +194,19 @@ const routes = [
             component: () => import('@/views/dongthucvat/bo/DanhSachBo.vue'),
           },
           {
+            path: '/dong-vat/bo/them-moi',
+            name: 'Thêm mới bộ động vật',
+            component: () => import('@/views/dongthucvat/bo/ThemMoiBo.vue'),
+          },
+          {
             path: '/dong-vat/ho',
             name: 'Họ động vật',
             component: () => import('@/views/dongthucvat/ho/DanhSachHo.vue'),
+          },
+          {
+            path: '/dong-vat/ho/them-moi',
+            name: 'Thêm mới họ động vật',
+            component: () => import('@/views/dongthucvat/ho/ThemMoiHo.vue'),
           },
           {
             path: '/dong-vat/loai',
@@ -195,13 +215,13 @@ const routes = [
           },
           {
             path: '/dong-vat/loai/them-moi',
-            name: 'Thêm mới loài',
+            name: 'Thêm mới loài động vật',
             component: () => import('@/views/dongthucvat/loai/ThemMoiLoai.vue'),
           },
           {
             // path: '/dong-vat/loai/chinh-sua/:id', // :id là tham số động để nhận ID loài
             path: '/dong-vat/loai/chinh-sua',
-            name: 'Chỉnh sửa loài',
+            name: 'Chỉnh sửa loài động vật',
             component: () => import('@/views/dongthucvat/loai/ChinhSuaLoai.vue'),
           },
         ],
@@ -222,9 +242,19 @@ const routes = [
             component: () => import('@/views/dongthucvat/nganh/DanhSachNganh.vue'),
           },
           {
+            path: '/thuc-vat/nganh/them-moi',
+            name: 'Thêm mới ngành thực vật',
+            component: () => import('@/views/dongthucvat/nganh/ThemMoiNganh.vue'),
+          },
+          {
             path: '/thuc-vat/lop',
             name: 'Lớp thực vật',
             component: () => import('@/views/dongthucvat/lop/DanhSachLop.vue'),
+          },
+          {
+            path: '/thuc-vat/lop/them-moi',
+            name: 'Thêm mới lớp thực vật',
+            component: () => import('@/views/dongthucvat/lop/ThemMoiLop.vue'),
           },
           {
             path: '/thuc-vat/bo',
@@ -232,14 +262,35 @@ const routes = [
             component: () => import('@/views/dongthucvat/bo/DanhSachBo.vue'),
           },
           {
+            path: '/thuc-vat/bo/them-moi',
+            name: 'Thêm mới bộ thực vật',
+            component: () => import('@/views/dongthucvat/bo/ThemMoiBo.vue'),
+          },
+          {
             path: '/thuc-vat/ho',
             name: 'Họ thực vật',
             component: () => import('@/views/dongthucvat/ho/DanhSachHo.vue'),
           },
           {
+            path: '/thuc-vat/ho/them-moi',
+            name: 'Thêm mới họ thực vật',
+            component: () => import('@/views/dongthucvat/ho/ThemMoiHo.vue'),
+          },
+          {
             path: '/thuc-vat/loai',
             name: 'Loài thực vật',
             component: () => import('@/views/dongthucvat/loai/DanhSachLoai.vue'),
+          },
+          {
+            path: '/thuc-vat/loai/them-moi',
+            name: 'Thêm mới loài thực vật',
+            component: () => import('@/views/dongthucvat/loai/ThemMoiLoai.vue'),
+          },
+          {
+            // path: '/thuc-vat/loai/chinh-sua/:id', // :id là tham số động để nhận ID loài
+            path: '/thuc-vat/loai/chinh-sua',
+            name: 'Chỉnh sửa loài thực vật',
+            component: () => import('@/views/dongthucvat/loai/ChinhSuaLoai.vue'),
           },
         ],
       },
