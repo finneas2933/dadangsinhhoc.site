@@ -42,6 +42,7 @@ public class NewsService {
         if (newsRepository.existsById(newsModels.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        newsModels.setId(null);
         NewsModel savedNews = newsRepository.save(newsModels);
         return ResponseObject.success(savedNews);
     }

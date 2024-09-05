@@ -47,6 +47,7 @@ public class BannerService {
         if (bannerRepository.existsById(bannerModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        bannerModel.setId(null);
         BannerModel savedBanner = bannerRepository.save(bannerModel);
         return ResponseObject.success(savedBanner);
     }

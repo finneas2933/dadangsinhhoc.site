@@ -53,6 +53,7 @@ public class NganhService {
         if (nganhRepository.existsById(nganhModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        nganhModel.setId(null);
         NganhModel savedNganh = nganhRepository.save(nganhModel);
         return ResponseObject.success(savedNganh);
     }

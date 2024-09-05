@@ -46,6 +46,7 @@ public class LopService {
         if (lopRepository.existsById(lopModels.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        lopModels.setId(null);
         LopModel savedLop = lopRepository.save(lopModels);
         return ResponseObject.success(savedLop);
     }

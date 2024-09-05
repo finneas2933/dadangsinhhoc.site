@@ -50,6 +50,7 @@ public class LoaiService {
         if (loaiRepository.existsById(loaiModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        loaiModel.setId(null);
         LoaiModel savedLoai = loaiRepository.save(loaiModel);
         return ResponseObject.success(savedLoai);
     }

@@ -50,6 +50,7 @@ public class HoService {
         if (hoRepository.existsById(hoModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        hoModel.setId(null);
         HoModel savedHo = hoRepository.save(hoModel);
         return ResponseObject.success(savedHo);
     }

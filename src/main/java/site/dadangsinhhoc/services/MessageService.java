@@ -42,6 +42,7 @@ public class MessageService {
         if (messageRepository.existsById(messageModels.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        messageModels.setId(null);
         MessageModel savedMessage = messageRepository.save(messageModels);
         return ResponseObject.success(savedMessage);
     }

@@ -45,6 +45,7 @@ public class BoService {
         if (boRepository.existsById(boModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
         }
+        boModel.setId(null);
         BoModel savedBo = boRepository.save(boModel);
         return ResponseObject.success(savedBo);
     }
