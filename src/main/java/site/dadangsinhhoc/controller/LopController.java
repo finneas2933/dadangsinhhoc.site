@@ -21,6 +21,11 @@ public class LopController {
         return lopService.getAllLop();
     }
 
+    @GetMapping("/getAllLopByLoai/{loai}")
+    public ResponseObject getAllLopByLoai(@PathVariable Boolean loai) {
+        return lopService.getAllLopByLoai(loai);
+    }
+
     @GetMapping("/getLopById/{id}")
     public ResponseObject getLopById(@PathVariable Long id) {
         return lopService.findLopById(id);

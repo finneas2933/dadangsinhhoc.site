@@ -21,6 +21,11 @@ public class HoController {
         return HoService.getAllHo();
     }
 
+    @GetMapping("/getAllHoByLoai/{loai}")
+    public ResponseObject getAllHoByLoai(@PathVariable Boolean loai) {
+        return HoService.getAllHoByLoai(loai);
+    }
+
     @GetMapping("/getHoById/{id}")
     public ResponseObject getHoById(@PathVariable Long id) {
         return HoService.findById(id);

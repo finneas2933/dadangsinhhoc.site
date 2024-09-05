@@ -21,6 +21,11 @@ public class NganhController {
         return nganhService.getAllNganh();
     }
 
+    @GetMapping("/getAllNganhByLoai/{loai}")
+    public ResponseObject getAllNganhByLoai(@PathVariable Boolean loai) {
+        return nganhService.getAllNganhByLoai(loai);
+    }
+
     @GetMapping("/getNganhById/{id}")
     public ResponseObject getNganhById(@PathVariable Long id) {
         return nganhService.findById(id);

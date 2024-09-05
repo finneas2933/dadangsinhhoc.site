@@ -13,14 +13,31 @@ public class BoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "nameLatinh", nullable = false)
     private String nameLatinh;
-    private Integer loai;
+
+    @Column(name = "loai", nullable = false)
+    private Boolean loai;
+
+    @Column(name = "idLop", nullable = false)
     private Integer idLop;
-    private Integer status;
+
+    @Column(name = "status", nullable = false)
+    private Boolean status;
+
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
+
+    @Column(name = "createdBy")
     private String createdBy;
+
+    @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
+
+    @Column(name = "updatedBy")
     private String updatedBy;
 
 }

@@ -21,6 +21,11 @@ public class LoaiController {
         return loaiService.getAllLoai();
     }
 
+    @GetMapping("/getAllLoaiByLoai/{loai}")
+    public ResponseObject getAllLoaiByLoai(@PathVariable Boolean loai) {
+        return loaiService.getAllLoaiByLoai(loai);
+    }
+
     @GetMapping("/getLoaiById/{id}")
     public ResponseObject getLoaiById(@PathVariable Long id) {
         return loaiService.findById(id);

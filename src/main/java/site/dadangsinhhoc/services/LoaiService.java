@@ -6,6 +6,7 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LoaiModel;
 import site.dadangsinhhoc.repositories.LoaiRepository;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -35,6 +36,19 @@ public class LoaiService {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Loai");
+        }
+    }
+
+    public ResponseObject getAllLoaiByLoai(Boolean loai) {
+        try {
+            // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
+            Specification<LoaiModel> spec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("loai"), loai);
+            List<LoaiModel> loaiModels = loaiRepository.findAll(spec);
+            return ResponseObject.success(loaiModels);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Loai by Loai");
         }
     }
 

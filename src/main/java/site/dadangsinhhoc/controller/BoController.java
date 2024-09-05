@@ -21,6 +21,11 @@ public class BoController {
         return boService.getAllBo();
     }
 
+    @GetMapping("/getAllBoByLoai/{loai}")
+    public ResponseObject getAllBoByLoai(@PathVariable Boolean loai) {
+        return boService.getAllBoByLoai(loai);
+    }
+
     @GetMapping("/getBoById/{id}")
     public ResponseObject getBoById(@PathVariable long id) {
         return boService.findById(id);

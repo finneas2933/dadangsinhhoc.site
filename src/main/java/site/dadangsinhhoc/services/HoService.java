@@ -6,6 +6,7 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.HoModel;
 import site.dadangsinhhoc.repositories.HoRepository;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -35,6 +36,19 @@ public class HoService {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Ho");
+        }
+    }
+
+    public ResponseObject getAllHoByLoai(Boolean loai) {
+        try {
+            // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
+            Specification<HoModel> spec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("loai"), loai);
+            List<HoModel> hoModels = hoRepository.findAll(spec);
+            return ResponseObject.success(hoModels);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Ho by Loai");
         }
     }
 

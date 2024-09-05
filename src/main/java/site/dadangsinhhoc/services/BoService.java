@@ -6,6 +6,7 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.BoModel;
 import site.dadangsinhhoc.repositories.BoRepository;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -31,6 +32,19 @@ public class BoService {
     public ResponseObject getAllBo() {
         List<BoModel> boModels = boRepository.findAll();
         return ResponseObject.success(boModels);
+    }
+
+    public ResponseObject getAllBoByLoai(Boolean loai) {
+        try {
+            // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
+            Specification<BoModel> spec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("loai"), loai);
+            List<BoModel> boModels = boRepository.findAll(spec);
+            return ResponseObject.success(boModels);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Bo by Loai");
+        }
     }
 
     public ResponseObject countAllBo() {

@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import axios from 'axios'
 import { CIcon } from '@coreui/icons-vue'
 import { cilSearch, cilPlus, cilTrash, cilPencil } from '@coreui/icons'
 import {
@@ -27,6 +29,8 @@ import {
 // Các trạng thái để điều khiển modal
 const isModalVisible = ref(false);
 const selectedLoaiId = ref(null); // Lưu trữ ID được chọn để xóa
+const loais = ref([]); // Lưu trữ danh sách các loài từ API
+const loading = ref(false); // Trạng thái tải dữ liệu
 
 const openDeleteModal = (loaiId) => {
     selectedLoaiId.value = loaiId;
@@ -38,62 +42,79 @@ const closeModal = () => {
     selectedLoaiId.value = null;
 }
 
-// Dữ liệu giả lập
-const loais = ref([
-    {
-        id: 1,
-        name: 'Hổ Đông Dương',
-        nameLatinh: 'Panthera tigris tigris',
-        ho: 'Họ Mèo (Felidae)',
-        updatedAt: '2023-05-15',
-        rPH: 'RPH Nam Giang'
-    },
-    {
-        id: 2,
-        name: 'Voọc mũi hếch',
-        nameLatinh: 'Rhinopithecus avunculus',
-        ho: 'Họ Khỉ Cựu Thế giới (Cercopithecidae)',
-        updatedAt: '2023-08-20',
-        rPH: 'RPH Mường Tè'
-    },
-    {
-        id: 3,
-        name: 'Pơ mu',
-        nameLatinh: 'Fokienia hodginsii',
-        ho: 'Họ Hoàng đàn (Cupressaceae)',
-        updatedAt: '2023-11-10',
-        rPH: 'RPH Nam Giang'
-    },
-    {
-        id: 4,
-        name: 'Đỗ quyên',
-        nameLatinh: 'Rhododendron spp.',
-        ho: 'Họ Thạch nam (Ericaceae)',
-        updatedAt: '2023-06-03',
-        rPH: 'RPH Mường Tè'
-    }
-]);
+// // Dữ liệu giả lập
+// const loais = ref([
+//     {
+//         id: 1,
+//         name: 'Hổ Đông Dương',
+//         nameLatinh: 'Panthera tigris tigris',
+//         ho: 'Họ Mèo (Felidae)',
+//         updatedAt: '2023-05-15',
+//         rPH: 'RPH Nam Giang'
+//     },
+//     {
+//         id: 2,
+//         name: 'Voọc mũi hếch',
+//         nameLatinh: 'Rhinopithecus avunculus',
+//         ho: 'Họ Khỉ Cựu Thế giới (Cercopithecidae)',
+//         updatedAt: '2023-08-20',
+//         rPH: 'RPH Mường Tè'
+//     },
+//     {
+//         id: 3,
+//         name: 'Pơ mu',
+//         nameLatinh: 'Fokienia hodginsii',
+//         ho: 'Họ Hoàng đàn (Cupressaceae)',
+//         updatedAt: '2023-11-10',
+//         rPH: 'RPH Nam Giang'
+//     },
+//     {
+//         id: 4,
+//         name: 'Đỗ quyên',
+//         nameLatinh: 'Rhododendron spp.',
+//         ho: 'Họ Thạch nam (Ericaceae)',
+//         updatedAt: '2023-06-03',
+//         rPH: 'RPH Mường Tè'
+//     }
+// ]);
 
-const deleteLoai = () => {
-    // Gọi API để xóa với selectedLoaiId.value
-    loais.value = loais.value.filter(loai => loai.id !== selectedLoaiId.value);
-    console.log("Xóa với ID:", selectedLoaiId.value);
-    // Sau khi xóa thành công, ẩn modal
-    closeModal();
+// Gọi API xóa loài
+const deleteLoai = async () => {
+    try {
+        await axios.delete(`http://localhost:8080/api/loai/deleteLoai/${selectedLoaiId.value}`);
+        loais.value = loais.value.filter(loai => loai.id !== selectedLoaiId.value);
+        console.log("Xóa với ID:", selectedLoaiId.value);
+        closeModal();
+    } catch (error) {
+        console.error('Lỗi khi xóa:', error);
+    }
 }
+
+//Lấy route hiện tại để xác định 'dong-vat' hoặc 'thuc-vat'
+const route = useRoute();
+const isDongVat = ref(route.path.includes('/dong-vat')); // Kiểm tra route có chứa '/dong-vat' không
+
+console.log('Is Động Vật:', isDongVat.value);
 
 // Fetch danh sách khi component được mount
-const fetchloais = async () => {
+const fetchLoais = async () => {
     try {
-        const response = await fetch('/api/loais');
-        const data = await response.json();
-        loais.value = data;
+        loading.value = true;
+        const response = await axios.get(`http://localhost:8080/api/loai/getAllLoaiByLoai/${isDongVat.value}`);
+        if (response.data && response.data.data) {
+            loais.value = response.data.data;
+        } else {
+            console.error('Không có dữ liệu trả về từ API');
+        }
     } catch (error) {
         console.error('Lỗi khi tải danh sách:', error);
+    } finally {
+        loading.value = false;
     }
 }
-
-fetchloais();
+onMounted(() => {
+    fetchLoais();
+});
 </script>
 
 <template>
@@ -132,7 +153,7 @@ fetchloais();
                             <CTableHeaderCell scope="row">{{ index + 1 }}</CTableHeaderCell>
                             <CTableDataCell>{{ loai.name }}</CTableDataCell>
                             <CTableDataCell>{{ loai.nameLatinh }}</CTableDataCell>
-                            <CTableDataCell>{{ loai.ho }}</CTableDataCell>
+                            <CTableDataCell>{{ loai.idHo }}</CTableDataCell>
                             <CTableDataCell>{{ loai.updatedAt }}</CTableDataCell>
                             <CTableDataCell>{{ loai.rPH }}</CTableDataCell>
                             <CTableDataCell @click.stop>

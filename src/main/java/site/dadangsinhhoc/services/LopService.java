@@ -1,11 +1,12 @@
 package site.dadangsinhhoc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LopModel;
-import site.dadangsinhhoc.models.NganhModel;
+import org.springframework.data.jpa.domain.Specification;
 import site.dadangsinhhoc.repositories.LopRepository;
 
 import java.util.List;
@@ -32,6 +33,19 @@ public class LopService {
     public ResponseObject getAllLop() {
         List<LopModel> lopModels = lopRepository.findAll();
         return ResponseObject.success(lopModels);
+    }
+
+    public ResponseObject getAllLopByLoai(Boolean loai) {
+        try {
+            // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
+            Specification<LopModel> spec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("loai"), loai);
+            List<LopModel> lopModels = lopRepository.findAll(spec);
+            return ResponseObject.success(lopModels);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Lop by Loai");
+        }
     }
 
     public ResponseObject countAllLop() {
