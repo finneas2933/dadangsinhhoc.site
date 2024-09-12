@@ -121,7 +121,7 @@ onMounted(() => {
     <CCol :xs="12">
         <CCard class="mb-4">
             <CCardHeader class="d-flex justify-content-between align-items-center">
-                <router-link :to="{ name: 'Thêm mới loài động vật' }">
+                <router-link :to="{ name: 'Thêm mới loài thực vật' }">
                     <CButton variant="outline" shape="rounded-0" color="success">
                         <CIcon class="me-2" :icon="cilPlus" />Thêm mới
                     </CButton>
