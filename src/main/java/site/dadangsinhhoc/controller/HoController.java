@@ -26,6 +26,13 @@ public class HoController {
         return HoService.getAllHoByLoai(loai);
     }
 
+    @GetMapping("/searchHo")
+    public ResponseObject searchByNameOrNameLatinh(
+            @RequestParam("keyword") String keyword,
+            @RequestParam(value = "loai") Boolean loai) { // loai là tùy chọn
+        return HoService.searchByNameOrNameLatinh(keyword, loai);
+    }
+
     @GetMapping("/getHoById/{id}")
     public ResponseObject getHoById(@PathVariable Long id) {
         return HoService.findById(id);

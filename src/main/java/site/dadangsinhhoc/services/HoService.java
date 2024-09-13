@@ -52,6 +52,16 @@ public class HoService {
         }
     }
 
+    public ResponseObject searchByNameOrNameLatinh(String keyword, Boolean loai) {
+        try {
+            List<HoModel> hoModels = hoRepository.searchByNameOrNameLatinh(keyword, loai);
+            return ResponseObject.success(hoModels);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while searching Ho");
+        }
+    }
+
     public ResponseObject countAllHo() {
         long quantity = hoRepository.count();
         return ResponseObject.success(quantity);

@@ -60,7 +60,7 @@ export default {
           localStorage.setItem('token', response.data.data.token);
           console.log('token: ', response.data.data.token);
           // Chuyển hướng đến trang chính
-          console.error('Done');
+          console.log('Done!');
 
           this.$router.push({ name: 'Dashboard' }).then(() => {
             console.log("Successfully redirected to Dashboard");
