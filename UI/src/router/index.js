@@ -31,6 +31,11 @@ const routes = [
     component: () => import('@/views/guest/CSDLDongThucVat.vue'),
   },
   {
+    path: '/csdl/thong-tin-loai/:id',
+    name: 'Thông tin loài',
+    component: () => import('@/views/guest/ThongTinLoai.vue'),
+  },
+  {
     path: '/news',
     name: 'News',
     component: () => import('@/views/guest/TinTuc.vue'),
@@ -86,8 +91,7 @@ const routes = [
             component: () => import('@/views/nguoidung/ThemMoiNguoiDung.vue'),
           },
           {
-            // path: '/nguoi-dung/chinh-sua/:id',
-            path: '/nguoi-dung/chinh-sua',
+            path: '/nguoi-dung/chinh-sua/:id',
             name: 'Chỉnh sửa người dùng',
             component: () => import('@/views/nguoidung/ChinhSuaNguoiDung.vue'),
           },
@@ -146,7 +150,7 @@ const routes = [
             component: () => import('@/views/gioithieu/DanhSachGioiThieu.vue'),
           },
           {
-            // path: '/nguoi-dung/chinh-sua/:id',
+            // path: '/gioi-thieu/chinh-sua/:id',
             path: '/gioi-thieu/chinh-sua',
             name: 'Chỉnh sửa giới thiệu',
             component: () => import('@/views/gioithieu/ChinhSuaGioiThieu.vue'),

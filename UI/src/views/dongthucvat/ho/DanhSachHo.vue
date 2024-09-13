@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { CIcon } from '@coreui/icons-vue'
 import { cilSearch, cilPlus, cilTrash, cilPencil } from '@coreui/icons'
 import {
@@ -35,13 +36,13 @@ const selectedHoId = ref(null);
 const editingHo = ref({
     name: '',
     nameLatinh: '',
-    bo: '',
+    idBo: '',
     status: true
 });
 const newHo = ref({
     name: '',
     nameLatinh: '',
-    bo: '',
+    idBo: '',
     status: true
 });
 
@@ -75,79 +76,165 @@ const closeAddModal = () => {
     newHo.value = { name: '', nameLatinh: '', status: true };
 }
 
-// Dữ liệu giả lập
-const hos = ref([
-    {
-        id: 1,
-        name: 'Hổ Đông Dương',
-        nameLatinh: 'Panthera tigris tigris',
-        bo: 'Panthera tigris tigris',
-        updatedAt: '2023-05-15',
-        createdBy: 'createdBy Nam Giang'
-    },
-    {
-        id: 2,
-        name: 'Voọc mũi hếch',
-        nameLatinh: 'Rhinopithecus avunculus',
-        bo: 'Rhinopithecus avunculus',
-        updatedAt: '2023-08-20',
-        createdBy: 'createdBy Mường Tè'
-    },
-    {
-        id: 3,
-        name: 'Pơ mu',
-        nameLatinh: 'Fokienia hodginsii',
-        updatedAt: '2023-11-10',
-        createdBy: 'createdBy Nam Giang'
-    },
-    {
-        id: 4,
-        name: 'Đỗ quyên',
-        nameLatinh: 'Rhododendron spp.',
-        updatedAt: '2023-06-03',
-        createdBy: 'createdBy Mường Tè'
+const deleteHo = async () => {
+    try {
+        // Gửi yêu cầu DELETE đến backend để xóa họ
+        const response = await fetch(`http://localhost:8080/api/Ho/deleteHo/{id}${selectedHoId.value}`, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) throw new Error('Có lỗi xảy ra khi xóa họ');
+
+        // Cập nhật lại danh sách trên frontend
+        hos.value = hos.value.filter(ho => ho.id !== selectedHoId.value);
+        closeDeleteModal(); // Đóng modal sau khi xóa thành công
+
+        console.log('Xóa với ID: ', selectedHoId.value);
+    } catch (error) {
+        console.error('Lỗi khi xóa:', error);
+        // Bạn có thể thêm thông báo lỗi cho người dùng
     }
-]);
-
-const deleteHo = () => {
-    hos.value = hos.value.filter(ho => ho.id !== selectedHoId.value);
-    console.log("Xóa với ID:", selectedHoId.value);
-    closeDeleteModal();
 }
 
-const saveEditedHo = () => {
-    const index = hos.value.findIndex(ho => ho.id === editingHo.value.id);
-    if (index !== -1) {
-        hos.value[index] = { ...hos.value[index], ...editingHo.value };
+const danhSachBo = computed(() => {
+    return bos.value.map(bo => ({
+        label: bo.name,
+        value: bo.id
+    }))
+})
+
+const saveEditedHo = async () => {
+    try {
+        const currentDate = new Date().toISOString().split('T')[0];
+        const editedHoWithMetadata = {
+            ...editingHo.value,
+            loai: isDongVat.value,
+            createdAt: '',
+            createdBy: '',
+            updatedAt: currentDate,
+            updatedBy: 'Current User' // Thay thế bằng logic lấy thông tin người dùng hiện tại
+        };
+
+        // Gửi yêu cầu PUT đến backend để chỉnh sửa
+        const response = await fetch(`http://localhost:8080/api/Ho/updateHo/${editedHoWithMetadata.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(editedHoWithMetadata),
+        });
+
+        console.log(editedHoWithMetadata);
+
+        if (!response.ok) throw new Error('Có lỗi xảy ra khi chỉnh sửa họ');
+
+        // Cập nhật lại danh sách họ trên frontend
+        const updatedHo = await response.json();
+        const index = hos.value.findIndex(ho => ho.id === updatedHo.id);
+        if (index !== -1) {
+            hos.value[index] = { ...updatedHo };  // Cập nhật dữ liệu của họ vừa chỉnh sửa
+        }
+        closeEditModal();  // Đóng modal sau khi chỉnh sửa thành công
+
+        console.log('Chỉnh sửa thành công:', updatedHo);
+    } catch (error) {
+        console.error('Lỗi khi chỉnh sửa:', error);
+        // Bạn có thể thêm thông báo lỗi cho người dùng
     }
-    closeEditModal();
 }
 
-const addNewHo = () => {
-    const newId = Math.max(...hos.value.map(n => n.id)) + 1;
-    const currentDate = new Date().toISOString().split('T')[0];
-    const newHoWithMetadata = {
-        ...newHo.value,
-        id: newId,
-        updatedAt: currentDate,
-        createdBy: 'Current User' // Replace with actual current user logic
-    };
-    hos.value.push(newHoWithMetadata);
-    closeAddModal();
+const addNewHo = async () => {
+    try {
+        const currentDate = new Date().toISOString().split('T')[0];
+        const newHoWithMetadata = {
+            ...newHo.value,
+            id: 1000,
+            loai: isDongVat.value,
+            createdAt: currentDate,
+            createdBy: 'Current User', // Thay thế bằng logic lấy thông tin người dùng hiện tại
+            updatedAt: '',
+            updatedBy: ''
+        };
+
+        console.log("Dữ liệu thêm mới: ", newHoWithMetadata);
+
+        // Lấy token từ localStorage hoặc từ store của bạn
+        const token = localStorage.getItem('token');
+        console.log("token:", token);
+
+        // Gửi yêu cầu POST đến backend để thêm mới
+        const response = await fetch('http://localhost:8080/api/Ho/addNewHo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Thêm token vào header
+            },
+            body: JSON.stringify(newHoWithMetadata),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Có lỗi xảy ra khi thêm mới họ');
+        }
+
+        // Thêm mới vào danh sách nếu thành công
+        const addedHo = await response.json();
+        hos.value.push(addedHo);  // Cập nhật danh sách trên frontend
+        closeAddModal();  // Đóng modal sau khi thêm thành công
+
+        console.log('Thêm mới thành công:', addedHo);
+    } catch (error) {
+        console.error('Lỗi khi thêm mới:', error);
+        // Bạn có thể thêm thông báo lỗi cho người dùng
+    }
 }
+
+//Lấy route hiện tại để xác định 'dong-vat' hoặc 'thuc-vat'
+const route = useRoute();
+const isDongVat = ref(route.path.includes('/dong-vat')); // Kiểm tra route có chứa '/dong-vat' không
+console.log('Is Động Vật:', isDongVat.value);
+
+const hos = ref([]);
 
 // Fetch danh sách khi component được mount
-const fetchhos = async () => {
+const fetchHos = async () => {
+    const data = ref([]);
+    const error = ref(null);
     try {
-        const response = await fetch('/api/ho');
-        const data = await response.json();
-        hos.value = data;
-    } catch (error) {
-        console.error('Lỗi khi tải danh sách:', error);
+        const response = await fetch(`http://localhost:8080/api/Ho/getAllHoByLoai/${isDongVat.value}`);
+        if (!response.ok) throw new Error("Some thing went wrong...");
+        data.value = await response.json();
+        hos.value = data.value.data;
+        console.log("Danh sách: ", hos.value);
+    } catch (err) {
+        error.value = err;
+        console.log('Lỗi khi tải danh sách:', error.value);
     }
 }
+fetchHos();
 
-fetchhos();
+const bos = ref([]);
+// Bảng khóa ngoại
+const fetchBos = async () => {
+    const data = ref([]);
+    const error = ref(null);
+    try {
+        const response = await fetch(`http://localhost:8080/api/bo/getAllBoByLoai/${isDongVat.value}`);
+        if (!response.ok) throw new Error("Some thing went wrong...");
+        data.value = await response.json();
+        bos.value = data.value.data;
+        console.log("Danh sách bảng khóa ngoại: ", bos.value);
+    } catch (err) {
+        error.value = err;
+        console.log('Lỗi khi tải danh sách:', error.value);
+    }
+}
+fetchBos();
+
+const getBoName = (idBo) => {
+    const bo = bos.value.find(b => b.id === idBo);
+    return bo ? bo.name : '';
+};
 </script>
 
 <template>
@@ -184,7 +271,7 @@ fetchhos();
                             <CTableHeaderCell scope="row">{{ index + 1 }}</CTableHeaderCell>
                             <CTableDataCell>{{ ho.name }}</CTableDataCell>
                             <CTableDataCell>{{ ho.nameLatinh }}</CTableDataCell>
-                            <CTableDataCell>{{ ho.bo }}</CTableDataCell>
+                            <CTableDataCell>{{ getBoName(ho.idBo) }}</CTableDataCell>
                             <CTableDataCell>{{ ho.updatedAt }}</CTableDataCell>
                             <CTableDataCell>{{ ho.createdBy }}</CTableDataCell>
                             <CTableDataCell>
@@ -227,11 +314,11 @@ fetchhos();
                 </div>
                 <div class="mb-3">
                     <CFormLabel for="editNameLatinh">Tên Latinh:</CFormLabel>
-                    <CFormInput id="editNameLatinh" v-model="editingHo.nameLatinh" required/>
+                    <CFormInput id="editNameLatinh" v-model="editingHo.nameLatinh" required />
                 </div>
                 <div class="mb-3">
                     <CFormLabel for="editBo">Bộ:</CFormLabel>
-                    <CFormSelect id="editBo" v-model="editingHo.bo" :options="danhSachBo" required />
+                    <CFormSelect id="editBo" v-model="editingHo.idBo" :options="danhSachBo" required />
                 </div>
                 <div class="mb-3">
                     <CFormLabel>Trạng thái:</CFormLabel>
@@ -265,7 +352,7 @@ fetchhos();
                 </div>
                 <div class="mb-3">
                     <CFormLabel for="addBo">Bộ:</CFormLabel>
-                    <CFormSelect id="addBo" v-model="newHo.bo" :options="danhSachBo" required />
+                    <CFormSelect id="addBo" v-model="newHo.idBo" :options="danhSachBo" required />
                 </div>
                 <div class="mb-3">
                     <CFormLabel>Trạng thái:</CFormLabel>

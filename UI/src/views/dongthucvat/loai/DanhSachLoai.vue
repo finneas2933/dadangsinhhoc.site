@@ -42,42 +42,6 @@ const closeModal = () => {
     selectedLoaiId.value = null;
 }
 
-// // Dữ liệu giả lập
-// const loais = ref([
-//     {
-//         id: 1,
-//         name: 'Hổ Đông Dương',
-//         nameLatinh: 'Panthera tigris tigris',
-//         ho: 'Họ Mèo (Felidae)',
-//         updatedAt: '2023-05-15',
-//         rPH: 'RPH Nam Giang'
-//     },
-//     {
-//         id: 2,
-//         name: 'Voọc mũi hếch',
-//         nameLatinh: 'Rhinopithecus avunculus',
-//         ho: 'Họ Khỉ Cựu Thế giới (Cercopithecidae)',
-//         updatedAt: '2023-08-20',
-//         rPH: 'RPH Mường Tè'
-//     },
-//     {
-//         id: 3,
-//         name: 'Pơ mu',
-//         nameLatinh: 'Fokienia hodginsii',
-//         ho: 'Họ Hoàng đàn (Cupressaceae)',
-//         updatedAt: '2023-11-10',
-//         rPH: 'RPH Nam Giang'
-//     },
-//     {
-//         id: 4,
-//         name: 'Đỗ quyên',
-//         nameLatinh: 'Rhododendron spp.',
-//         ho: 'Họ Thạch nam (Ericaceae)',
-//         updatedAt: '2023-06-03',
-//         rPH: 'RPH Mường Tè'
-//     }
-// ]);
-
 // Gọi API xóa loài
 const deleteLoai = async () => {
     try {
@@ -93,7 +57,6 @@ const deleteLoai = async () => {
 //Lấy route hiện tại để xác định 'dong-vat' hoặc 'thuc-vat'
 const route = useRoute();
 const isDongVat = ref(route.path.includes('/dong-vat')); // Kiểm tra route có chứa '/dong-vat' không
-
 console.log('Is Động Vật:', isDongVat.value);
 
 // Fetch danh sách khi component được mount
