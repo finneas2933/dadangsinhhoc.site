@@ -56,7 +56,9 @@ export default {
         });
         if (response.data.code === 200) {
           // Lưu token vào localStorage
-          localStorage.setItem('token', response.data.data);
+          console.log('response: ', response.data);
+          localStorage.setItem('token', response.data.data.token);
+          console.log('token: ', response.data.data.token);
           // Chuyển hướng đến trang chính
           console.error('Done');
 

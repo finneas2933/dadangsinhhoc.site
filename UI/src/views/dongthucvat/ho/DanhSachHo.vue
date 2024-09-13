@@ -105,7 +105,7 @@ const danhSachBo = computed(() => {
 
 const saveEditedHo = async () => {
     try {
-        const currentDate = new Date().toISOString().split('T')[0];
+        const currentDate = new Date().toISOString();
         const editedHoWithMetadata = {
             ...editingHo.value,
             loai: isDongVat.value,
@@ -145,7 +145,7 @@ const saveEditedHo = async () => {
 
 const addNewHo = async () => {
     try {
-        const currentDate = new Date().toISOString().split('T')[0];
+        const currentDate = new Date().toISOString();
         const newHoWithMetadata = {
             ...newHo.value,
             id: 1000,
@@ -171,6 +171,8 @@ const addNewHo = async () => {
             },
             body: JSON.stringify(newHoWithMetadata),
         });
+
+        console.log(response);
 
         if (!response.ok) {
             const errorData = await response.json();
