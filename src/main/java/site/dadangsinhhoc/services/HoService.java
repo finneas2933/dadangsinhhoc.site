@@ -1,6 +1,9 @@
 package site.dadangsinhhoc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
@@ -9,6 +12,8 @@ import site.dadangsinhhoc.repositories.HoRepository;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+
+import static org.hibernate.query.sqm.tree.SqmNode.log;
 
 @Service
 public class HoService {
@@ -52,14 +57,36 @@ public class HoService {
         }
     }
 
-    public ResponseObject searchByNameOrNameLatinh(String keyword, Boolean loai) {
+    public ResponseObject searchByNameOrNameLatinh(String keyword, Boolean loai, int page, int size) {
         try {
-            List<HoModel> hoModels = hoRepository.searchByNameOrNameLatinh(keyword, loai);
+            Pageable pageable = PageRequest.of(page, size);
+            Page<HoModel> hoModels = hoRepository.searchByNameOrNameLatinh(keyword, loai, pageable);
             return ResponseObject.success(hoModels);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while searching Ho");
         }
+    }
+
+    public boolean checkDuplicateNameLatinh(String nameLatinh, boolean isAddingNew, String oldNameLatinh) {
+        try {
+            if (isAddingNew) {
+                // Nếu đang thêm mới, chỉ cần kiểm tra xem tên Latin đã tồn tại hay chưa
+                return hoRepository.existsByNameLatinh(nameLatinh);
+            } else {
+                // Nếu đang chỉnh sửa, kiểm tra xem tên Latin mới có trùng với tên Latin khác (ngoại trừ tên Latin cũ)
+                return !nameLatinh.equalsIgnoreCase(oldNameLatinh) && hoRepository.existsByNameLatinh(nameLatinh);
+            }
+        }
+        catch (Exception e){
+            // Ghi log lỗi để dễ dàng gỡ lỗi sau này
+            log.error("Lỗi khi kiểm tra trùng tên Latin: {}", e);
+
+            // Trong trường hợp này, chúng ta tạm thời trả về true để tránh lỗi ở frontend
+            // Tuy nhiên, bạn nên xem xét cách xử lý lỗi phù hợp với ứng dụng của bạn
+            return true;
+        }
+
     }
 
     public ResponseObject countAllHo() {

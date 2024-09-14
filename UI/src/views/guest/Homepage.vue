@@ -37,41 +37,6 @@ import { cilHome } from '@coreui/icons'
         </div>
     </header>
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <div class="banner">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-pill py-4">
-                    <div class="container-fluid ">
-                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <router-link to="/homepage" class="nav-link active" aria-current="page">
-                                        <CIcon style="font-size: large;" :icon="cilHome" />
-                                    </router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link to="/info" class="nav-link">Giới thiệu</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link to="/csdl/dong-vat" class="nav-link">CSDL Động vật</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link to="/csdl/thuc-vat" class="nav-link">CSDL Thực vật</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link to="/news" class="nav-link">Tin tức</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link to="/contact" class="nav-link">Liên hệ</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link to="/login" class="nav-link">Đăng nhập</router-link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                 aria-current="true" aria-label="Slide 1"></button>
@@ -81,14 +46,52 @@ import { cilHome } from '@coreui/icons'
                 aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
+            <div class="banner" style=" position: absolute; z-index: 50; margin: 0 auto; left: 50%; transform: translate(-50%); min-width: 80%;">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-pill py-4">
+                        <div class="container-fluid ">
+                            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <router-link to="/homepage" class="nav-link active" aria-current="page">
+                                            <CIcon style="font-size: large;" :icon="cilHome" />
+                                        </router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <router-link to="/info" class="nav-link">Giới thiệu</router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <router-link to="/csdl/dong-vat" class="nav-link">CSDL Động vật</router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <router-link to="/csdl/thuc-vat" class="nav-link">CSDL Thực vật</router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <router-link to="/news" class="nav-link">Tin tức</router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <router-link to="/contact" class="nav-link">Liên hệ</router-link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <router-link to="/login" class="nav-link">Đăng nhập</router-link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
             <div class="carousel-item active">
-                <img src="http://ddshnamgiangmuongte.vnuforest.com/images/cover.png" class="d-block w-100" alt="...">
+                <img src="http://ddshnamgiangmuongte.vnuforest.com/banner/917cc4ed-6695-403d-bbb4-11be1b32b7e9.JPG" class="d-block w-100 h-100"
+                    alt="...">
             </div>
             <div class="carousel-item">
-                <img src="http://ddshnamgiangmuongte.vnuforest.com/images/cover.png" class="d-block w-100" alt="...">
+                <img src="http://ddshnamgiangmuongte.vnuforest.com/banner/682cfa83-b2e8-4d57-9e2b-5c9e0f0fa9e8.JPG" class="d-block w-100 h-100"
+                    alt="...">
             </div>
             <div class="carousel-item">
-                <img src="http://ddshnamgiangmuongte.vnuforest.com/images/cover.png" class="d-block w-100" alt="...">
+                <img src="http://ddshnamgiangmuongte.vnuforest.com/banner/afb58d2f-904d-481a-b242-045308a23741.JPG" class="d-block w-100 h-100"
+                    alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -219,6 +222,12 @@ export default {
 
 <style scoped>
 @import 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css';
+img{
+    max-height: 300px;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
 
 a {
     text-decoration: none;

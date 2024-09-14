@@ -29,34 +29,45 @@ public class HoController {
     @GetMapping("/searchHo")
     public ResponseObject searchByNameOrNameLatinh(
             @RequestParam("keyword") String keyword,
-            @RequestParam(value = "loai") Boolean loai) { // loai là tùy chọn
-        return HoService.searchByNameOrNameLatinh(keyword, loai);
+            @RequestParam(value = "loai", required = false) Boolean loai,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return HoService.searchByNameOrNameLatinh(keyword, loai, page, size);
     }
 
-    @GetMapping("/getHoById/{id}")
-    public ResponseObject getHoById(@PathVariable Long id) {
-        return HoService.findById(id);
+    @GetMapping("/checkDuplicateNameLatinh")
+    public ResponseObject checkDuplicateNameLatinh(
+            @RequestParam("nameLatinh") String nameLatinh,
+            @RequestParam("isAddingNew") boolean isAddingNew,
+            @RequestParam(value = "oldNameLatinh", required = false) String oldNameLatinh) {
+        boolean isDuplicate = HoService.checkDuplicateNameLatinh(nameLatinh, isAddingNew, oldNameLatinh);
+        return ResponseObject.success(!isDuplicate); // Trả về true nếu không trùng, false nếu trùng
     }
 
-    @GetMapping("/countAllHo")
-    public ResponseObject countAllHo() {
-        return HoService.countAllHo();
-    }
+        @GetMapping("/getHoById/{id}")
+        public ResponseObject getHoById (@PathVariable Long id){
+            return HoService.findById(id);
+        }
 
-    @PostMapping("/addNewHo")
-    public ResponseObject addNewHo(@RequestBody HoModel HoModel) {
-        return HoService.saveHo(HoModel);
-    }
+        @GetMapping("/countAllHo")
+        public ResponseObject countAllHo () {
+            return HoService.countAllHo();
+        }
 
-    @PutMapping("/updateHo/{id}")
-    public ResponseObject updateHo(@PathVariable Long id, @RequestBody HoModel HoModel) {
-        HoModel.setId(id);
-        return HoService.updateHo(id, HoModel);
-    }
+        @PostMapping("/addNewHo")
+        public ResponseObject addNewHo (@RequestBody HoModel HoModel){
+            return HoService.saveHo(HoModel);
+        }
 
-    @DeleteMapping("/deleteHo/{id}")
-    public ResponseObject deleteHo(@PathVariable Long id) {
-        return HoService.deleteByIdHo(id);
-    }
+        @PutMapping("/updateHo/{id}")
+        public ResponseObject updateHo (@PathVariable Long id, @RequestBody HoModel HoModel){
+            HoModel.setId(id);
+            return HoService.updateHo(id, HoModel);
+        }
 
-}
+        @DeleteMapping("/deleteHo/{id}")
+        public ResponseObject deleteHo (@PathVariable Long id){
+            return HoService.deleteByIdHo(id);
+        }
+
+    }

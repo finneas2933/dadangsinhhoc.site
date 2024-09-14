@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { CIcon } from '@coreui/icons-vue'
 import { cilSearch, cilPlus, cilTrash, cilPencil } from '@coreui/icons'
+import { useJwt } from '@vueuse/integrations/useJwt'
 import {
   CCol,
   CCard,
@@ -25,7 +26,10 @@ import {
   CModalFooter,
   CForm,
   CFormLabel,
-  CFormCheck
+  CFormCheck,
+  CPagination,
+  CPaginationItem,
+  CAlert
 } from '@coreui/vue';
 
 // Các trạng thái để điều khiển modal
@@ -34,12 +38,50 @@ const isEditModalVisible = ref(false);
 const isAddModalVisible = ref(false);
 const selectedHoId = ref(null);
 const editingHo = ref({});
+const user = ref({});
+var oldNameLatinh = '';
 const newHo = ref({
   name: '',
   nameLatinh: '',
   idBo: '',
   status: true
 });
+
+const getCurrentUser = async () => {
+  const data = ref([]);
+  const error = ref(null);
+  try {
+    const response = await fetch(`http://localhost:8080/api/users/findUserByEmail/${getCurrentUserFromToken()}`);
+    if (!response.ok) throw new Error("Some thing went wrong...");
+    data.value = await response.json();
+    user.value = data.value.data;
+    console.log('ID người dùng hiện tại:', user.value.id);
+    return user.value.id;
+  } catch (err) {
+    error.value = err;
+    console.log('Lỗi khi tải dữ liệu:', error.value);
+  }
+}
+
+// Hàm lấy thông tin người dùng từ token
+const getCurrentUserFromToken = () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token không tồn tại');
+  }
+
+  const { payload } = useJwt(token); // Giải mã token và lấy payload
+
+  if (payload.value) {
+    console.log('Token đã giải mã:', payload.value);
+    // Trích xuất thông tin người dùng từ payload.value
+    console.log('Email người dùng hiện tại:', payload.value.sub);
+    return payload.value.sub;
+  } else {
+    console.error('Không thể giải mã token hoặc payload không tồn tại');
+    return null;
+  }
+};
 
 const openDeleteModal = (hoId) => {
   selectedHoId.value = hoId;
@@ -54,7 +96,8 @@ const openEditModal = async (hoId) => {
     if (!response.ok) throw new Error("Some thing went wrong...");
     data.value = await response.json();
     editingHo.value = data.value.data;
-    console.log("Data: ", hos.value);
+    oldNameLatinh = editingHo.value.nameLatinh;
+    console.log("Đang chỉnh sửa: ", editingHo.value);
     isEditModalVisible.value = true;
   } catch (err) {
     error.value = err;
@@ -82,22 +125,69 @@ const closeAddModal = () => {
   newHo.value = { name: '', nameLatinh: '', status: true };
 }
 
+const currentPage = ref(0); // Trang hiện tại
+const pageSize = ref(20); // Số lượng mục trên mỗi trang
+const totalPages = ref(0); // Tổng số trang
+
+const prevPage = () => {
+  if (currentPage.value > 0) {
+    currentPage.value--;
+    searchHos();
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value - 1) {
+    currentPage.value++;
+    searchHos();
+  }
+};
+
+const goToPage = (page) => {
+  currentPage.value = page - 1;
+  searchHos();
+};
+
+//Lấy route hiện tại để xác định 'dong-vat' hoặc 'thuc-vat'
+const route = useRoute();
+const isDongVat = ref(route.path.includes('/dong-vat')); // Kiểm tra route có chứa '/dong-vat' không
+console.log('Is Động Vật:', isDongVat.value);
+
+const hos = ref([]);
+
 const searchKeyword = ref('');  // Biến lưu trữ từ khóa tìm kiếm
 
 const searchHos = async () => {
   try {
+    watch(searchKeyword, (newKeyword, oldKeyword) => {
+      if (newKeyword !== oldKeyword) {
+        currentPage.value = 0;
+      }
+    });
+
     const data = ref([]);
-    const response = await fetch(`http://localhost:8080/api/Ho/searchHo?keyword=${searchKeyword.value}&loai=${isDongVat.value}`);
+    const response = await fetch(`http://localhost:8080/api/Ho/searchHo?keyword=${searchKeyword.value}&loai=${isDongVat.value}&page=${currentPage.value}&size=${pageSize.value}`);
     if (!response.ok) throw new Error('Có lỗi xảy ra khi tìm kiếm họ');
 
     data.value = await response.json();
-    hos.value = data.value.data;  // Cập nhật danh sách họ dựa trên kết quả tìm kiếm
+    data.value = data.value.data;
+    hos.value = data.value.content;  // Cập nhật danh sách họ dựa trên kết quả tìm kiếm
+    totalPages.value = data.value.totalPages;
     console.log('Kết quả tìm kiếm:', hos.value);
+    console.log('Trang hiện tại:', currentPage.value);
   } catch (error) {
     console.error('Lỗi khi tìm kiếm:', error);
     // Bạn có thể thêm thông báo lỗi cho người dùng
   }
 };
+searchHos();
+
+const alertMessage = ref(''); // Thông báo
+const alertType = ref(''); // Loại thông báo (success, error)
+const showAlert = ref(false);
+const alertMessageModal = ref(''); // Thông báo
+const alertTypeModal = ref(''); // Loại thông báo (success, error)
+const showAlertModal = ref(false);
 
 const deleteHo = async () => {
   try {
@@ -117,12 +207,24 @@ const deleteHo = async () => {
 
     if (!response.ok) throw new Error('Có lỗi xảy ra khi xóa họ');
 
+    alertMessage.value = 'Xóa thành công!';
+    alertType.value = 'success';
+    showAlert.value = true;
+    setTimeout(() => {
+      showAlert.value = false;
+    }, 3000)
     // Cập nhật lại danh sách trên frontend
-    hos.value = hos.value.filter(ho => ho.id !== selectedHoId.value);
+    searchHos();
     closeDeleteModal(); // Đóng modal sau khi xóa thành công
   } catch (error) {
     console.error('Lỗi khi xóa:', error);
-    // Bạn có thể thêm thông báo lỗi cho người dùng
+    // Thông báo lỗi cho người dùng
+    alertMessage.value = 'Có lỗi xảy ra khi xóa!';
+    alertType.value = 'danger';
+    showAlert.value = true;
+    setTimeout(() => {
+      showAlert.value = false;
+    }, 3000);
   }
 }
 
@@ -136,11 +238,51 @@ const danhSachBo = computed(() => {
 const saveEditedHo = async () => {
   try {
     const currentDate = new Date().toISOString();
+    const updatedBy = await getCurrentUser(); // Chờ Promise updatedBy được fulfilled
     const editedHoWithMetadata = {
       ...editingHo.value,
       updatedAt: currentDate,
-      updatedBy: 'Current User' // Thay thế bằng logic lấy thông tin người dùng hiện tại
+      updatedBy: updatedBy
     };
+
+    if (!editedHoWithMetadata.nameLatinh) {
+      // Hiển thị thông báo lỗi cho người dùng
+      alertMessageModal.value = 'Vui lòng nhập tên Latinh!';
+      alertTypeModal.value = 'danger';
+      showAlertModal.value = true;
+      setTimeout(() => {
+        showAlertModal.value = false;
+      }, 3000);
+      return;
+    }
+
+    if (!editedHoWithMetadata.idBo) {
+      // Hiển thị thông báo lỗi cho người dùng
+      alertMessageModal.value = 'Vui lòng chọn bộ!';
+      alertTypeModal.value = 'danger';
+      showAlertModal.value = true;
+      setTimeout(() => {
+        showAlertModal.value = false;
+      }, 3000);
+      return;
+    }
+
+    // Kiểm tra trùng tên Latin trước khi sửa
+    const responseCheck = await fetch(`http://localhost:8080/api/Ho/checkDuplicateNameLatinh?nameLatinh=${editedHoWithMetadata.nameLatinh}&isAddingNew=false&oldNameLatinh=${oldNameLatinh}`);
+    if (!responseCheck.ok) throw new Error('Có lỗi xảy ra khi kiểm tra trùng tên Latin');
+
+    const data = await responseCheck.json();
+    console.log("Kiểm tra trùng: ", data.data);
+    if (!data.data) { // Nếu trùng tên Latin
+      // Hiển thị thông báo lỗi cho người dùng
+      alertMessageModal.value = 'Tên Latinh đã tồn tại!';
+      alertTypeModal.value = 'danger';
+      showAlertModal.value = true;
+      setTimeout(() => {
+        showAlertModal.value = false;
+      }, 3000);
+      return;
+    }
 
     // Lấy token từ localStorage hoặc từ store của bạn
     const token = localStorage.getItem('token');
@@ -160,35 +302,86 @@ const saveEditedHo = async () => {
 
     if (!response.ok) throw new Error('Có lỗi xảy ra khi chỉnh sửa họ');
 
+    alertMessage.value = 'Chỉnh sửa thành công!';
+    alertType.value = 'success';
+    showAlert.value = true;
+    setTimeout(() => {
+      showAlert.value = false;
+    }, 3000);
     // Cập nhật lại danh sách họ trên frontend
-    const updatedHo = await response.json();
-    const index = hos.value.findIndex(ho => ho.id === updatedHo.id);
-    if (index !== -1) {
-      hos.value[index] = { ...updatedHo };  // Cập nhật dữ liệu của họ vừa chỉnh sửa
-    }
+    searchHos();
     closeEditModal();  // Đóng modal sau khi chỉnh sửa thành công
-
-    console.log('Chỉnh sửa thành công:', updatedHo);
+    console.log('Chỉnh sửa thành công với id:', editedHoWithMetadata.id);
   } catch (error) {
     console.error('Lỗi khi chỉnh sửa:', error);
-    // Bạn có thể thêm thông báo lỗi cho người dùng
+    alertMessage.value = 'Có lỗi xảy ra khi chỉnh sửa!';
+    alertType.value = 'danger';
+    showAlert.value = true;
+    setTimeout(() => {
+      showAlert.value = false;
+    }, 3000);
   }
 }
 
 const addNewHo = async () => {
   try {
     const currentDate = new Date().toISOString();
+    const createdBy = await getCurrentUser();
     const newHoWithMetadata = {
       ...newHo.value,
       id: 1000,
       loai: isDongVat.value,
       createdAt: currentDate,
-      createdBy: 'Current User', // Thay thế bằng logic lấy thông tin người dùng hiện tại
-      updatedAt: '',
-      updatedBy: ''
+      createdBy: createdBy
     };
 
+    if (!newHoWithMetadata.nameLatinh) {
+      // Hiển thị thông báo lỗi cho người dùng
+      alertMessageModal.value = 'Vui lòng nhập tên Latinh!';
+      alertTypeModal.value = 'danger';
+      showAlertModal.value = true;
+      setTimeout(() => {
+        showAlertModal.value = false;
+      }, 3000);
+      return;
+    }
+
+    if (!newHoWithMetadata.idBo) {
+      // Hiển thị thông báo lỗi cho người dùng
+      alertMessageModal.value = 'Vui lòng chọn bộ!';
+      alertTypeModal.value = 'danger';
+      showAlertModal.value = true;
+      setTimeout(() => {
+        showAlertModal.value = false;
+      }, 3000);
+      return;
+    }
+
+    // Kiểm tra trùng tên Latin trước khi thêm mới
+    const responseCheck = await fetch(`http://localhost:8080/api/Ho/checkDuplicateNameLatinh?nameLatinh=${newHoWithMetadata.nameLatinh}&isAddingNew=true`);
+    if (!responseCheck.ok) throw new Error('Có lỗi xảy ra khi kiểm tra trùng tên Latin');
+
+    const data = await responseCheck.json();
+    console.log("Kiểm tra trùng: ", data.data);
+    if (!data.data) { // Nếu trùng tên Latin
+      // Hiển thị thông báo lỗi cho người dùng
+      alertMessageModal.value = 'Tên Latinh đã tồn tại!';
+      alertTypeModal.value = 'danger';
+      showAlertModal.value = true;
+      setTimeout(() => {
+        showAlertModal.value = false;
+      }, 3000);
+      return;
+    }
+
     console.log("Dữ liệu thêm mới: ", newHoWithMetadata);
+
+    alertMessage.value = 'Thêm mới thành công!';
+    alertType.value = 'success';
+    showAlert.value = true;
+    setTimeout(() => {
+      showAlert.value = false;
+    }, 3000);
 
     // Lấy token từ localStorage hoặc từ store của bạn
     const token = localStorage.getItem('token');
@@ -204,48 +397,26 @@ const addNewHo = async () => {
       body: JSON.stringify(newHoWithMetadata),
     });
 
-    console.log(response);
-
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Có lỗi xảy ra khi thêm mới họ');
     }
 
     // Thêm mới vào danh sách nếu thành công
-    const addedHo = await response.json();
-    hos.value.push(addedHo);  // Cập nhật danh sách trên frontend
+    searchHos();
     closeAddModal();  // Đóng modal sau khi thêm thành công
-
-    console.log('Thêm mới thành công:', addedHo);
+    console.log('Thêm mới thành công.',);
   } catch (error) {
     console.error('Lỗi khi thêm mới:', error);
     // Bạn có thể thêm thông báo lỗi cho người dùng
+    alertMessage.value = 'Có lỗi xảy ra khi thêm mới!';
+    alertType.value = 'danger';
+    showAlert.value = true;
+    setTimeout(() => {
+      showAlert.value = false;
+    }, 3000);
   }
 }
-
-//Lấy route hiện tại để xác định 'dong-vat' hoặc 'thuc-vat'
-const route = useRoute();
-const isDongVat = ref(route.path.includes('/dong-vat')); // Kiểm tra route có chứa '/dong-vat' không
-console.log('Is Động Vật:', isDongVat.value);
-
-const hos = ref([]);
-
-// Fetch danh sách khi component được mount
-const fetchHos = async () => {
-  const data = ref([]);
-  const error = ref(null);
-  try {
-    const response = await fetch(`http://localhost:8080/api/Ho/getAllHoByLoai/${isDongVat.value}`);
-    if (!response.ok) throw new Error("Some thing went wrong...");
-    data.value = await response.json();
-    hos.value = data.value.data;
-    console.log("Danh sách: ", hos.value);
-  } catch (err) {
-    error.value = err;
-    console.log('Lỗi khi tải danh sách:', error.value);
-  }
-}
-fetchHos();
 
 const bos = ref([]);
 // Bảng khóa ngoại
@@ -288,6 +459,9 @@ const getBoName = (idBo) => {
         </CInputGroup>
       </CCardHeader>
       <CCardBody>
+        <div>
+          <CAlert v-if="showAlert" :color="alertType">{{ alertMessage }}</CAlert>
+        </div>
         <CTable hover bordered striped>
           <CTableHead>
             <CTableRow>
@@ -319,6 +493,14 @@ const getBoName = (idBo) => {
             </CTableRow>
           </CTableBody>
         </CTable>
+        <div class="pagination-container">
+          <CPagination :v-model:active-page="currentPage" :pages="totalPages" aria-label="Page navigation example">
+            <CPaginationItem :disabled="currentPage === 0" @click="prevPage">Previous</CPaginationItem>
+            <CPaginationItem v-for="page in totalPages" :key="page" :active="page === currentPage + 1"
+              @click="goToPage(page)">{{ page }}</CPaginationItem>
+            <CPaginationItem :disabled="currentPage === totalPages - 1" @click="nextPage">Next</CPaginationItem>
+          </CPagination>
+        </div>
       </CCardBody>
     </CCard>
   </CCol>
@@ -341,6 +523,9 @@ const getBoName = (idBo) => {
       <CModalTitle>Chỉnh sửa họ</CModalTitle>
     </CModalHeader>
     <CModalBody>
+      <div>
+        <CAlert v-if="showAlertModal" :color="alertTypeModal">{{ alertMessageModal }}</CAlert>
+      </div>
       <CForm>
         <div class="mb-3">
           <CFormLabel for="editNameVi">Tên tiếng Việt:</CFormLabel>
@@ -356,9 +541,9 @@ const getBoName = (idBo) => {
         </div>
         <div class="mb-3">
           <CFormLabel>Trạng thái:</CFormLabel>
-          <CFormCheck id="editStatusOn" label="Bật" name="editStatus" :checked="editingHo.status"
+          <CFormCheck id="editStatusOn" type="radio" label="Bật" name="editStatus" :checked="editingHo.status"
             @change="editingHo.status = true" />
-          <CFormCheck id="editStatusOff" label="Tắt" name="editStatus" :checked="!editingHo.status"
+          <CFormCheck id="editStatusOff" type="radio" label="Tắt" name="editStatus" :checked="!editingHo.status"
             @change="editingHo.status = false" />
         </div>
       </CForm>
@@ -375,6 +560,9 @@ const getBoName = (idBo) => {
       <CModalTitle>Thêm họ mới</CModalTitle>
     </CModalHeader>
     <CModalBody>
+      <div>
+        <CAlert v-if="showAlertModal" :color="alertTypeModal">{{ alertMessageModal }}</CAlert>
+      </div>
       <CForm>
         <div class="mb-3">
           <CFormLabel for="addNameVi">Tên tiếng Việt:</CFormLabel>
@@ -382,7 +570,7 @@ const getBoName = (idBo) => {
         </div>
         <div class="mb-3">
           <CFormLabel for="addNameLatinh">Tên Latinh:</CFormLabel>
-          <CFormInput id="addNameLatinh" v-model="newHo.nameLatinh" />
+          <CFormInput id="addNameLatinh" v-model="newHo.nameLatinh" required />
         </div>
         <div class="mb-3">
           <CFormLabel for="addBo">Bộ:</CFormLabel>
@@ -390,9 +578,9 @@ const getBoName = (idBo) => {
         </div>
         <div class="mb-3">
           <CFormLabel>Trạng thái:</CFormLabel>
-          <CFormCheck id="addStatusOn" label="Bật" name="addStatus" :checked="newHo.status"
+          <CFormCheck id="addStatusOn" type="radio" label="Bật" name="addStatus" :checked="newHo.status"
             @change="newHo.status = true" />
-          <CFormCheck id="addStatusOff" label="Tắt" name="addStatus" :checked="!newHo.status"
+          <CFormCheck id="addStatusOff" type="radio" label="Tắt" name="addStatus" :checked="!newHo.status"
             @change="newHo.status = false" />
         </div>
       </CForm>
