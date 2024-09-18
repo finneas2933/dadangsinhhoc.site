@@ -1,6 +1,41 @@
 <script setup>
 import AppFooter from '@/components/AppFooterGuest.vue'
 import AppHeader from '@/components/AppHeaderGuest.vue'
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js';
+
+const nganhList = ref([]);
+const selectedNganh = ref('');
+
+const fetchNganhList = async () => {
+  try {
+    console.log("Bắt đầu gọi API");
+    const response = await axios.get('http://localhost:8080/api/nganh/getAllNganh');
+    console.log("Phản hồi từ API:", response);
+    
+    if (response.data && response.data.message === 'SUCCESS') {
+      console.log("Dữ liệu nhận được:", response.data.data);
+      nganhList.value = response.data.data;
+    } else {
+      console.error('Lỗi khi lấy danh sách ngành:', response.data ? response.data.message : 'Không có dữ liệu');
+    }
+  } catch (error) {
+    console.error('Lỗi khi gọi API:', error);
+    if (error.response) {
+      console.error('Lỗi:', error.response.data);
+    } else if (error.request) {
+      console.error('Không nhận được phản hồi:', error.request);
+    } else {
+      console.error('Lỗi:', error.message);
+    }
+  }
+};
+
+onMounted(() => {
+  console.log("Component đã được mount");
+  fetchNganhList();
+});
 </script>
 
 <template>
@@ -15,10 +50,12 @@ import AppHeader from '@/components/AppHeaderGuest.vue'
             <div class="filter mx-5">
                 <div class="row">
                     <div class="col-3 mb-2">
-                        <label for="">Ngành:</label>
-                        <select name="" id="" class="form-control">
+                        <label for="nganh">Ngành:</label>
+                        <select id="nganh" v-model="selectedNganh" class="form-control">
                             <option value="">Ngành</option>
-                            <option value="">a</option>
+                            <option v-for="nganh in nganhList" :key="nganh.id" :value="nganh.id">
+                                {{ nganh.name }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-3 mb-2">
@@ -212,13 +249,6 @@ import AppHeader from '@/components/AppHeaderGuest.vue'
     </div>
     <AppFooter />
 </template>
-
-<script>
-import 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js';
-export default {
-
-};
-</script>
 
 <style scoped>
 @import 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css';

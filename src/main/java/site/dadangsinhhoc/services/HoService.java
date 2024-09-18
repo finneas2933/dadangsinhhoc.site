@@ -69,26 +69,26 @@ public class HoService {
         return ResponseObject.success(savedHo);
     }
 
-    public ResponseObject updateHo(Long id, HoModel hoModel) {
-        if (hoModel.getName() == null || hoModel.getName().isEmpty()) {
-            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Ho` is null or empty");
-        }
-        if (!hoRepository.existsById(hoModel.getId())) {
-            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Ho with id: " + hoModel.getId());
-        }
-        return hoRepository.findById(id)
-                .map(existingHo -> {
-                    existingHo.setName(hoModel.getName());
-                    existingHo.setNameLatinh(hoModel.getNameLatinh());
-                    existingHo.setLoai(hoModel.getLoai());
-                    existingHo.setIdBo(hoModel.getIdBo());
-                    existingHo.setStatus(hoModel.getStatus());
-                    existingHo.setUpdatedAt(hoModel.getUpdatedAt());
-                    existingHo.setUpdatedBy(hoModel.getUpdatedBy());
-                    return ResponseObject.success(hoRepository.save(existingHo));
-                })
-                .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Ho with id: " + id));
+   public ResponseObject updateHo(Long id, HoModel hoModel) {
+    if (hoModel.getName() == null || hoModel.getName().isEmpty()) {
+        return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Ho` is null or empty");
     }
+    if (!hoRepository.existsById(id)) {
+        return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Ho with id: " + id);
+    }
+    return hoRepository.findById(id)
+            .map(existingHo -> {
+                existingHo.setName(hoModel.getName());
+                existingHo.setNameLatinh(hoModel.getNameLatinh());
+                existingHo.setLoai(hoModel.getLoai());
+                existingHo.setBo(hoModel.getBo());
+                existingHo.setStatus(hoModel.getStatus());
+                existingHo.setUpdatedAt(hoModel.getUpdatedAt());
+                existingHo.setUpdatedBy(hoModel.getUpdatedBy());
+                return ResponseObject.success(hoRepository.save(existingHo));
+            })
+            .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Ho with id: " + id));
+}
 
     public ResponseObject deleteByIdHo(Long id) {
         if (!hoRepository.existsById(id)) {

@@ -18,6 +18,10 @@ public class HoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "idBo")
+    private BoModel bo;
+
     @Column(name = "name")
     private String name;
 
@@ -27,8 +31,8 @@ public class HoModel {
     @Column(name = "loai", nullable = false)
     private Boolean loai;
 
-    @Column(name = "idBo", nullable = false)
-    private Integer idBo;
+    // @Column(name = "idBo", nullable = false)
+    // private Integer idBo;
 
     @Column(name = "status", nullable = false)
     private Boolean status;
@@ -44,5 +48,6 @@ public class HoModel {
 
     @Column(name = "updatedBy")
     private String updatedBy;
+
 
 }

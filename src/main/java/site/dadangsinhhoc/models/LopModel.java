@@ -18,6 +18,10 @@ public class LopModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "idNganh")
+    private NganhModel nganh;
+
     @Column(name = "name")
     private String name;
 
@@ -26,9 +30,6 @@ public class LopModel {
 
     @Column(name = "loai", nullable = false)
     private Boolean loai;
-
-    @Column(name = "idNganh", nullable = false)
-    private Integer idNganh;
 
     @Column(name = "status", nullable = false)
     private Boolean status;

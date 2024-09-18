@@ -1,22 +1,41 @@
 package site.dadangsinhhoc.services;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.multipart.MultipartFile;
+import site.dadangsinhhoc.dto.LoaiDTO;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LoaiModel;
+import site.dadangsinhhoc.services.HelperService;
 import site.dadangsinhhoc.repositories.LoaiRepository;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class LoaiService {
     private final LoaiRepository loaiRepository;
+    private final HelperService helperService;
 
     @Autowired
-    public LoaiService(LoaiRepository loaiRepository) {
+    public LoaiService(LoaiRepository loaiRepository, HelperService helperService) {
         this.loaiRepository = loaiRepository;
+        this.helperService = helperService;
     }
 
     public boolean existById(Long id) {
@@ -57,17 +76,57 @@ public class LoaiService {
         return ResponseObject.success(quantity);
     }
 
-    public ResponseObject saveLoai(LoaiModel loaiModel) {
-        if (loaiModel.getName() == null || loaiModel.getName().isEmpty()) {
-            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+    public ResponseObject saveLoai(LoaiDTO loaiDTO, BindingResult result) {
+        try {
+            if (loaiDTO.getName() == null || loaiDTO.getName().isEmpty()) {
+                return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+            }
+//            if (loaiRepository.existsById(loaiModel.getId())) {
+//                return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
+//            }
+            if (result.hasErrors()) {
+                String errorMessage = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .collect(Collectors.joining(", "));
+                return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), errorMessage);
+            }
+            LoaiModel loaiModel = new LoaiModel();
+            loaiModel.setName(loaiDTO.getName());
+            loaiModel.setNameLatinh(loaiDTO.getNameLatinh());
+            loaiModel.setLoai(loaiDTO.getLoai());
+            loaiModel.setHo(loaiDTO.getHo());
+            loaiModel.setRPH(loaiDTO.getRPH());
+            loaiModel.setDacDiem(loaiDTO.getDacDiem());
+            loaiModel.setGiaTriSuDung(loaiDTO.getGiaTriSuDung());
+            loaiModel.setPhanBo(loaiDTO.getPhanBo());
+            loaiModel.setNguonTaiLieu(loaiDTO.getNguonTaiLieu());
+
+            MultipartFile file = loaiDTO.getHinhAnh();
+            if(file != null && !file.isEmpty()) {
+                if (file.getSize() > 10 * 1024 * 1024) {
+                    return ResponseObject.error(ErrorCode.PAYLOAD_TOO_LARGE.getCode(), ErrorCode.PAYLOAD_TOO_LARGE.getMessage());
+                }
+                if (file.getContentType() != null && file.getContentType().contains("image")) {
+                    return ResponseObject.error(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode(), ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage());
+                }
+                String fileName = helperService.StoreFile(file);
+                File tempFile = new File(fileName); // Assuming fileName is the path to the file
+                byte[] fileBytes = Files.readAllBytes(tempFile.toPath());
+                MultipartFile multipartFile = new MockMultipartFile("file", tempFile.getName(), file.getContentType(), fileBytes);
+                loaiModel.setHinhAnh(multipartFile);
+            }
+
+            loaiModel.setId(null);
+            LoaiModel savedLoai = loaiRepository.save(loaiModel);
+            return ResponseObject.success(savedLoai);
+        } catch (Exception e) {
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
         }
-        if (loaiRepository.existsById(loaiModel.getId())) {
-            return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
-        }
-        loaiModel.setId(null);
-        LoaiModel savedLoai = loaiRepository.save(loaiModel);
-        return ResponseObject.success(savedLoai);
+
     }
+
+
 
     public ResponseObject updateLoai(Long id, LoaiModel loaiModel) {
         if (loaiModel.getName() == null || loaiModel.getName().isEmpty()) {
@@ -81,7 +140,7 @@ public class LoaiService {
                     existingLoai.setName(loaiModel.getName());
                     existingLoai.setNameLatinh(loaiModel.getNameLatinh());
                     existingLoai.setLoai(loaiModel.getLoai());
-                    existingLoai.setIdHo(loaiModel.getIdHo());
+                    existingLoai.setHo(loaiModel.getHo());
                     existingLoai.setRPH(loaiModel.getRPH());
                     existingLoai.setDacDiem(loaiModel.getDacDiem());
                     existingLoai.setGiaTriSuDung(loaiModel.getGiaTriSuDung());

@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,6 +21,10 @@ public class LoaiModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "idHo")
+    private HoModel ho;
+
     @Column(name = "name")
     private String name;
 
@@ -27,8 +34,8 @@ public class LoaiModel {
     @Column(name = "loai", nullable = false)
     private Boolean loai;
 
-    @Column(name = "idHo", nullable = false)
-    private Integer idHo;
+    // @Column(name = "idHo", nullable = false)
+    // private Integer idHo;
 
     @Column(name = "rPH", nullable = false)
     private Boolean rPH;
@@ -46,7 +53,7 @@ public class LoaiModel {
     private String nguonTaiLieu;
 
     @Column(name = "hinhAnh")
-    private String hinhAnh;
+    private MultipartFile hinhAnh;
 
     @Column(name = "mucDoBaoTonIUCN", length = 100)
     private String mucDoBaoTonIUCN;
