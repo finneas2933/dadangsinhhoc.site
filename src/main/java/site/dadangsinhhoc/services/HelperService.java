@@ -1,6 +1,7 @@
 package site.dadangsinhhoc.services;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import site.dadangsinhhoc.dto.SearchCriteriaDTO;
 import site.dadangsinhhoc.dto.response.ResponseObject;
+import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.*;
 import site.dadangsinhhoc.repositories.LoaiRepository;
 import site.dadangsinhhoc.repositories.NganhRepository;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class HelperService {
 
     private final LoaiRepository loaiRepository;
@@ -115,7 +118,9 @@ public class HelperService {
 
     public String StoreFile(@NotNull MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String uniqueFileName = fileName + "_" + UUID.randomUUID().toString() ;
+        String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+        String extension = fileName.substring(fileName.lastIndexOf('.'));
+        String uniqueFileName = baseName + "_" + UUID.randomUUID().toString() + extension;
         Path uploadPath = Paths.get("media");
         if(!Files.exists(uploadPath)) {
             Files.createDirectory(uploadPath);
@@ -123,5 +128,25 @@ public class HelperService {
         Path destination = Paths.get(uploadPath.toString(), uniqueFileName);
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
         return uniqueFileName;
+    }
+
+    public ResponseObject validateAndStoreImage(MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            log.error("{}: Image is null or empty");
+            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+
+        }
+
+        if (image.getSize() > 10 * 1024 * 1024) {
+            log.error("{}: Image size exceeds the maximum allowed size of 10MB");
+            return ResponseObject.error(ErrorCode.PAYLOAD_TOO_LARGE.getCode(), ErrorCode.PAYLOAD_TOO_LARGE.getMessage());
+        }
+
+        String contentType = image.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            log.error("{}: Unsupported media type for image upload");
+            return ResponseObject.error(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode(), ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage());
+        }
+        return ResponseObject.success("Upload successful");
     }
 }

@@ -8,6 +8,8 @@ import site.dadangsinhhoc.models.LoaiModel;
 import site.dadangsinhhoc.services.LoaiService;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/loai")
 public class LoaiController {
@@ -41,9 +43,18 @@ public class LoaiController {
     @PostMapping(value="/addNew", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseObject addNew(
             @ModelAttribute LoaiModel model,
-            @RequestParam("file") MultipartFile multipartFile
+            @RequestParam("thumbnails") MultipartFile thumbnail,
+            @RequestParam("images") List<MultipartFile> image
             ) {
-        return loaiService.saveLoai(model, multipartFile);
+        return loaiService.saveLoai(model, thumbnail, image);
+    }
+
+    @PostMapping(value="/updateImage/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseObject updateImage(
+            @RequestParam Long id,
+            @ModelAttribute("file") List<MultipartFile> multipartFile
+    ) {
+        return loaiService.saveImageLoai(id, multipartFile);
     }
 
     @PutMapping("/update/{id}")
