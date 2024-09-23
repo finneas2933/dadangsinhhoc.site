@@ -1,22 +1,28 @@
 package site.dadangsinhhoc.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LoaiModel;
 import site.dadangsinhhoc.repositories.LoaiRepository;
 import org.springframework.data.jpa.domain.Specification;
-
 import java.util.List;
 
 @Service
+@Slf4j
+
 public class LoaiService {
     private final LoaiRepository loaiRepository;
+    private final HelperService helperService;
 
     @Autowired
-    public LoaiService(LoaiRepository loaiRepository) {
+    public LoaiService(LoaiRepository loaiRepository, HelperService helperService) {
         this.loaiRepository = loaiRepository;
+        this.helperService = helperService;
     }
 
     public boolean existById(Long id) {
@@ -57,17 +63,42 @@ public class LoaiService {
         return ResponseObject.success(quantity);
     }
 
-    public ResponseObject saveLoai(LoaiModel loaiModel) {
-        if (loaiModel.getName() == null || loaiModel.getName().isEmpty()) {
-            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+    public ResponseObject saveLoai(LoaiModel model, MultipartFile image) {
+        try {
+            if (model.getName() == null || model.getName().isEmpty()) {
+                log.error("Name for `TABLE_Loai` is null or empty");
+                return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+            }
+
+            if(image != null && !image.isEmpty()) {
+                if (image.getSize() > 10 * 1024 * 1024) {
+                    log.error("Image size exceeds the maximum allowed size of 10MB");
+                    return ResponseObject.error(ErrorCode.PAYLOAD_TOO_LARGE.getCode(), ErrorCode.PAYLOAD_TOO_LARGE.getMessage());
+                }
+
+                String contentType = image.getContentType();
+                
+                if(contentType == null || !contentType.startsWith("image/")) {
+                    log.error("Unsupported media type for image upload");
+                    return ResponseObject.error(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode(), ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage());
+                }
+
+                String file = helperService.StoreFile(image);
+                model.setHinhAnh(file);
+                log.info("Image uploaded successfully with name: {}", model.getName());
+            }
+
+            model.setId(null);
+            LoaiModel savedLoai = loaiRepository.save(model);
+            log.info("Saved successfully with name: {}", savedLoai.getName());
+            return ResponseObject.success(savedLoai);
+        } catch (Exception e) {
+            log.error("An error occurred while saving: {}", e.getMessage());
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
         }
-        if (loaiRepository.existsById(loaiModel.getId())) {
-            return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
-        }
-        loaiModel.setId(null);
-        LoaiModel savedLoai = loaiRepository.save(loaiModel);
-        return ResponseObject.success(savedLoai);
     }
+
+
 
     public ResponseObject updateLoai(Long id, LoaiModel loaiModel) {
         if (loaiModel.getName() == null || loaiModel.getName().isEmpty()) {
@@ -81,7 +112,7 @@ public class LoaiService {
                     existingLoai.setName(loaiModel.getName());
                     existingLoai.setNameLatinh(loaiModel.getNameLatinh());
                     existingLoai.setLoai(loaiModel.getLoai());
-                    existingLoai.setIdHo(loaiModel.getIdHo());
+                    existingLoai.setHo(loaiModel.getHo());
                     existingLoai.setRPH(loaiModel.getRPH());
                     existingLoai.setDacDiem(loaiModel.getDacDiem());
                     existingLoai.setGiaTriSuDung(loaiModel.getGiaTriSuDung());

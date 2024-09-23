@@ -1,10 +1,15 @@
 package site.dadangsinhhoc.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import site.dadangsinhhoc.dto.LoaiDTO;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.LoaiModel;
 import site.dadangsinhhoc.services.LoaiService;
+import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/loai")
@@ -16,39 +21,42 @@ public class LoaiController {
         this.loaiService = loaiService;
     }
 
-    @GetMapping("/getAllLoai")
-    public ResponseObject getAllLoai() {
+    @GetMapping("/getAll")
+    public ResponseObject getLoai() {
         return loaiService.getAllLoai();
     }
 
-    @GetMapping("/getAllLoaiByLoai/{loai}")
-    public ResponseObject getAllLoaiByLoai(@PathVariable Boolean loai) {
+    @GetMapping("/getAllLByLoai/{loai}")
+    public ResponseObject getAllByLoai(@PathVariable Boolean loai) {
         return loaiService.getAllLoaiByLoai(loai);
     }
 
-    @GetMapping("/getLoaiById/{id}")
-    public ResponseObject getLoaiById(@PathVariable Long id) {
+    @GetMapping("/getById/{id}")
+    public ResponseObject getById(@PathVariable Long id) {
         return loaiService.findById(id);
     }
 
     @GetMapping("/countAllLoai")
-    public ResponseObject countAllLoai() {
+    public ResponseObject countAll() {
         return loaiService.countAllLoai();
     }
 
-    @PostMapping("/addNewLoai")
-    public ResponseObject addNewLoai(@RequestBody LoaiModel LoaiModel) {
-        return loaiService.saveLoai(LoaiModel);
+    @PostMapping(value="/addNew", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseObject addNew(
+            @ModelAttribute LoaiModel model,
+            @RequestParam("file") MultipartFile multipartFile
+            ) {
+        return loaiService.saveLoai(model, multipartFile);
     }
 
-    @PutMapping("/updateLoai/{id}")
-    public ResponseObject updateLoai(@PathVariable Long id, @RequestBody LoaiModel loaiModel) {
+    @PutMapping("/update/{id}")
+    public ResponseObject update(@PathVariable Long id, @RequestBody LoaiModel loaiModel) {
         loaiModel.setId(id);
         return loaiService.updateLoai(id, loaiModel);
     }
 
-    @DeleteMapping("/deleteLoai/{id}")
-    public ResponseObject deleteLoai(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseObject delete(@PathVariable Long id) {
         return loaiService.deleteByIdLoai(id);
     }
 

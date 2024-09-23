@@ -13,6 +13,10 @@ public class BoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "idLop")
+    private LopModel lop;
+
     @Column(name = "name")
     private String name;
 
@@ -22,8 +26,8 @@ public class BoModel {
     @Column(name = "loai", nullable = false)
     private Boolean loai;
 
-    @Column(name = "idLop", nullable = false)
-    private Integer idLop;
+    // @Column(name = "idLop", nullable = false)
+    // private Integer idLop;
 
     @Column(name = "status", nullable = false)
     private Boolean status;
