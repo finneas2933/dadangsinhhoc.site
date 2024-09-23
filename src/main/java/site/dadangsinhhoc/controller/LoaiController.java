@@ -43,10 +43,10 @@ public class LoaiController {
 
     @PostMapping(value="/addNew", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseObject addNew(
-            @Valid @RequestBody LoaiDTO model,
-            BindingResult result
+            @ModelAttribute LoaiModel model,
+            @RequestParam("file") MultipartFile multipartFile
             ) {
-        return loaiService.saveLoai(model, result);
+        return loaiService.saveLoai(model, multipartFile);
     }
 
     @PutMapping("/update/{id}")

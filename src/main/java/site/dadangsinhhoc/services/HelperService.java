@@ -116,7 +116,7 @@ public class HelperService {
     public String StoreFile(@NotNull MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String uniqueFileName = UUID.randomUUID().toString() + "_" + fileName;
-        Path uploadPath = Paths.get("Media");
+        Path uploadPath = Paths.get("media");
         if(!Files.exists(uploadPath)) {
             Files.createDirectory(uploadPath);
         }

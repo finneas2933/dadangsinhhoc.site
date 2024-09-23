@@ -53,7 +53,7 @@ public class LoaiModel {
     private String nguonTaiLieu;
 
     @Column(name = "hinhAnh")
-    private MultipartFile hinhAnh;
+    private String hinhAnh;
 
     @Column(name = "mucDoBaoTonIUCN", length = 100)
     private String mucDoBaoTonIUCN;
