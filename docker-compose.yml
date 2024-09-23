@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./data/dongthucvat.sql:/docker-entrypoint-initdb.d/dongthucvat.sql
+      - ./data/dongthucvat_backup_230924.sql:/docker-entrypoint-initdb.d/dongthucvat_backup_230924.sql
     networks:
       - mysql_network
     healthcheck:
