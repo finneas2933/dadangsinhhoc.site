@@ -31,5 +31,6 @@ build/
 ### VS Code ###
 .vscode/
 UI/node_modules
+
 media/
 Media/

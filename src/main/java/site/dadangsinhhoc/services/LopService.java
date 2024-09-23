@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LopModel;
-import org.springframework.data.jpa.domain.Specification;
 import site.dadangsinhhoc.repositories.LopRepository;
 
 import java.util.List;

@@ -1,11 +1,8 @@
 package site.dadangsinhhoc.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import site.dadangsinhhoc.dto.LoaiDTO;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.LoaiModel;
 import site.dadangsinhhoc.services.LoaiService;

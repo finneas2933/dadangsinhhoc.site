@@ -3,7 +3,6 @@ package site.dadangsinhhoc.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
@@ -84,7 +83,7 @@ public class LoaiService {
                 }
 
                 String file = helperService.StoreFile(image);
-                model.setHinhAnh(file);
+                model.setThumbnail(file);
                 log.info("Image uploaded successfully with name: {}", model.getName());
             }
 
@@ -118,7 +117,7 @@ public class LoaiService {
                     existingLoai.setGiaTriSuDung(loaiModel.getGiaTriSuDung());
                     existingLoai.setPhanBo(loaiModel.getPhanBo());
                     existingLoai.setNguonTaiLieu(loaiModel.getNguonTaiLieu());
-                    existingLoai.setHinhAnh(loaiModel.getHinhAnh());
+                    existingLoai.setThumbnail(loaiModel.getThumbnail());
                     existingLoai.setMucDoBaoTonIUCN(loaiModel.getMucDoBaoTonIUCN());
                     existingLoai.setMucDoBaoTonSDVN(loaiModel.getMucDoBaoTonSDVN());
                     existingLoai.setMucDoBaoTonNDCP(loaiModel.getMucDoBaoTonNDCP());

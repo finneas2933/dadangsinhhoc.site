@@ -52,8 +52,8 @@ public class LoaiModel {
     @Column(name = "nguonTaiLieu")
     private String nguonTaiLieu;
 
-    @Column(name = "hinhAnh")
-    private String hinhAnh;
+    @Column(name = "thumbnail")
+    private String thumbnail;
 
     @Column(name = "mucDoBaoTonIUCN", length = 100)
     private String mucDoBaoTonIUCN;

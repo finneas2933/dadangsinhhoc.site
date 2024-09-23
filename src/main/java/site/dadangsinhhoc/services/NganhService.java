@@ -7,11 +7,6 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.NganhModel;
 import site.dadangsinhhoc.repositories.NganhRepository;
-import org.springframework.data.jpa.domain.Specification;
-
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

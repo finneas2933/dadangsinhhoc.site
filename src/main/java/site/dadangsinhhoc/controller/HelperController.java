@@ -1,6 +1,5 @@
 package site.dadangsinhhoc.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.SearchCriteriaDTO;
 import site.dadangsinhhoc.dto.response.ResponseObject;
