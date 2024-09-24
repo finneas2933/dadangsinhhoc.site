@@ -25,7 +25,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import site.dadangsinhhoc.repositories.UserRepository;
-import site.dadangsinhhoc.services.TokenService;
+import site.dadangsinhhoc.services.ITokenService;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Arrays;
@@ -38,13 +38,13 @@ public class SecurityConfig {
 
     @Value("${jwt.signerKey}")
     private String signerKey;
-    private final TokenService tokenService;
+    private final ITokenService tokenService;
     private final JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
 
     private final UserRepository userRepository;
 
     @Autowired
-    public SecurityConfig(TokenService tokenService, JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler, UserRepository userRepository) {
+    public SecurityConfig(ITokenService tokenService, JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler, UserRepository userRepository) {
         this.tokenService = tokenService;
         this.jwtAuthenticationSuccessHandler = jwtAuthenticationSuccessHandler;
         this.userRepository = userRepository;
@@ -101,13 +101,13 @@ public class SecurityConfig {
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt
-                        .decoder(jwtDecoder())
-                        .jwtAuthenticationConverter(token -> {
-                            JwtAuthenticationConverter converter = jwtAuthenticationConverter();
-                            AbstractAuthenticationToken auth = converter.convert(token);
-                            log.info("Converted token: {}", auth);
-                            return auth;
-                        })
+                    .decoder(jwtDecoder())
+                    .jwtAuthenticationConverter(token -> {
+                        JwtAuthenticationConverter converter = jwtAuthenticationConverter();
+                        AbstractAuthenticationToken auth = converter.convert(token);
+                        log.info("Converted token: {}", auth);
+                        return auth;
+                    })
                 )
         );
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

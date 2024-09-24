@@ -1,6 +1,7 @@
 package site.dadangsinhhoc.services;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,15 +13,10 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.*;
 import site.dadangsinhhoc.repositories.LoaiRepository;
-import site.dadangsinhhoc.repositories.NganhRepository;
-import site.dadangsinhhoc.repositories.LopRepository;
-import site.dadangsinhhoc.repositories.BoRepository;
-import site.dadangsinhhoc.repositories.HoRepository;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.EntityManager;
-
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,20 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.swing.JFileChooser;
+
 @Service
 @Slf4j
-public class HelperService {
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class HelperService implements IHelperService {
 
     private final LoaiRepository loaiRepository;
 
-    @Autowired
-    public HelperService(LoaiRepository loaiRepository, NganhRepository nganhRepository,
-                         LopRepository lopRepository, BoRepository boRepository, HoRepository hoRepository,
-                         EntityManager entityManager) {
-        this.loaiRepository = loaiRepository;
-    }
-
-    public ResponseObject searchLoai(@NotNull SearchCriteriaDTO criteria) {
+    @Override
+    public ResponseObject SearchLoai(@NotNull SearchCriteriaDTO criteria) {
         Specification<LoaiModel> spec = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -116,6 +109,7 @@ public class HelperService {
         return ResponseObject.success(results);
     }
 
+    @Override
     public String StoreFile(@NotNull MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
@@ -130,6 +124,7 @@ public class HelperService {
         return uniqueFileName;
     }
 
+    @Override
     public ResponseObject validateAndStoreImage(MultipartFile image) {
         if (image == null || image.isEmpty()) {
             log.error("{}: Image is null or empty");
@@ -149,4 +144,16 @@ public class HelperService {
         }
         return ResponseObject.success("Upload successful");
     }
+
+    @Override
+    public File selectImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png"));
+        
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        }
+        return null;
+}
 }

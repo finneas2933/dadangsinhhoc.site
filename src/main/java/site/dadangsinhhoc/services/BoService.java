@@ -1,5 +1,6 @@
 package site.dadangsinhhoc.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
@@ -11,29 +12,29 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 @Service
-public class BoService {
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class BoService implements IBoService {
     private final BoRepository boRepository;
 
-    @Autowired
-    public BoService(BoRepository boRepository) {
-        this.boRepository = boRepository;
-    }
-
+    @Override
     public boolean existById(long id) {
         return boRepository.existsById(id);
     }
 
+    @Override
     public ResponseObject findById(long id) {
         return boRepository.findById(id)
                 .map(ResponseObject::success)
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
     }
 
+    @Override
     public ResponseObject getAllBo() {
         List<BoModel> boModels = boRepository.findAll();
         return ResponseObject.success(boModels);
     }
 
+    @Override
     public ResponseObject getAllBoByLoai(Boolean loai) {
         try {
             // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
@@ -47,11 +48,13 @@ public class BoService {
         }
     }
 
+    @Override
     public ResponseObject countAllBo() {
         long quantity = boRepository.count();
         return ResponseObject.success(quantity);
     }
 
+    @Override
     public ResponseObject saveBo(BoModel boModel) {
         if (boModel.getName() == null || boModel.getName().isEmpty()) {
             return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
@@ -64,6 +67,7 @@ public class BoService {
         return ResponseObject.success(savedBo);
     }
 
+    @Override
     public ResponseObject updateBo(BoModel boModel) {
         if (boModel.getName() == null || boModel.getName().isEmpty()) {
             return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_BO` is null or empty");
@@ -74,6 +78,7 @@ public class BoService {
         return ResponseObject.success(boRepository.save(boModel));
     }
 
+    @Override
     public ResponseObject deleteByIdBo(Long id) {
         if (!boRepository.existsById(id)) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());

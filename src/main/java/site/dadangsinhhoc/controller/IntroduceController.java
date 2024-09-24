@@ -1,20 +1,17 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.IntroduceModel;
-import site.dadangsinhhoc.services.IntroduceService;
+import site.dadangsinhhoc.services.IIntroduceService;
 
 @RestController
 @RequestMapping("/api/introduce")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class IntroduceController {
-    private final IntroduceService introduceService;
-
-    @Autowired
-    public IntroduceController(IntroduceService introduceService) {
-        this.introduceService = introduceService;
-    }
+    private final IIntroduceService introduceService;
 
     @GetMapping("/getAllIntroduce")
     public ResponseObject getAllIntroduce() {

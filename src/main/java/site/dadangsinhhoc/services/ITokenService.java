@@ -5,7 +5,7 @@ import site.dadangsinhhoc.models.UserModel;
 
 import java.text.ParseException;
 
-public interface TokenService {
+public interface ITokenService {
     UserModel validateAndGetUserFromToken(String token) throws JOSEException, ParseException;
     String generateToken(UserModel userModel);
 }

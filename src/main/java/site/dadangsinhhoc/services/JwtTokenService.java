@@ -21,7 +21,7 @@ import java.util.StringJoiner;
 
 @Service
 @Slf4j
-public class JwtTokenService implements TokenService {
+public class JwtTokenService implements ITokenService {
 
     private final UserRepository userRepository;
     @Value("${jwt.signerKey}")

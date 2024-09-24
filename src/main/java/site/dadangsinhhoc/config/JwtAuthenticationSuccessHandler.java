@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
-import site.dadangsinhhoc.services.TokenService;
+import site.dadangsinhhoc.services.ITokenService;
 
 import java.io.IOException;
 
@@ -19,10 +19,10 @@ import java.io.IOException;
 public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
-    private final TokenService tokenService;
+    private final ITokenService tokenService;
 
     @Autowired
-    public JwtAuthenticationSuccessHandler(UserRepository userRepository, TokenService tokenService) {
+    public JwtAuthenticationSuccessHandler(UserRepository userRepository, ITokenService tokenService) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
     }

@@ -1,0 +1,22 @@
+package site.dadangsinhhoc.services;
+
+import jakarta.validation.constraints.NotNull;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import site.dadangsinhhoc.dto.SearchCriteriaDTO;
+import site.dadangsinhhoc.dto.response.ResponseObject;
+import java.io.File;
+import java.io.IOException;
+
+@Service
+public interface IHelperService {
+
+
+    ResponseObject SearchLoai(@NotNull SearchCriteriaDTO criteria);
+
+    String StoreFile(@NotNull MultipartFile file) throws IOException;
+
+    ResponseObject validateAndStoreImage(MultipartFile image);
+
+    File selectImage();
+}

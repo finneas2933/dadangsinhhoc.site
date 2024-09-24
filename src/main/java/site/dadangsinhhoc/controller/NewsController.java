@@ -1,20 +1,17 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.NewsModel;
-import site.dadangsinhhoc.services.NewsService;
+import site.dadangsinhhoc.services.INewsService;
 
 @RestController
 @RequestMapping("/api/news")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class NewsController {
-    private final NewsService newsService;
-
-    @Autowired
-    public NewsController(NewsService newsService) {
-        this.newsService = newsService;
-    }
+    private final INewsService newsService;
 
     @GetMapping("/getAllNews")
     public ResponseObject getAllNews() {

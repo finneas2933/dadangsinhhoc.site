@@ -3,6 +3,7 @@ package site.dadangsinhhoc.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
@@ -13,7 +14,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HoModel {
+@Builder
+public class HoModel extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,17 +39,10 @@ public class HoModel {
     @Column(name = "status", nullable = false)
     private Boolean status;
 
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
-
     @Column(name = "createdBy")
     private String createdBy;
 
-    @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
-
     @Column(name = "updatedBy")
     private String updatedBy;
-
 
 }

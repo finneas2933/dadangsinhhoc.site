@@ -3,6 +3,7 @@ package site.dadangsinhhoc.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import jakarta.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class MessageModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

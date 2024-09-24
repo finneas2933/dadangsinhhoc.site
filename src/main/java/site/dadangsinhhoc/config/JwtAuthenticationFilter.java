@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import site.dadangsinhhoc.models.UserModel;
-import site.dadangsinhhoc.services.TokenService;
+import site.dadangsinhhoc.services.ITokenService;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,10 +23,10 @@ import java.util.List;
 // Kiểm tra và xác thực JWT
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenService tokenService;
+    private final ITokenService tokenService;
 
     @Autowired
-    public JwtAuthenticationFilter(TokenService tokenService) {
+    public JwtAuthenticationFilter(ITokenService tokenService) {
         this.tokenService = tokenService;
     }
 

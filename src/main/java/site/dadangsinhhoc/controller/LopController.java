@@ -1,20 +1,17 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.LopModel;
-import site.dadangsinhhoc.services.LopService;
+import site.dadangsinhhoc.services.ILopService;
 
 @RestController
 @RequestMapping("/api/lop")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class LopController {
-    private final LopService lopService;
-
-    @Autowired
-    public LopController(LopService lopService) {
-        this.lopService = lopService;
-    }
+    private final ILopService lopService;
 
     @GetMapping("/getAllLop")
     public ResponseObject getAllLop() {
@@ -37,14 +34,14 @@ public class LopController {
     }
 
     @PostMapping("/addNewLop")
-    public ResponseObject addNewLop(@RequestBody LopModel LopModel) {
-        return lopService.saveLop(LopModel);
+    public ResponseObject addNewLop(@RequestBody LopModel model) {
+        return lopService.saveLop(model);
     }
 
     @PutMapping("/updateLop/{id}")
-    public ResponseObject updateLop(@PathVariable Long id, @RequestBody LopModel lopModel) {
-        lopModel.setId(id);
-        return lopService.updateLop(id, lopModel);
+    public ResponseObject updateLop(@PathVariable Long id, @RequestBody LopModel model) {
+        model.setId(id);
+        return lopService.updateLop(id, model);
     }
 
     @DeleteMapping("/deleteLop/{id}")

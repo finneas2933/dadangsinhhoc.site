@@ -1,5 +1,7 @@
 package site.dadangsinhhoc.services;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -10,34 +12,40 @@ import site.dadangsinhhoc.repositories.NganhRepository;
 import java.util.List;
 
 @Service
-public class NganhService {
+@Slf4j
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class NganhService implements INganhService{
     private final NganhRepository nganhRepository;
 
-    @Autowired
-    public NganhService(NganhRepository nganhRepository) {
-        this.nganhRepository = nganhRepository;
-    }
-
+    @Override
     public boolean existById(Long id) {
         return nganhRepository.existsById(id);
     }
 
+    @Override
     public ResponseObject findById(Long id) {
-        return nganhRepository.findById(id)
-                .map(ResponseObject::success)
-                .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
+        try {
+            return nganhRepository.findById(id)
+                    .map(ResponseObject::success)
+                    .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
+        }
     }
 
+    @Override
     public ResponseObject getAllNganh() {
         try {
             List<NganhModel> nganhModels = nganhRepository.findAll();
             return ResponseObject.success(nganhModels);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Nganh");
         }
     }
 
+    @Override
     public ResponseObject getAllNganhByLoai(Boolean loai) {
         try {
             // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
@@ -46,54 +54,78 @@ public class NganhService {
             List<NganhModel> nganhModels = nganhRepository.findAll(spec);
             return ResponseObject.success(nganhModels);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), "An error occurred while fetching all Nganh by Loai");
         }
     }
 
+    @Override
     public ResponseObject countAllNganh() {
-        long quantity = nganhRepository.count();
-        return ResponseObject.success(quantity);
+        try {
+            long quantity = nganhRepository.count();
+            return ResponseObject.success(quantity);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
+        }
     }
 
+    @Override
     public ResponseObject saveNganh(NganhModel nganhModel) {
-        if (nganhModel.getName() == null || nganhModel.getName().isEmpty()) {
-            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+        try {
+            if (nganhModel.getName() == null || nganhModel.getName().isEmpty()) {
+                return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getMessage());
+            }
+            if (nganhRepository.existsById(nganhModel.getId())) {
+                return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
+            }
+            nganhModel.setId(null);
+            NganhModel savedNganh = nganhRepository.save(nganhModel);
+            return ResponseObject.success(savedNganh);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
         }
-        if (nganhRepository.existsById(nganhModel.getId())) {
-            return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
-        }
-        nganhModel.setId(null);
-        NganhModel savedNganh = nganhRepository.save(nganhModel);
-        return ResponseObject.success(savedNganh);
     }
 
+    @Override
     public ResponseObject updateNganh(Long id, NganhModel nganhModel) {
-        if (nganhModel.getName() == null || nganhModel.getName().isEmpty()) {
-            return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Nganh` is null or empty");
+        try {
+            if (nganhModel.getName() == null || nganhModel.getName().isEmpty()) {
+                return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Nganh` is null or empty");
+            }
+            if (!nganhRepository.existsById(nganhModel.getId())) {
+                return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Nganh with id: " + nganhModel.getId());
+            }
+            return nganhRepository.findById(id)
+                    .map(existingNganh -> {
+                        existingNganh.setName(nganhModel.getName());
+                        existingNganh.setNameLatinh(nganhModel.getNameLatinh());
+                        existingNganh.setLoai(nganhModel.getLoai());
+                        existingNganh.setStatus(nganhModel.getStatus());
+                        existingNganh.setUpdatedAt(nganhModel.getUpdatedAt());
+                        existingNganh.setUpdatedBy(nganhModel.getUpdatedBy());
+                        return ResponseObject.success(nganhRepository.save(existingNganh));
+                    })
+                    .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Nganh with id: " + id));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
         }
-        if (!nganhRepository.existsById(nganhModel.getId())) {
-            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Nganh with id: " + nganhModel.getId());
-        }
-        return nganhRepository.findById(id)
-                .map(existingNganh -> {
-                    existingNganh.setName(nganhModel.getName());
-                    existingNganh.setNameLatinh(nganhModel.getNameLatinh());
-                    existingNganh.setLoai(nganhModel.getLoai());
-                    existingNganh.setStatus(nganhModel.getStatus());
-                    existingNganh.setUpdatedAt(nganhModel.getUpdatedAt());
-                    existingNganh.setUpdatedBy(nganhModel.getUpdatedBy());
-                    return ResponseObject.success(nganhRepository.save(existingNganh));
-                })
-                .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Nganh with id: " + id));
     }
 
+    @Override
     public ResponseObject deleteByIdNganh(Long id) {
-        if (!nganhRepository.existsById(id)) {
-            return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());
-        } else {
-            nganhRepository.deleteById(id);
-            return ResponseObject.success("Successfully delete record " + id, null);
+        try {
+            if (!nganhRepository.existsById(id)) {
+                return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());
+            } else {
+                nganhRepository.deleteById(id);
+                return ResponseObject.success("Successfully delete record " + id, null);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
         }
     }
 

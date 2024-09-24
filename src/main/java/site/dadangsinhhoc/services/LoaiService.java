@@ -1,5 +1,6 @@
 package site.dadangsinhhoc.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.LoaiImageModel;
 import site.dadangsinhhoc.models.LoaiModel;
-import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.LoaiImageRepository;
 import site.dadangsinhhoc.repositories.LoaiRepository;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,30 +18,25 @@ import java.util.List;
 
 @Service
 @Slf4j
-
-public class LoaiService {
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class LoaiService implements ILoaiService {
     private final LoaiRepository loaiRepository;
     private final LoaiImageRepository loaiImageRepository;
     private final HelperService helperService;
 
-
-    @Autowired
-    public LoaiService(LoaiRepository loaiRepository, HelperService helperService, LoaiImageRepository loaiImageRepository) {
-        this.loaiRepository = loaiRepository;
-        this.helperService = helperService;
-        this.loaiImageRepository = loaiImageRepository;
-    }
-
+    @Override
     public boolean existById(Long id) {
         return loaiRepository.existsById(id);
     }
 
+    @Override
     public ResponseObject findById(Long id) {
         return loaiRepository.findById(id)
                 .map(ResponseObject::success)
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
     }
 
+    @Override
     public ResponseObject getAllLoai() {
         try {
             List<LoaiModel> loaiModels = loaiRepository.findAll();
@@ -52,6 +47,7 @@ public class LoaiService {
         }
     }
 
+    @Override
     public ResponseObject getAllLoaiByLoai(Boolean loai) {
         try {
             // Sử dụng Specification để tìm kiếm theo điều kiện loai = false
@@ -65,11 +61,13 @@ public class LoaiService {
         }
     }
 
+    @Override
     public ResponseObject countAllLoai() {
         long quantity = loaiRepository.count();
         return ResponseObject.success(quantity);
     }
 
+    @Override
     public ResponseObject saveLoai(LoaiModel model, MultipartFile thumbnail, List<MultipartFile> images) {
         try {
             if (model.getName() == null || model.getName().isEmpty()) {
@@ -99,15 +97,14 @@ public class LoaiService {
                             .build();
                 }
             }
-
             return ResponseObject.success(savedLoai);
-
         } catch (Exception e) {
             log.error("An error occurred while saving: {}", e.getMessage());
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
         }
     }
 
+    @Override
     public ResponseObject saveImageLoai(Long idLoai, List<MultipartFile> images) {
         try {
             if (idLoai == null) {
@@ -164,6 +161,7 @@ public class LoaiService {
 
 
 
+    @Override
     public ResponseObject updateLoai(Long id, LoaiModel loaiModel) {
         if (loaiModel.getName() == null || loaiModel.getName().isEmpty()) {
             return ResponseObject.error(ErrorCode.BAD_REQUEST.getCode(), "Name for `TABLE_Loai` is null or empty");
@@ -195,6 +193,7 @@ public class LoaiService {
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Loai with id: " + id));
     }
 
+    @Override
     public ResponseObject deleteByIdLoai(Long id) {
         if (!loaiRepository.existsById(id)) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());

@@ -1,20 +1,17 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.MessageModel;
-import site.dadangsinhhoc.services.MessageService;
+import site.dadangsinhhoc.services.IMessageService;
 
 @RestController
 @RequestMapping("/api/message")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class MessageController {
-    private final MessageService messageService;
-
-    @Autowired
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
+    private final IMessageService messageService;
 
     @GetMapping("/getAllMessage")
     public ResponseObject getAllMessage() {
@@ -27,14 +24,14 @@ public class MessageController {
     }
 
     @PostMapping("/addNewMessage")
-    public ResponseObject addNewMessage(@RequestBody MessageModel messageModel) {
-        return messageService.saveMessage(messageModel);
+    public ResponseObject addNewMessage(@RequestBody MessageModel model) {
+        return messageService.saveMessage(model);
     }
 
     @PutMapping("/updateMessage/{id}")
-    public ResponseObject updateMessage(@PathVariable Long id, @RequestBody MessageModel messageModel) {
-        messageModel.setId(id);
-        return messageService.updateMessage(id, messageModel);
+    public ResponseObject updateMessage(@PathVariable Long id, @RequestBody MessageModel model) {
+        model.setId(id);
+        return messageService.updateMessage(id, model);
     }
 
     @DeleteMapping("/deleteMessage/{id}")

@@ -1,20 +1,17 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.BannerModel;
-import site.dadangsinhhoc.services.BannerService;
+import site.dadangsinhhoc.services.IBannerService;
 
 @RestController
 @RequestMapping("/api/banner")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BannerController {
-    private final BannerService bannerService;
-
-    @Autowired
-    public BannerController(BannerService bannerService) {
-        this.bannerService = bannerService;
-    }
+    private final IBannerService bannerService;
 
     @GetMapping("/getAllBanner")
     public ResponseObject getAllBanner() {

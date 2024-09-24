@@ -1,20 +1,17 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.models.BoModel;
 import site.dadangsinhhoc.dto.response.ResponseObject;
-import site.dadangsinhhoc.services.BoService;
+import site.dadangsinhhoc.services.IBoService;
 
 @RestController
 @RequestMapping("/api/bo")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BoController {
-    private final BoService boService;
-
-    @Autowired
-    public BoController(BoService boService) {
-        this.boService = boService;
-    }
+    private final IBoService boService;
 
     @GetMapping("/getAllBo")
     public ResponseObject getAllBo() {

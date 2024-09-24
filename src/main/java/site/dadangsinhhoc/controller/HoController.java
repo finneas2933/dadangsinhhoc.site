@@ -1,29 +1,26 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.HoModel;
-import site.dadangsinhhoc.services.HoService;
+import site.dadangsinhhoc.services.IHoService;
 
 @RestController
 @RequestMapping("/api/Ho")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class HoController {
-    private final HoService HoService;
-
-    @Autowired
-    public HoController(HoService HoService) {
-        this.HoService = HoService;
-    }
+    private final IHoService IHoService;
 
     @GetMapping("/getAllHo")
     public ResponseObject getAllHo() {
-        return HoService.getAllHo();
+        return IHoService.getAllHo();
     }
 
     @GetMapping("/getAllHoByLoai/{loai}")
     public ResponseObject getAllHoByLoai(@PathVariable Boolean loai) {
-        return HoService.getAllHoByLoai(loai);
+        return IHoService.getAllHoByLoai(loai);
     }
 
     @GetMapping("/searchHo")
@@ -32,7 +29,7 @@ public class HoController {
             @RequestParam(value = "loai", required = false) Boolean loai,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        return HoService.searchByNameOrNameLatinh(keyword, loai, page, size);
+        return IHoService.searchByNameOrNameLatinh(keyword, loai, page, size);
     }
 
     @GetMapping("/checkDuplicateNameLatinh")
@@ -40,34 +37,34 @@ public class HoController {
             @RequestParam("nameLatinh") String nameLatinh,
             @RequestParam("isAddingNew") boolean isAddingNew,
             @RequestParam(value = "oldNameLatinh", required = false) String oldNameLatinh) {
-        boolean isDuplicate = HoService.checkDuplicateNameLatinh(nameLatinh, isAddingNew, oldNameLatinh);
+        boolean isDuplicate = IHoService.checkDuplicateNameLatinh(nameLatinh, isAddingNew, oldNameLatinh);
         return ResponseObject.success(!isDuplicate); // Trả về true nếu không trùng, false nếu trùng
     }
 
         @GetMapping("/getHoById/{id}")
         public ResponseObject getHoById (@PathVariable Long id){
-            return HoService.findById(id);
+            return IHoService.findById(id);
         }
 
         @GetMapping("/countAllHo")
         public ResponseObject countAllHo () {
-            return HoService.countAllHo();
+            return IHoService.countAllHo();
         }
 
         @PostMapping("/addNewHo")
-        public ResponseObject addNewHo (@RequestBody HoModel HoModel){
-            return HoService.saveHo(HoModel);
+        public ResponseObject addNewHo (@RequestBody HoModel model){
+            return IHoService.saveHo(model);
         }
 
         @PutMapping("/updateHo/{id}")
-        public ResponseObject updateHo (@PathVariable Long id, @RequestBody HoModel HoModel){
-            HoModel.setId(id);
-            return HoService.updateHo(id, HoModel);
+        public ResponseObject updateHo (@PathVariable Long id, @RequestBody HoModel model){
+            model.setId(id);
+            return IHoService.updateHo(id, model);
         }
 
         @DeleteMapping("/deleteHo/{id}")
         public ResponseObject deleteHo (@PathVariable Long id){
-            return HoService.deleteByIdHo(id);
+            return IHoService.deleteByIdHo(id);
         }
 
     }

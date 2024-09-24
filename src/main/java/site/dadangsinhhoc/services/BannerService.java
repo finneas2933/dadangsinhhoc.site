@@ -1,5 +1,6 @@
 package site.dadangsinhhoc.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
@@ -10,24 +11,23 @@ import site.dadangsinhhoc.repositories.BannerRepository;
 import java.util.List;
 
 @Service
-public class BannerService {
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class BannerService implements IBannerService {
     private final BannerRepository bannerRepository;
 
-    @Autowired
-    public BannerService(BannerRepository bannerRepository) {
-        this.bannerRepository = bannerRepository;
-    }
-
+    @Override
     public boolean existById(Long id) {
         return bannerRepository.existsById(id);
     }
 
-    public ResponseObject findById(Long id) {
+    @Override
+    public ResponseObject findById(Long id) throws Throwable{
         return bannerRepository.findById(id)
                 .map(ResponseObject::success)
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage()));
     }
 
+    @Override
     public ResponseObject getAllBanner() {
         try {
             List<BannerModel> bannerModels = bannerRepository.findAll();
@@ -38,11 +38,13 @@ public class BannerService {
         }
     }
 
+    @Override
     public ResponseObject countAllBanner() {
         long quantity = bannerRepository.count();
         return ResponseObject.success(quantity);
     }
 
+    @Override
     public ResponseObject saveBanner(BannerModel bannerModel) {
         if (bannerRepository.existsById(bannerModel.getId())) {
             return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
@@ -52,6 +54,7 @@ public class BannerService {
         return ResponseObject.success(savedBanner);
     }
 
+    @Override
     public ResponseObject updateBanner(Long id, BannerModel bannerModel) {
         if (!bannerRepository.existsById(bannerModel.getId())) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Banner with id: " + bannerModel.getId());
@@ -67,6 +70,7 @@ public class BannerService {
                 .orElse(ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), "Cannot find Banner with id: " + id));
     }
 
+    @Override
     public ResponseObject deleteByIdBanner(Long id) {
         if (!bannerRepository.existsById(id)) {
             return ResponseObject.error(ErrorCode.NOT_FOUND.getCode(), ErrorCode.NOT_FOUND.getMessage());

@@ -1,14 +1,20 @@
 package site.dadangsinhhoc.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Table(name = "bo")
-public class BoModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class BoModel extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,16 +38,9 @@ public class BoModel {
     @Column(name = "status", nullable = false)
     private Boolean status;
 
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
-
     @Column(name = "createdBy")
     private String createdBy;
 
-    @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
-
     @Column(name = "updatedBy")
     private String updatedBy;
-
-}
+    }

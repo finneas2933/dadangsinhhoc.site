@@ -1,5 +1,6 @@
 package site.dadangsinhhoc.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,7 +10,6 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -18,20 +18,13 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class UserService {
-
-    private final TokenService tokenService;
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class UserService implements IUserService {
+    private final ITokenService tokenService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
-    @Autowired
-    public UserService(TokenService tokenService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.tokenService = tokenService;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    @Override
     public ResponseObject findById(Integer id) {
         var authenticatedUser = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}; Role: {}", authenticatedUser.getName(), authenticatedUser.getAuthorities());
@@ -39,15 +32,16 @@ public class UserService {
         return ResponseObject.success(user);
     }
 
+    @Override
     public ResponseObject findByEmail(String email) {
         UserModel user = userRepository.findByEmail(email);
         return ResponseObject.success(user);
     }
 
+    @Override
     public ResponseObject checkUserExists(String identifier) {
         boolean exists = userRepository.existsByEmail(identifier) ||
                 userRepository.existsByPhone(identifier);
-
         if (exists) {
             return ResponseObject.success("User exists", true);
         } else {
@@ -55,6 +49,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject createNewUser(UserModel user) {
         try {
             if (userRepository.existsByEmail(user.getEmail())) {
@@ -64,7 +59,6 @@ public class UserService {
                 return ResponseObject.error(ErrorCode.CONFLICT.getCode(), "Phone number already exists");
             }
 
-            // Set createdAt and updatedAt
             LocalDateTime now = LocalDateTime.now();
             user.setCreatedAt(now);
             user.setUpdatedAt(now);
@@ -96,6 +90,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject login(String email, String password) {
         UserModel user = userRepository.findByEmail(email);
         if (user == null) {
@@ -108,6 +103,7 @@ public class UserService {
         return ResponseObject.success("Login successful", Map.of("token", token, "user", user));
     }
 
+    @Override
     public ResponseObject getCurrentUser() {
         try {
             var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -131,6 +127,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject deleteUser(int id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
@@ -140,6 +137,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject updateUser(Integer id, UserModel updatedUser) {
         try {
             Optional<UserModel> existingUserOptional = userRepository.findById(id);
@@ -149,7 +147,6 @@ public class UserService {
 
             UserModel existingUser = existingUserOptional.get();
 
-            // Cập nhật thông tin
             if (updatedUser.getName() != null) existingUser.setName(updatedUser.getName());
             if (updatedUser.getEmail() != null) existingUser.setEmail(updatedUser.getEmail());
             if (updatedUser.getPhone() != null) existingUser.setPhone(updatedUser.getPhone());
@@ -169,6 +166,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject getAllUsers() {
         try {
             List<UserModel> users = userRepository.findAll();
@@ -180,6 +178,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject countAllUsers() {
         try {
             long count = userRepository.count();
@@ -190,6 +189,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject countUsersByRole() {
         try {
             Map<String, Long> roleCounts = new HashMap<>();
@@ -205,6 +205,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseObject getUsersByRole(String role) {
         try {
             List<UserModel> users = userRepository.findByRole(role);

@@ -1,14 +1,18 @@
 package site.dadangsinhhoc.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "nganh")
 @Data
-public class NganhModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class NganhModel extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +22,7 @@ public class NganhModel {
     private String nameLatinh;
     private Boolean loai;
     private Boolean status;
-    private LocalDateTime createdAt;
     private String createdBy;
-    private LocalDateTime updatedAt;
     private String updatedBy;
+
 }

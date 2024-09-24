@@ -35,4 +35,16 @@ public class UserModel {
     private Boolean status;
     private String role;
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        lastSigninedTime = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+        lastSigninedTime = LocalDateTime.now();
+    }
 }

@@ -1,23 +1,18 @@
 package site.dadangsinhhoc.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.UserModel;
-import site.dadangsinhhoc.services.UserService;
+import site.dadangsinhhoc.services.IUserService;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserController {
-
-    private final UserService userService;
-
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final IUserService userService;
 
     @GetMapping("/findUserById/{id}")
     public ResponseObject findUserById(@PathVariable Integer id) {
