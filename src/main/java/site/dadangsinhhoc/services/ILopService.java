@@ -1,10 +1,8 @@
 package site.dadangsinhhoc.services;
 
-import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.LopModel;
 
-@Service
 public interface ILopService {
      boolean existById(Long id);
 

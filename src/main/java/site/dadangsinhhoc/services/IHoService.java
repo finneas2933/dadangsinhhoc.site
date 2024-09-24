@@ -1,12 +1,9 @@
 package site.dadangsinhhoc.services;
 
-import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.HoModel;
 
-@Service
 public interface IHoService {
-
     boolean existById(Long id);
 
     ResponseObject findById(Long id);

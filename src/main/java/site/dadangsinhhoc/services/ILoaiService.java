@@ -1,12 +1,9 @@
 package site.dadangsinhhoc.services;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.LoaiModel;
 import java.util.List;
-
-@Service
 
 public interface ILoaiService {
 

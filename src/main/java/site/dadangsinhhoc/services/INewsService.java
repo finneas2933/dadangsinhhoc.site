@@ -1,10 +1,8 @@
 package site.dadangsinhhoc.services;
 
-import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.NewsModel;
 
-@Service
 public interface INewsService {
      boolean existById(Long id);
 

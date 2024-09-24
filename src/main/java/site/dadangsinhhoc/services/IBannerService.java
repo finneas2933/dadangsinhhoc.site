@@ -1,10 +1,8 @@
 package site.dadangsinhhoc.services;
 
-import org.springframework.stereotype.Service;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.BannerModel;
 
-@Service
 public interface IBannerService {
 
     boolean existById(Long id);
