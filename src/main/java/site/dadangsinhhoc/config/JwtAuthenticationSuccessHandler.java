@@ -2,30 +2,25 @@ package site.dadangsinhhoc.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import site.dadangsinhhoc.component.JwtTokenUtil;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
-import site.dadangsinhhoc.services.ITokenService;
 
 import java.io.IOException;
 
 @Component
 @Slf4j
-// Token được tạo ra sau khi đăng nhập thành công
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
-    private final ITokenService tokenService;
-
-    @Autowired
-    public JwtAuthenticationSuccessHandler(UserRepository userRepository, ITokenService tokenService) {
-        this.userRepository = userRepository;
-        this.tokenService = tokenService;
-    }
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -35,13 +30,13 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
         UserModel user = userRepository.findByEmail(email);
         log.info("Generating token for user: {}", email);
 
-        String token = tokenService.generateToken(user);
-        log.info("Token generated successfully");
+//        String token = jwtTokenUtil.generateToken(user);
+//        log.info("Token generated successfully");
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"token\":\"" + token + "\"}");
-        log.info("Token sent to client");
+        // response.setContentType("application/json");
+        // response.setCharacterEncoding("UTF-8");
+        // response.getWriter().write("{\"token\":\"" + token + "\"}");
+        // log.info("Token sent to client");
 
         response.sendRedirect("/swagger-ui/index.html");
         log.info("Redirected to Swagger UI");

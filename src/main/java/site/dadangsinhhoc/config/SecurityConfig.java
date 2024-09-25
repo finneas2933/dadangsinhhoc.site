@@ -1,17 +1,15 @@
 package site.dadangsinhhoc.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -19,13 +17,10 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import site.dadangsinhhoc.repositories.UserRepository;
-import site.dadangsinhhoc.services.ITokenService;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Arrays;
@@ -34,21 +29,14 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @Slf4j
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class SecurityConfig {
 
     @Value("${jwt.signerKey}")
     private String signerKey;
-    private final ITokenService tokenService;
     private final JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
 
     private final UserRepository userRepository;
-
-    @Autowired
-    public SecurityConfig(ITokenService tokenService, JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler, UserRepository userRepository) {
-        this.tokenService = tokenService;
-        this.jwtAuthenticationSuccessHandler = jwtAuthenticationSuccessHandler;
-        this.userRepository = userRepository;
-    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -56,64 +44,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService getDetailsService() {
-        return new CustomUserDetailService(userRepository);
+    public UserDetailsService userDetailsService() {
+        log.info("Call user details service");
+        return userRepository::findByEmail;
     }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(getDetailsService());
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
+        log.info("Call authentication provider with userDetails: {}, password encoder: {}", userDetailsService(), passwordEncoder());
         return authProvider;
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        log.info("Configuring security filter chain");
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenService);
-
-// TODO: Main
-//        httpSecurity.cors(Customizer.withDefaults())
-//                        .authorizeHttpRequests(requests -> requests
-//                        .requestMatchers(HttpMethod.POST, "/api/users/validateToken", "/api/users/authenticate/**").permitAll()
-//                        .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
-//                        .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll()
-//                        .requestMatchers(HttpMethod.GET).permitAll()
-//                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-//                        .anyRequest().authenticated())
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .successHandler(jwtAuthenticationSuccessHandler)
-//                        .permitAll());
-
-//// TODO: Test
-        httpSecurity.cors(Customizer.withDefaults())
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.GET).permitAll()
-                        .requestMatchers(HttpMethod.DELETE).permitAll()
-                        .requestMatchers(HttpMethod.POST).permitAll()
-                        .requestMatchers(HttpMethod.PUT).permitAll()
-                        .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
-                        .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll());
-
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt
-                    .decoder(jwtDecoder())
-                    .jwtAuthenticationConverter(token -> {
-                        JwtAuthenticationConverter converter = jwtAuthenticationConverter();
-                        AbstractAuthenticationToken auth = converter.convert(token);
-                        log.info("Converted token: {}", auth);
-                        return auth;
-                    })
-                )
-        );
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-        log.info("Security filter chain configured successfully!");
-        return httpSecurity.build();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        log.info("Call authentication service");
+        return config.getAuthenticationManager();
     }
 
     @Bean
