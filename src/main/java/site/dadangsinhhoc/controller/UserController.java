@@ -8,6 +8,8 @@ import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.services.IUserService;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -30,13 +32,22 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public ResponseObject createUser(@RequestBody UserModel user) {
-        return userService.createNewUser(user);
+    public ResponseObject createUser(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String pw,
+            @RequestParam String repw,
+            @RequestParam String phone,
+            @RequestParam String gender,
+            @RequestParam LocalDate dob,
+            @RequestParam String address
+    ) {
+        return userService.createNewUser(name, email, pw, repw, phone, gender, dob, address);
     }
 
     @PostMapping("/login")
-    public ResponseObject login(@RequestBody UserModel loginRequest) {
-        return userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+    public ResponseObject login(@RequestParam String email, @RequestParam String password) {
+        return userService.login(email, password);
     }
 
     @GetMapping("/current")

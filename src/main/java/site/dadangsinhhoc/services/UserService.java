@@ -3,13 +3,19 @@ package site.dadangsinhhoc.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import site.dadangsinhhoc.component.JwtTokenUtil;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.exception.ErrorCode;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.repositories.UserRepository;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +26,11 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserService implements IUserService {
-    private final ITokenService tokenService;
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public ResponseObject findById(Integer id) {
@@ -50,36 +58,40 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseObject createNewUser(UserModel user) {
+    public ResponseObject createNewUser(String name, String email, String pw, String repw, String phone, String gender, LocalDate dob, String address) {
         try {
-            if (userRepository.existsByEmail(user.getEmail())) {
+            if (userRepository.existsByEmail(email)) {
                 return ResponseObject.error(ErrorCode.CONFLICT.getCode(), "Email already exists");
             }
-            if (userRepository.existsByPhone(user.getPhone())) {
+            if (!pw.equals(repw)){
+                return ResponseObject.error(ErrorCode.CONFLICT.getCode(), "Passwords do not match");
+            }
+            if (userRepository.existsByPhone(phone)) {
                 return ResponseObject.error(ErrorCode.CONFLICT.getCode(), "Phone number already exists");
             }
-
+            UserModel model = new UserModel();
             LocalDateTime now = LocalDateTime.now();
-            user.setCreatedAt(now);
-            user.setUpdatedAt(now);
+            model.setCreatedAt(now);
+            model.setUpdatedAt(now);
+            model.setStatus(true);
 
-            if (user.getRole() == null) {
-                user.setRole("ROLE_USER");
+            if (model.getRole() == null) {
+                model.setRole("ROLE_USER");
             }
-            user.setId(null);
+            model.setId(null);
             UserModel savedUser = UserModel.builder()
-                    .name(user.getName())
-                    .email(user.getEmail())
-                    .password(passwordEncoder.encode(user.getPassword()))
-                    .phone(user.getPhone())
-                    .gender(user.getGender())
-                    .dob(user.getDob())
-                    .address(user.getAddress())
+                    .name(name)
+                    .email(email)
+                    .password(passwordEncoder.encode(pw))
+                    .phone(phone)
+                    .gender(gender)
+                    .dob(dob)
+                    .address(address)
                     .createdAt(now)
                     .updatedAt(now)
-                    .lastSigninedTime(user.getLastSigninedTime())
-                    .status(user.getStatus())
-                    .role(user.getRole())
+                    .lastSigninedTime(model.getLastSigninedTime())
+                    .status(model.getStatus())
+                    .role(model.getRole())
                     .build();
             UserModel savedUserModel = userRepository.save(savedUser);
 
@@ -99,7 +111,12 @@ public class UserService implements IUserService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return ResponseObject.error(ErrorCode.UNAUTHORIZED.getCode(), "Invalid password");
         }
-        String token = tokenService.generateToken(user);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                email, password, user.getAuthorities()
+        );
+        authenticationManager.authenticate(authenticationToken);
+        String token = jwtTokenUtil.generateToken(user);
+
         return ResponseObject.success("Login successful", Map.of("token", token, "user", user));
     }
 
