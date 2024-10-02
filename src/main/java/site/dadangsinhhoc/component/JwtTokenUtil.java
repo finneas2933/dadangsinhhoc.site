@@ -1,16 +1,20 @@
 package site.dadangsinhhoc.component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.antlr.v4.runtime.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import site.dadangsinhhoc.models.TokenModel;
 import site.dadangsinhhoc.models.UserModel;
 import io.jsonwebtoken.io.Decoders;
+import site.dadangsinhhoc.repositories.TokenRepository;
+
 import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
@@ -20,12 +24,14 @@ import java.util.function.Function;
 @Slf4j
 public class JwtTokenUtil {
 
+    private final TokenRepository tokenRepository;
+
     @Value("${jwt.expiration}")
     private int expiration;
 
     @Value("${jwt.signerKey}")
     private String signerKey;
-
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     public String generateToken(UserModel userModel) {
         log.info("Starting token generation for user: {}", userModel.getEmail());
 
@@ -77,5 +83,29 @@ public class JwtTokenUtil {
 //        String secretKey = Encoders.BASE64.encode(keyBytes);
 //        return secretKey;
 //    }
+
+    public String getEmailFromToken(String token) {
+        return extractClaims(token, Claims::getSubject);
+    }
+
+    public boolean validateToken(String token, UserModel userModel) {
+        try {
+            String email = getEmailFromToken(token);
+            TokenModel existingToken = tokenRepository.findByToken(token);
+            if (existingToken == null || existingToken.isRevoked() == true || !userModel.getStatus()) {
+                return false;
+            }
+            return (email.equals(userModel.getEmail())) && !isTokenExprired(token);
+        } catch (MalformedJwtException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            logger.error("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT claims string is empty: {}", e.getMessage());
+        }
+        return false;
+    }
 
 }

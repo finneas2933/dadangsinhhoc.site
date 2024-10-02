@@ -23,14 +23,12 @@ import site.dadangsinhhoc.repositories.UserRepository;
 public class WebSecurityConfig {
     @Value("${jwt.signerKey}")
     private String signerKey;
-//    private final ITokenService tokenService;
     private final JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
     private final UserRepository userRepository;
     private final SecurityConfig securityConfig;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         log.info("Configuring security filter chain");
-//        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenService);
 
 // TODO: Main
 //        httpSecurity.cors(Customizer.withDefaults())
