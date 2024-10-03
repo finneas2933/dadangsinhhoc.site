@@ -4,7 +4,6 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import site.dadangsinhhoc.models.TokenModel;
 import site.dadangsinhhoc.models.UserModel;
 import io.jsonwebtoken.io.Decoders;
 import site.dadangsinhhoc.repositories.TokenRepository;
-
 import java.security.Key;
 import java.util.*;
 import java.util.function.Function;

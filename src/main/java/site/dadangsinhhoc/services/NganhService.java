@@ -80,8 +80,8 @@ public class NganhService implements INganhService{
                 return ResponseObject.error(ErrorCode.CONFLICT.getCode(), ErrorCode.CONFLICT.getMessage());
             }
             nganhModel.setId(null);
-            NganhModel savedNganh = nganhRepository.save(nganhModel);
-            return ResponseObject.success(savedNganh);
+            NganhModel record = nganhRepository.save(nganhModel);
+            return ResponseObject.success(record);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseObject.error(ErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());

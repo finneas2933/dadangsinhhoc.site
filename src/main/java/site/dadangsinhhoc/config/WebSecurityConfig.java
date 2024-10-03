@@ -2,30 +2,27 @@ package site.dadangsinhhoc.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import site.dadangsinhhoc.repositories.UserRepository;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import site.dadangsinhhoc.filters.JwtTokenFilter;
 
 @Configuration
-@EnableMethodSecurity
+@EnableWebSecurity(debug = false)
+@EnableMethodSecurity(prePostEnabled = true)
+@EnableWebMvc
 @RequiredArgsConstructor
 @Slf4j
 public class WebSecurityConfig {
-    @Value("${jwt.signerKey}")
-    private String signerKey;
-    private final JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
-    private final UserRepository userRepository;
-    private final SecurityConfig securityConfig;
+    private final JwtTokenFilter jwtTokenFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         log.info("Configuring security filter chain");
@@ -61,16 +58,21 @@ public class WebSecurityConfig {
 //        log.info("Security filter chain configured successfully!");
 
 // TODO: Test
-        httpSecurity.cors(AbstractHttpConfigurer::disable)
+        httpSecurity
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.GET).permitAll()
-                        .requestMatchers(HttpMethod.DELETE).permitAll()
-                        .requestMatchers(HttpMethod.POST).permitAll()
-                        .requestMatchers(HttpMethod.PUT).permitAll()
-                        .requestMatchers("/swagger-ui/**", "/login", "/api/users/login").permitAll()
-                        .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll());
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/api/users/login").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/swagger-ui/index.html#/").permitAll()
+//                .requestMatchers("/v3/**").permitAll()
+                .requestMatchers(HttpMethod.GET).permitAll()
+                .requestMatchers(HttpMethod.DELETE).permitAll()
+                .requestMatchers(HttpMethod.POST).permitAll()
+                .requestMatchers(HttpMethod.PUT).permitAll()
+                .requestMatchers("/", "/index.html", "/static/**", "/js/**", "/css/**", "/img/**", "/favicon.ico").permitAll())
+                .cors(AbstractHttpConfigurer::disable);
 
-
+        httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 }

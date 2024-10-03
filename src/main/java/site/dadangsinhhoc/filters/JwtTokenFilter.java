@@ -38,7 +38,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
             final String authHeader = request.getHeader("Authorization");
-            if (authHeader == null && !authHeader.startsWith("Bearer ")) {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 response.sendError(
                         HttpServletResponse.SC_UNAUTHORIZED,
                         "authHeader null or not started with Bearer");
@@ -74,10 +74,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of("/api/users/login", "GET"),
                 Pair.of("/login", "GET"),
                 Pair.of("/swagger-ui/**", "GET"),
+                Pair.of("/v3/**", "GET"),
                 Pair.of("/index.html", "GET"),
                 Pair.of("/static/**", "GET"),
                 Pair.of("/img/**", "GET"),
-                Pair.of("/favicon.ico", "GET")
+                Pair.of("/static/favicon.ico", "GET")
 
         );
         String requestPath = request.getServletPath();;
