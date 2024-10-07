@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.MessageModel;
-import site.dadangsinhhoc.services.IMessageService;
+import site.dadangsinhhoc.services.message.IMessageService;
 
 @RestController
 @RequestMapping("/api/message")

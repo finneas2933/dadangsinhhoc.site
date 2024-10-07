@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.LoaiModel;
-import site.dadangsinhhoc.services.ILoaiService;
+import site.dadangsinhhoc.services.loai.ILoaiService;
 import org.springframework.http.MediaType;
 
 import java.util.List;

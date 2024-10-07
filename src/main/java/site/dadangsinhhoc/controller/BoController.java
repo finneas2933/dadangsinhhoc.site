@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.models.BoModel;
 import site.dadangsinhhoc.dto.response.ResponseObject;
-import site.dadangsinhhoc.services.IBoService;
+import site.dadangsinhhoc.services.bo.IBoService;
 
 @RestController
 @RequestMapping("/api/bo")

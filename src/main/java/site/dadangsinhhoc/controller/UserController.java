@@ -1,18 +1,26 @@
 package site.dadangsinhhoc.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.UserModel;
-import site.dadangsinhhoc.services.IUserService;
+import site.dadangsinhhoc.services.user.IUserService;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Slf4j
 public class UserController {
     private final IUserService userService;
 
@@ -45,8 +53,8 @@ public class UserController {
         return userService.createNewUser(name, email, pw, repw, phone, gender, dob, address);
     }
 
-    @PostMapping("/login")
-    public ResponseObject login(@RequestParam String email, @RequestParam String password) {
+    @PostMapping("/signIn")
+    public ResponseObject signIn(@RequestParam String email, @RequestParam String password) {
         return userService.login(email, password);
     }
 

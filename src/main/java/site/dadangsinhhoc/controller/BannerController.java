@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.BannerModel;
-import site.dadangsinhhoc.services.IBannerService;
+import site.dadangsinhhoc.services.banner.IBannerService;
 
 @RestController
 @RequestMapping("/api/banner")

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.NganhModel;
-import site.dadangsinhhoc.services.INganhService;
+import site.dadangsinhhoc.services.nganh.INganhService;
 
 @RestController
 @RequestMapping("/api/nganh")

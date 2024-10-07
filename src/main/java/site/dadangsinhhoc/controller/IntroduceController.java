@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.IntroduceModel;
-import site.dadangsinhhoc.services.IIntroduceService;
+import site.dadangsinhhoc.services.introduce.IIntroduceService;
 
 @RestController
 @RequestMapping("/api/introduce")

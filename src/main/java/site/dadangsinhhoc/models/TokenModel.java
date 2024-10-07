@@ -30,8 +30,8 @@ public class TokenModel {
     @Column(name = "token", length = 255)
     private String token;
 
-    @Column(name = "refresh_token", length = 255)
-    private String refreshToken;
+//    @Column(name = "refresh_token", length = 255)
+//    private String refreshToken;
 
     @Column(name = "token_type", length = 50)
     private String tokenType;
@@ -39,8 +39,8 @@ public class TokenModel {
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
-    @Column(name = "refresh_expiration_date")
-    private LocalDateTime refreshExpirationDate;
+//    @Column(name = "refresh_expiration_date")
+//    private LocalDateTime refreshExpirationDate;
 
     private boolean revoked;
     private boolean expired;
@@ -48,4 +48,12 @@ public class TokenModel {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserModel user;
+
+    public boolean isExpired() {
+        return expirationDate.isBefore(LocalDateTime.now());
+    }
+
+    public boolean isRevoked() {
+        return revoked;
+    }
 }

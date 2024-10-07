@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.SearchCriteriaDTO;
 import site.dadangsinhhoc.dto.response.ResponseObject;
-import site.dadangsinhhoc.services.IHelperService;
+import site.dadangsinhhoc.services.helper.IHelperService;
 
 @RestController
 @RequestMapping("/api/helper")

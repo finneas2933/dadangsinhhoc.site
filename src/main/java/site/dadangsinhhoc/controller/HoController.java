@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.HoModel;
-import site.dadangsinhhoc.services.IHoService;
+import site.dadangsinhhoc.services.ho.IHoService;
 
 @RestController
 @RequestMapping("/api/Ho")

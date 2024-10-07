@@ -21,7 +21,7 @@
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>
-                    <form th:action="@{/api/users/login}" method="post">
+                    <form th:action="@{/api/users/signIn}" method="POST">
                         <div class="mb-3">
                             <input type="email" class="form-control" name="email" placeholder="Email" required value="admin@gmail.com">
                         </div>
