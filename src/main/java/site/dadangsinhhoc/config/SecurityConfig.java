@@ -32,7 +32,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/api/auth/register" // Added to bypass authentication for this API
+            "/api/auth/register"
     };
     private final JwtAuthenticationFitter jwtAuthenticationFitter;
     private final AuthenticationProvider authenticationProvider;
