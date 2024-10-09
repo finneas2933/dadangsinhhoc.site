@@ -1,5 +1,6 @@
 package site.dadangsinhhoc.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseObject login(@RequestBody LoginDto dto) throws Exception {
-        return authService.login(dto);
+    public ResponseObject login(@RequestParam String email, @RequestParam String password) throws Exception {
+        return authService.login(email, password);
     }
 }

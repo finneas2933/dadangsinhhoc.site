@@ -1,6 +1,7 @@
 package site.dadangsinhhoc.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import site.dadangsinhhoc.filter.JwtAuthenticationFitter;
 
@@ -18,6 +20,7 @@ import site.dadangsinhhoc.filter.JwtAuthenticationFitter;
 @EnableWebSecurity
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @EnableMethodSecurity(prePostEnabled = true)
+@Slf4j
 public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = {
             "/login.html",
@@ -32,7 +35,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/api/auth/register"
+            "/api/auth/register",
+            "/api/auth/login"
     };
     private final JwtAuthenticationFitter jwtAuthenticationFitter;
     private final AuthenticationProvider authenticationProvider;
@@ -47,10 +51,24 @@ public class SecurityConfig {
                                 .requestMatchers("api/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .successForwardUrl("/home")
+//                        .successHandler(authenticationSuccessHandler())
+                        .permitAll())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFitter, UsernamePasswordAuthenticationFilter.class
                 );
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            log.info("Authentication successful. Redirecting to Swagger UI.");
+            response.sendRedirect("/home");
+        };
     }
 }

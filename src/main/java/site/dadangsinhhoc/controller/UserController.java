@@ -4,18 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import site.dadangsinhhoc.dto.response.ResponseObject;
 import site.dadangsinhhoc.models.UserModel;
 import site.dadangsinhhoc.services.user.IUserService;
-
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")

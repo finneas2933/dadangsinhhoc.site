@@ -34,13 +34,13 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public ResponseObject login(LoginDto dto) throws Exception {
+    public ResponseObject login(String email, String password) throws Exception {
         try {
             log.info("1. Xác thực người dùng");
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            dto.getEmail(),
-                            dto.getPassword()
+                            email,
+                            password
                     )
             );
 
@@ -48,7 +48,7 @@ public class AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String jwtToken;
-            UserModel user = userRepository.findByEmail(dto.getEmail());
+            UserModel user = userRepository.findByEmail(email);
             TokenModel lastToken = tokenRepository.findLastTokenByUser(user);
 
             if (lastToken != null && jwtService.isTokenValidWithData(user)) {
@@ -59,9 +59,9 @@ public class AuthService {
 
             user.setLastSigninedTime(LocalDateTime.now());
             userRepository.save(user);
-            return ResponseObject.success("Successfully logged in with email: "+ dto.getEmail(), jwtToken);
+            return ResponseObject.success("Successfully logged in with email: "+ email, jwtToken);
         } catch (AuthenticationException e) {
-            log.error("Authentication failed for user {}: {}", dto.getEmail(), e.getMessage());
+            log.error("Authentication failed for user {}: {}", email, e.getMessage());
             return ResponseObject.error(
                     ErrorCode.UNAUTHENTICATION.getCode(),
                     "Invalid email or password"

@@ -1,8 +1,6 @@
 package site.dadangsinhhoc.services.auth;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,9 +86,28 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()))
-                && !isTokenExpired(token);
+        try {
+            final String username = extractUsername(token);
+            return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        } catch (ExpiredJwtException e) {
+            log.warn("Token đã hết hạn: {}", e.getMessage());
+            return false;
+        } catch (MalformedJwtException e) {
+            log.error("Token không hợp lệ: {}", e.getMessage());
+            return false;
+        } catch (UnsupportedJwtException e) {
+            log.error("Token không được hỗ trợ: {}", e.getMessage());
+            return false;
+        } catch (IllegalArgumentException e) {
+            log.error("Token claims string is empty: {}", e.getMessage());
+            return false;
+        } catch (SignatureException e) {
+            log.error("Xác thực JWT thất bại: {}", e.getMessage());
+            return false;
+        } catch (Exception e) {
+            log.error("Lỗi không xác định khi xác thực token: {}", e.getMessage());
+            return false;
+        }
     }
 
     public boolean isTokenValidWithData(UserModel userModel){
