@@ -1,36 +1,28 @@
-HELP.md
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-target/
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# dependencies
+/fe-react/node_modules
+/fe-react/.pnp
+/fe-react/.pnp.js
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# testing
+/fe-react/coverage
 
-### VS Code ###
-.vscode/
-UI/node_modules
+# production
+/fe-react/build
 
-media/
-Media/
+# misc
+/fe-react/.DS_Store
+/fe-react/.env
+/fe-react/.env.local
+/fe-react/.env.development.local
+/fe-react/.env.test.local
+/fe-react/.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+/fe-react/npm-debug.log*
+/fe-react/yarn-debug.log*
+/fe-react/yarn-error.log*

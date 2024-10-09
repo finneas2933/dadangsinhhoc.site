@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="94673852-91b5-4d9c-9512-63e282cdb3c5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.eslintrc.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.prettierrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/project_structure.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/android-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/android-icon-192x192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/android-icon-36x36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/android-icon-48x48.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/android-icon-72x72.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/android-icon-96x96.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-114x114.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-120x120.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-152x152.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-180x180.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-57x57.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-60x60.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-72x72.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-76x76.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon-precomposed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/apple-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/browserconfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/favicon-16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/favicon-32x32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/favicon-96x96.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/ms-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/ms-icon-150x150.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/ms-icon-310x310.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/public/ms-icon-70x70.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/_nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/brand/logo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/brand/sygnet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/icons/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/angular.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/avatars/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/logoAdmin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/react.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/vue.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/assets/images/vue400.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppBreadcrumb.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppFooter.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppFooterGuest.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppHeader.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppHeaderDropdownAccnt.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppHeaderGuest.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppSidebar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/AppSidebarNav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/CKEditor.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/components/DocsExample.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/layouts/DefaultLayout.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/router/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/stores/sidebar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/stores/theme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/styles/_custom.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/styles/_theme.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/styles/_variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/styles/examples.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/styles/style.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/styles/vendors/simplebar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/banner/DanhSachBanner.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/banner/ThemMoiBanner.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dashboard/Dashboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dashboard/Dashboard1.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dashboard/MainChart.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/bo/DanhSachBo.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/ho/DanhSachHo.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/loai/ChinhSuaLoai.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/loai/DanhSachLoai.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/loai/ThemMoiLoai.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/lop/DanhSachLop.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/dongthucvat/nganh/DanhSachNganh.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/gioithieu/ChinhSuaGioiThieu.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/gioithieu/DanhSachGioiThieu.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/guest/CSDLDongThucVat.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/guest/GioiThieu.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/guest/Homepage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/guest/LienHe.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/guest/ThongTinLoai.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/guest/TinTuc.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/CapNhatThongTinCaNhan.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/ChiTietNguoiDung.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/ChinhSuaNguoiDung.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/DanhSachNguoiDung.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/DoiMatKhau.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/ThemMoiNguoiDung.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/nguoidung/ThongTinCaNhan.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/pages/Login.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/thongke/ThongKe.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/tinnhan/DanhSachTinNhan.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/tintuc/ChinhSuaTinTuc.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/tintuc/DanhSachTinTuc.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/src/views/tintuc/ThemMoiTinTuc.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/vite.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dongthucvat.sql.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dongthucvat_backup_030924.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dongthucvat_backup_04092024.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dongthucvat_backup_230924.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dongthucvat_ver2.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/test.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/folder_structure.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postman/dadangsinhhoc.postman_collection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/DadangsinhhocApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/component/JwtTokenUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/config/JwtAuthenticationSuccessHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/config/WebSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/BannerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/BoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/HelperController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/HoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/IntroduceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/LoaiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/LopController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/MessageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/NewsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/NganhController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/UIController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/dto/SearchCriteriaDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/dto/request/AuthenticateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/dto/request/ValidateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/dto/response/ResponseObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/dto/response/ValidateTokenResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/exception/ErrorCode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/exception/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/exception/SwaggerInitializationException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/exception/TokenGenerationException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/filters/JwtTokenFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/AppUserDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/BannerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/BaseEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/BoModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/HoModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/IntroduceModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/LoaiImageModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/LoaiModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/LopModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/MessageModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/NewsModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/NganhModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/TokenModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/models/UserModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/BannerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/BoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/HoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/IntroduceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/LoaiImageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/LoaiRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/LopRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/MessageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/NewsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/NganhRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/TokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/BannerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/BoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/HelperService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/HoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IBannerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IBoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IHelperService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IHoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IIntroduceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/ILoaiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/ILopService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IMessageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/INewsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/INganhService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/ITokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/IntroduceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/LoaiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/LopService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/MessageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/NewsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/NganhService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/TokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/site/dadangsinhhoc/DadangsinhhocApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.3.0/spring-security-core-6.3.0-sources.jar!/org/springframework/security/authentication/AuthenticationManager.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.3.0/spring-security-core-6.3.0-sources.jar!/org/springframework/security/authentication/AuthenticationProvider.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.3.0/spring-security-core-6.3.0-sources.jar!/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2m1cOoK6n3Oa37YAoLhxoImVQ6u" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.DadangsinhhocApplication.executor": "Run",
+    "git-widget-placeholder": "react",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/batru/WorkSpace/dadangsinhhoc.site/src/main/resources/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="site.dadangsinhhoc.services" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\src\main\resources\templates" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\readme" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\src\main\java\site\dadangsinhhoc\services" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\UI" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\readme" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\src\main\java\site\dadangsinhhoc\services\user" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\src\main\resources\static" />
+      <recent name="C:\Users\batru\WorkSpace\dadangsinhhoc.site\data" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="site.dadangsinhhoc.models" />
+      <recent name="site.dadangsinhhoc.services.auth" />
+      <recent name="site.dadangsinhhoc.controller" />
+      <recent name="site.dadangsinhhoc.services" />
+      <recent name="site.dadangsinhhoc.repositories" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.DadangsinhhocApplication">
+    <configuration name="Android" type="ReactNative" factoryName="React Native">
+      <working-dir value="$PROJECT_DIR$/UI" />
+      <node-interpreter value="project" />
+      <react-native value="$PROJECT_DIR$/UI/node_modules/react-native" />
+      <platform value="ANDROID" />
+      <envs />
+      <only-packager />
+      <method v="2">
+        <option name="ReactNativePackager" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DadangsinhhocApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/corretto-17.0.12" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="dadangsinhhoc" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="site.dadangsinhhoc.DadangsinhhocApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+      <item itemvalue="React Native.Android" />
+      <item itemvalue="Spring Boot.DadangsinhhocApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="94673852-91b5-4d9c-9512-63e282cdb3c5" name="Changes" comment="" />
+      <created>1726247497595</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726247497595</updated>
+      <workItem from="1726247499196" duration="2742000" />
+      <workItem from="1726333834118" duration="7797000" />
+      <workItem from="1726343425552" duration="5557000" />
+      <workItem from="1726453260996" duration="1480000" />
+      <workItem from="1726585640172" duration="72000" />
+      <workItem from="1726595674393" duration="15838000" />
+      <workItem from="1726671908893" duration="203000" />
+      <workItem from="1726941932502" duration="980000" />
+      <workItem from="1727003411497" duration="2137000" />
+      <workItem from="1727057977259" duration="11909000" />
+      <workItem from="1727076735693" duration="3498000" />
+      <workItem from="1727081433979" duration="4327000" />
+      <workItem from="1727108099273" duration="8697000" />
+      <workItem from="1727152002859" duration="1084000" />
+      <workItem from="1727158319935" duration="9218000" />
+      <workItem from="1727172477553" duration="1601000" />
+      <workItem from="1727188582197" duration="1142000" />
+      <workItem from="1727230421322" duration="6950000" />
+      <workItem from="1727273754094" duration="619000" />
+      <workItem from="1727753558835" duration="13371000" />
+      <workItem from="1727835247872" duration="3420000" />
+      <workItem from="1727921595178" duration="8484000" />
+      <workItem from="1727935463112" duration="11076000" />
+      <workItem from="1727947032411" duration="21233000" />
+      <workItem from="1728105803736" duration="10424000" />
+      <workItem from="1728213741592" duration="1333000" />
+      <workItem from="1728263137344" duration="22872000" />
+      <workItem from="1728314948095" duration="3941000" />
+      <workItem from="1728353702152" duration="15635000" />
+      <workItem from="1728440632084" duration="11803000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/repositories/TokenRepository.java</url>
+          <line>15</line>
+          <properties class="site.dadangsinhhoc.repositories.TokenRepository">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/BoController.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/site/dadangsinhhoc/controller/BoController.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="password" />
+        <watch expression="dto.getEmail()" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/dadangsinhhoc_site$DadangsinhhocApplication.ic" NAME="DadangsinhhocApplication Coverage Results" MODIFIED="1727171682851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>
