@@ -1,5 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+/UI/node_modules
 # dependencies
 /fe-react/node_modules
 /fe-react/.pnp
@@ -26,3 +27,4 @@ yarn-error.log*
 /fe-react/npm-debug.log*
 /fe-react/yarn-debug.log*
 /fe-react/yarn-error.log*
+
